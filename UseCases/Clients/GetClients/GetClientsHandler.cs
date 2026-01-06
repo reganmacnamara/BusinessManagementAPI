@@ -18,7 +18,7 @@ namespace InvoiceAutomationAPI.UseCases.Clients.GetClients
         {
             var _Clients = m_Context.Clients.ToList();
 
-            var _Response = _Clients.Any()
+            var _Response = _Clients.Count != 0
                 ? m_Mapper.Map<GetClientsResponse>(_Clients)
                 : new GetClientsResponse();
 

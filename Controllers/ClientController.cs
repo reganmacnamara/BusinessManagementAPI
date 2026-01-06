@@ -69,7 +69,7 @@ namespace InvoiceAutomationAPI.Controllers
 
             var _Result = await handler.GetClients();
 
-            return _Result.Clients.Any()
+            return _Result.Clients.Count != 0
                 ? Results.Ok(_Result)
                 : Results.NotFound();
         }
