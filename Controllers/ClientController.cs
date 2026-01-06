@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InvoiceAutomationAPI.UseCases.Clients.CreateClient;
+using InvoiceAutomationAPI.UseCases.Clients.DeleteClient;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvoiceAutomationAPI.Controllers
@@ -23,6 +24,19 @@ namespace InvoiceAutomationAPI.Controllers
             var _Response = await handler.CreateClient(_Request);
 
             return _Response;
+        }
+
+        [HttpPost("Delete")]
+        public async Task DeleteClient([FromRoute] long clientID)
+        {
+            var handler = new DeleteClientHandler(m_Mapper);
+
+            var _Request = new DeleteClientRequest
+            {
+                ClientID = clientID
+            };
+
+            await handler.DeleteClient(_Request);
         }
     }
 }
