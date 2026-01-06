@@ -17,16 +17,13 @@ namespace InvoiceAutomationAPI.UseCases.Clients.CreateClient
 
         public async Task<CreateClientResponse> CreateClient(CreateClientRequest request)
         {
-            Client client = new()
-            {
-                ClientName = request.ClientName
-            };
+            var _Client = m_Mapper.Map<Client>(request);
 
-            m_Context.Clients.Add(client);
+            m_Context.Clients.Add(_Client);
 
             await m_Context.SaveChangesAsync();
 
-            var _Response = m_Mapper.Map<CreateClientResponse>(client);
+            var _Response = m_Mapper.Map<CreateClientResponse>(_Client);
 
             return _Response;
         }

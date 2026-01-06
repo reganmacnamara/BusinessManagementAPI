@@ -11,6 +11,8 @@ namespace InvoiceAutomationAPI.Profiles
         public ClientProfile()
         {
             CreateMap<Client, CreateClientResponse>();
+
+            CreateMap<CreateClientRequest, Client>();
         }
 
     }
