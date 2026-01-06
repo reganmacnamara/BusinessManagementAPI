@@ -27,7 +27,7 @@ namespace InvoiceAutomationAPI.Controllers
         }
 
         [HttpPost("Delete")]
-        public async Task DeleteClient([FromRoute] long clientID)
+        public async Task DeleteClient([FromForm] long clientID)
         {
             var handler = new DeleteClientHandler(m_Mapper);
 

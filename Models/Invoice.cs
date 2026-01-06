@@ -1,11 +1,9 @@
-﻿using InvoiceAutomationAPI.Enums;
-
-namespace InvoiceAutomationAPI.Models
+﻿namespace InvoiceAutomationAPI.Models
 {
 
     public class Invoice : Transaction
     {
-        public TransactionType TransactionType => TransactionType.Invoice;
+        public string TransactionType { get; init; } = "INV";
 
         public DateOnly DueDate { get; set; }
     }

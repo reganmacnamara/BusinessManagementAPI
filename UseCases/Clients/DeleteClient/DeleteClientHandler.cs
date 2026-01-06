@@ -16,12 +16,13 @@ namespace InvoiceAutomationAPI.UseCases.Clients.DeleteClient
 
         public async Task DeleteClient(DeleteClientRequest request)
         {
-            var _Client = m_Context.Clients.Where(client => client.ClientID == request.ClientID).SingleOrDefault();
+            var _Client = m_Context.Clients.Find(request.ClientID);
 
             if (_Client is not null)
+            {
                 m_Context.Clients.Remove(_Client);
-
-            await m_Context.SaveChangesAsync();
+                await m_Context.SaveChangesAsync();
+            }
         }
     }
 
