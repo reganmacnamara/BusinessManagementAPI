@@ -30,7 +30,7 @@ namespace InvoiceAutomationAPI.Controllers
                 : Results.BadRequest();
         }
 
-        [HttpPost("Delete")]
+        [HttpDelete("Delete")]
         public async Task<IResult> DeleteClient([FromForm] long clientID)
         {
             var handler = new DeleteClientHandler(m_Mapper);
