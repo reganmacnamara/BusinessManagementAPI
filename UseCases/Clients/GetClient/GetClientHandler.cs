@@ -10,9 +10,7 @@ namespace InvoiceAutomationAPI.UseCases.Clients.GetClient
         IMapper m_Mapper = default!;
 
         public GetClientHandler(IMapper mapper)
-        {
-            m_Mapper = mapper;
-        }
+            => m_Mapper = mapper;
 
         public async Task<GetClientResponse> GetClient(GetClientRequest request)
         {

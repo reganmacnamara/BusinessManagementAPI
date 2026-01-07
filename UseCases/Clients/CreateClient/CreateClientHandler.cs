@@ -11,9 +11,7 @@ namespace InvoiceAutomationAPI.UseCases.Clients.CreateClient
         IMapper m_Mapper = default!;
 
         public CreateClientHandler(IMapper mapper)
-        {
-            m_Mapper = mapper;
-        }
+            => m_Mapper = mapper;
 
         public async Task<CreateClientResponse> CreateClient(CreateClientRequest request)
         {

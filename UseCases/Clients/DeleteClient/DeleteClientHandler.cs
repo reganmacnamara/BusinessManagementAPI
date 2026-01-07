@@ -10,9 +10,7 @@ namespace InvoiceAutomationAPI.UseCases.Clients.DeleteClient
         IMapper m_Mapper = default!;
 
         public DeleteClientHandler(IMapper mapper)
-        {
-            m_Mapper = mapper;
-        }
+            => m_Mapper = mapper;
 
         public async Task DeleteClient(DeleteClientRequest request)
         {

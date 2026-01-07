@@ -14,13 +14,29 @@ namespace InvoiceAutomationAPI.Controllers
         IMapper m_Mapper = mapper;
 
         [HttpPost("Create")]
-        public async Task<IResult> CreateClient([FromForm] string clientName)
+        public async Task<IResult> CreateClient([FromForm] string clientName,
+            [FromForm] string clientEmail,
+            [FromForm] string clientPhone,
+            [FromForm] string clientMobile,
+            [FromForm] string addressLine1,
+            [FromForm] string addressLine2,
+            [FromForm] string postCode,
+            [FromForm] string state,
+            [FromForm] string country)
         {
             var handler = new CreateClientHandler(m_Mapper);
 
             var _Request = new CreateClientRequest
             {
-                ClientName = clientName
+                ClientName = clientName,
+                ClientEmail = clientEmail,
+                ClientPhone = clientPhone,
+                ClientMobile = clientMobile,
+                AddressLine1 = addressLine1,
+                AddressLine2 = addressLine2,
+                PostCode = postCode,
+                State = state,
+                Country = country
             };
 
             var _Response = await handler.CreateClient(_Request);
