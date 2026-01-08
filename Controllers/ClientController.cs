@@ -12,12 +12,10 @@ namespace InvoiceAutomationAPI.Controllers
     [Route("[controller]")]
     public class ClientController(IMapper mapper) : ControllerBase
     {
-        IMapper m_Mapper = mapper;
-
         [HttpPost("Create")]
         public async Task<IResult> CreateClient([FromBody] CreateClientRequest request)
         {
-            var handler = new CreateClientHandler(m_Mapper);
+            var handler = new CreateClientHandler(mapper);
 
             var _Response = await handler.CreateClient(request);
 
@@ -29,7 +27,7 @@ namespace InvoiceAutomationAPI.Controllers
         [HttpPost("Delete")]
         public async Task<IResult> DeleteClient([FromBody] DeleteClientRequest request)
         {
-            var handler = new DeleteClientHandler(m_Mapper);
+            var handler = new DeleteClientHandler(mapper);
 
             await handler.DeleteClient(request);
 
@@ -44,7 +42,7 @@ namespace InvoiceAutomationAPI.Controllers
                 ClientId = clientID
             };
 
-            var handler = new GetClientHandler(m_Mapper);
+            var handler = new GetClientHandler(mapper);
 
             var _Result = await handler.GetClient(_Request);
 
@@ -56,7 +54,7 @@ namespace InvoiceAutomationAPI.Controllers
         [HttpGet]
         public async Task<IResult> GetClients()
         {
-            var handler = new GetClientsHandler(m_Mapper);
+            var handler = new GetClientsHandler(mapper);
 
             var _Result = await handler.GetClients();
 
@@ -66,7 +64,7 @@ namespace InvoiceAutomationAPI.Controllers
         [HttpPost("Update")]
         public async Task<IResult> UpdateClient([FromBody] UpdateClientRequest request)
         {
-            var handler = new UpdateClientHandler(m_Mapper);
+            var handler = new UpdateClientHandler(mapper);
 
             var _Result = await handler.UpdateClient(request);
 
