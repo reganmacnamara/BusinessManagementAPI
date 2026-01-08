@@ -1,17 +1,11 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.Data;
+using InvoiceAutomationAPI.UseCases.Base;
 
 namespace InvoiceAutomationAPI.UseCases.Clients.DeleteClient
 {
 
-    public class DeleteClientHandler
+    public class DeleteClientHandler(IMapper mapper) : BaseHandler(mapper)
     {
-        SQLContext m_Context = new();
-        IMapper m_Mapper = default!;
-
-        public DeleteClientHandler(IMapper mapper)
-            => m_Mapper = mapper;
-
         public async Task DeleteClient(DeleteClientRequest request)
         {
             var _Client = m_Context.Clients.Find(request.ClientID);

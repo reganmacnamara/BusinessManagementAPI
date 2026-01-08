@@ -1,17 +1,11 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.Data;
+using InvoiceAutomationAPI.UseCases.Base;
 
 namespace InvoiceAutomationAPI.UseCases.Clients.GetClient
 {
 
-    public class GetClientHandler
+    public class GetClientHandler(IMapper mapper) : BaseHandler(mapper)
     {
-        SQLContext m_Context = new();
-        IMapper m_Mapper = default!;
-
-        public GetClientHandler(IMapper mapper)
-            => m_Mapper = mapper;
-
         public async Task<GetClientResponse> GetClient(GetClientRequest request)
         {
             var _Client = m_Context.Clients.Find(request.ClientId);

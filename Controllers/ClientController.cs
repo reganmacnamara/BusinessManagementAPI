@@ -3,6 +3,7 @@ using InvoiceAutomationAPI.UseCases.Clients.CreateClient;
 using InvoiceAutomationAPI.UseCases.Clients.DeleteClient;
 using InvoiceAutomationAPI.UseCases.Clients.GetClient;
 using InvoiceAutomationAPI.UseCases.Clients.GetClients;
+using InvoiceAutomationAPI.UseCases.Clients.UpdateClient;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvoiceAutomationAPI.Controllers
@@ -14,49 +15,23 @@ namespace InvoiceAutomationAPI.Controllers
         IMapper m_Mapper = mapper;
 
         [HttpPost("Create")]
-        public async Task<IResult> CreateClient([FromForm] string clientName,
-            [FromForm] string clientEmail,
-            [FromForm] string clientPhone,
-            [FromForm] string clientMobile,
-            [FromForm] string addressLine1,
-            [FromForm] string addressLine2,
-            [FromForm] string postCode,
-            [FromForm] string state,
-            [FromForm] string country)
+        public async Task<IResult> CreateClient([FromBody] CreateClientRequest request)
         {
             var handler = new CreateClientHandler(m_Mapper);
 
-            var _Request = new CreateClientRequest
-            {
-                ClientName = clientName,
-                ClientEmail = clientEmail,
-                ClientPhone = clientPhone,
-                ClientMobile = clientMobile,
-                AddressLine1 = addressLine1,
-                AddressLine2 = addressLine2,
-                PostCode = postCode,
-                State = state,
-                Country = country
-            };
-
-            var _Response = await handler.CreateClient(_Request);
+            var _Response = await handler.CreateClient(request);
 
             return _Response is CreateClientResponse
                 ? Results.Ok(_Response)
                 : Results.BadRequest();
         }
 
-        [HttpDelete("Delete")]
-        public async Task<IResult> DeleteClient([FromForm] long clientID)
+        [HttpPost("Delete")]
+        public async Task<IResult> DeleteClient([FromBody] DeleteClientRequest request)
         {
             var handler = new DeleteClientHandler(m_Mapper);
 
-            var _Request = new DeleteClientRequest
-            {
-                ClientID = clientID
-            };
-
-            await handler.DeleteClient(_Request);
+            await handler.DeleteClient(request);
 
             return Results.NoContent();
         }
@@ -86,6 +61,18 @@ namespace InvoiceAutomationAPI.Controllers
             var _Result = await handler.GetClients();
 
             return _Result.Clients.Count != 0
+                ? Results.Ok(_Result)
+                : Results.NotFound();
+        }
+
+        [HttpPost("Update")]
+        public async Task<IResult> UpdateClient([FromBody] UpdateClientRequest request)
+        {
+            var handler = new UpdateClientHandler(m_Mapper);
+
+            var _Result = await handler.UpdateClient(request);
+
+            return _Result.ClientID != 0
                 ? Results.Ok(_Result)
                 : Results.NotFound();
         }

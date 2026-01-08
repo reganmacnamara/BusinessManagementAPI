@@ -3,6 +3,7 @@ using InvoiceAutomationAPI.Models;
 using InvoiceAutomationAPI.UseCases.Clients.CreateClient;
 using InvoiceAutomationAPI.UseCases.Clients.GetClient;
 using InvoiceAutomationAPI.UseCases.Clients.GetClients;
+using InvoiceAutomationAPI.UseCases.Clients.UpdateClient;
 
 namespace InvoiceAutomationAPI.Profiles
 {
@@ -15,6 +16,8 @@ namespace InvoiceAutomationAPI.Profiles
             CreateMap<Client, CreateClientResponse>();
 
             CreateMap<CreateClientRequest, Client>();
+
+            CreateMap<UpdateClientRequest, Client>();
 
             CreateMap<List<Client>, GetClientsResponse>()
                 .ForMember(response => response.Clients, output => output.MapFrom(source => source));
