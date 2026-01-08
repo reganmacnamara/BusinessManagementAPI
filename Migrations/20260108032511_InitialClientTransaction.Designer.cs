@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceAutomationAPI.Migrations
 {
     [DbContext(typeof(SQLContext))]
-    [Migration("20260106052841_Initial")]
-    partial class Initial
+    [Migration("20260108032511_InitialClientTransaction")]
+    partial class InitialClientTransaction
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,7 +33,39 @@ namespace InvoiceAutomationAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ClientID"));
 
+                    b.Property<string>("AddressLine1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressLine2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientMobile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ClientName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -42,7 +74,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("InvoiceAutomationAPI.Models.Invoice", b =>
+            modelBuilder.Entity("InvoiceAutomationAPI.Models.Transaction", b =>
                 {
                     b.Property<long>("TransactionID")
                         .ValueGeneratedOnAdd()
@@ -79,10 +111,10 @@ namespace InvoiceAutomationAPI.Migrations
 
                     b.HasIndex("ClientID");
 
-                    b.ToTable("Invoices");
+                    b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("InvoiceAutomationAPI.Models.Invoice", b =>
+            modelBuilder.Entity("InvoiceAutomationAPI.Models.Transaction", b =>
                 {
                     b.HasOne("InvoiceAutomationAPI.Models.Client", "Client")
                         .WithMany()

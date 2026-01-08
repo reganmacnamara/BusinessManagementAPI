@@ -11,6 +11,10 @@ namespace InvoiceAutomationAPI.Models
 
         public DateTime TransactionDate { get; set; }
 
+        public string TransactionType { get; init; }
+
+        public DateOnly DueDate { get; set; }
+
         public Client Client { get; set; } = null!;
 
         [Column(TypeName = "decimal(19, 2)")]

@@ -71,7 +71,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("InvoiceAutomationAPI.Models.Invoice", b =>
+            modelBuilder.Entity("InvoiceAutomationAPI.Models.Transaction", b =>
                 {
                     b.Property<long>("TransactionID")
                         .ValueGeneratedOnAdd()
@@ -108,10 +108,10 @@ namespace InvoiceAutomationAPI.Migrations
 
                     b.HasIndex("ClientID");
 
-                    b.ToTable("Invoices");
+                    b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("InvoiceAutomationAPI.Models.Invoice", b =>
+            modelBuilder.Entity("InvoiceAutomationAPI.Models.Transaction", b =>
                 {
                     b.HasOne("InvoiceAutomationAPI.Models.Client", "Client")
                         .WithMany()

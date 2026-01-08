@@ -5,7 +5,7 @@
 namespace InvoiceAutomationAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialClientTransaction : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,15 @@ namespace InvoiceAutomationAPI.Migrations
                 {
                     ClientID = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ClientName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientMobile = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -24,15 +32,15 @@ namespace InvoiceAutomationAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invoices",
+                name: "Transactions",
                 columns: table => new
                 {
                     TransactionID = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TransactionType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ClientID = table.Column<long>(type: "bigint", nullable: false),
+                    TransactionType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DueDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    ClientID = table.Column<long>(type: "bigint", nullable: false),
                     GrossValue = table.Column<decimal>(type: "decimal(19,2)", nullable: false),
                     TaxValue = table.Column<decimal>(type: "decimal(19,2)", nullable: false),
                     NetValue = table.Column<decimal>(type: "decimal(19,2)", nullable: false),
@@ -40,9 +48,9 @@ namespace InvoiceAutomationAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Invoices", x => x.TransactionID);
+                    table.PrimaryKey("PK_Transactions", x => x.TransactionID);
                     table.ForeignKey(
-                        name: "FK_Invoices_Clients_ClientID",
+                        name: "FK_Transactions_Clients_ClientID",
                         column: x => x.ClientID,
                         principalTable: "Clients",
                         principalColumn: "ClientID",
@@ -50,8 +58,8 @@ namespace InvoiceAutomationAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invoices_ClientID",
-                table: "Invoices",
+                name: "IX_Transactions_ClientID",
+                table: "Transactions",
                 column: "ClientID");
         }
 
@@ -59,7 +67,7 @@ namespace InvoiceAutomationAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Invoices");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "Clients");
