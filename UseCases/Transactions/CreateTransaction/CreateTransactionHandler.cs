@@ -9,7 +9,11 @@ namespace InvoiceAutomationAPI.UseCases.Transactions.CreateTransaction
     {
         public async Task<CreateTransactionResponse> CreateTransaction(CreateTransactionRequest request)
         {
+            var _Client = m_Context.Clients.Find(request.ClientID);
+
             var _Transaction = m_Mapper.Map<Transaction>(request);
+
+            _Transaction.Client = _Client;
 
             m_Context.Transactions.Add(_Transaction);
 

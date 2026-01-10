@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace InvoiceAutomationAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialClientTransaction : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,14 +38,15 @@ namespace InvoiceAutomationAPI.Migrations
                 {
                     TransactionID = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TransactionRef = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TransactionType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DueDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ClientID = table.Column<long>(type: "bigint", nullable: false),
-                    GrossValue = table.Column<decimal>(type: "decimal(19,2)", nullable: false),
-                    TaxValue = table.Column<decimal>(type: "decimal(19,2)", nullable: false),
-                    NetValue = table.Column<decimal>(type: "decimal(19,2)", nullable: false),
-                    OffsetValue = table.Column<decimal>(type: "decimal(19,2)", nullable: false)
+                    GrossValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TaxValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    NetValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OffsetValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {

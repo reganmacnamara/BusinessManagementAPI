@@ -3,6 +3,7 @@ using InvoiceAutomationAPI.Data;
 
 namespace InvoiceAutomationAPI.UseCases.Base
 {
+
     public class BaseHandler
     {
         public SQLContext m_Context = new();
@@ -11,4 +12,5 @@ namespace InvoiceAutomationAPI.UseCases.Base
         public BaseHandler(IMapper mapper)
             => m_Mapper = mapper;
     }
+
 }

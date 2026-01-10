@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceAutomationAPI.Migrations
 {
     [DbContext(typeof(SQLContext))]
-    [Migration("20260108032511_InitialClientTransaction")]
-    partial class InitialClientTransaction
+    [Migration("20260110130844_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,23 +85,27 @@ namespace InvoiceAutomationAPI.Migrations
                     b.Property<long>("ClientID")
                         .HasColumnType("bigint");
 
-                    b.Property<DateOnly>("DueDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("GrossValue")
-                        .HasColumnType("decimal(19, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("NetValue")
-                        .HasColumnType("decimal(19, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("OffsetValue")
-                        .HasColumnType("decimal(19, 2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TaxValue")
-                        .HasColumnType("decimal(19, 2)");
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("TransactionDate")
+                    b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("TransactionRef")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TransactionType")
                         .IsRequired()

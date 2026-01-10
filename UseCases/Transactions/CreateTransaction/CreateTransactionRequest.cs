@@ -1,17 +1,17 @@
-﻿using InvoiceAutomationAPI.Models;
-
-namespace InvoiceAutomationAPI.UseCases.Transactions.CreateTransaction
+﻿namespace InvoiceAutomationAPI.UseCases.Transactions.CreateTransaction
 {
 
     public class CreateTransactionRequest
     {
-        public DateTime TransactionDate { get; init; } = DateTime.Now;
+        public string TransactionRef { get; set; } = string.Empty;
 
-        public string TransactionType { get; init; }
+        public DateTime TransactionDate { get; set; }
 
-        public DateOnly DueDate { get; set; }
+        public string TransactionType { get; set; }
 
-        public Client Client { get; set; } = null!;
+        public DateTime DueDate { get; set; }
+
+        public long ClientID { get; set; }
 
         public decimal GrossValue { get; set; }
 

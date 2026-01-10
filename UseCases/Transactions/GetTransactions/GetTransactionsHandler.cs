@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InvoiceAutomationAPI.UseCases.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceAutomationAPI.UseCases.Transactions.GetTransactions
 {
@@ -8,7 +9,7 @@ namespace InvoiceAutomationAPI.UseCases.Transactions.GetTransactions
     {
         public async Task<GetTransactionsResponse> GetTransactions()
         {
-            var _Transactions = m_Context.Transactions.ToList();
+            var _Transactions = m_Context.Transactions.Include(t => t.Client).ToList();
 
             var _Response = _Transactions.Count != 0
                 ? m_Mapper.Map<GetTransactionsResponse>(_Transactions)

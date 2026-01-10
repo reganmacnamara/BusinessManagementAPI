@@ -1,33 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace InvoiceAutomationAPI.Models
+﻿namespace InvoiceAutomationAPI.Models
 {
 
     public class Transaction
     {
-        [Key]
         public long TransactionID { get; set; }
 
-        public DateTime TransactionDate { get; set; }
+        public string TransactionRef { get; set; } = string.Empty;
 
-        public string TransactionType { get; init; }
+        public DateTime? TransactionDate { get; set; }
 
-        public DateOnly DueDate { get; set; }
+        public string TransactionType { get; set; }
 
-        public Client Client { get; set; } = null!;
+        public DateTime? DueDate { get; set; }
 
-        [Column(TypeName = "decimal(19, 2)")]
+        public long ClientID { get; set; }
+
         public decimal GrossValue { get; set; }
 
-        [Column(TypeName = "decimal(19, 2)")]
         public decimal TaxValue { get; set; }
 
-        [Column(TypeName = "decimal(19, 2)")]
         public decimal NetValue { get; set; }
 
-        [Column(TypeName = "decimal(19, 2)")]
         public decimal OffsetValue { get; set; }
+
+        public Client Client { get; set; }
     }
 
 }
