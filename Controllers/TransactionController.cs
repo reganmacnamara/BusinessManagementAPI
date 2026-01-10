@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using InvoiceAutomationAPI.UseCases.Transactions.CreateTransaction;
 using InvoiceAutomationAPI.UseCases.Transactions.DeleteTransaction;
+using InvoiceAutomationAPI.UseCases.Transactions.GetClientTransactions;
 using InvoiceAutomationAPI.UseCases.Transactions.GetTransaction;
 using InvoiceAutomationAPI.UseCases.Transactions.GetTransactions;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,18 @@ namespace InvoiceAutomationAPI.Controllers
             await handler.DeleteTransaction(request);
 
             return Results.NoContent();
+        }
+
+        [HttpGet("Client/{clientID}")]
+        public async Task<IResult> GetClientTransactions([FromRoute] long clientID)
+        {
+            var _Request = new GetClientTransactionsRequest { ClientID = clientID };
+
+            var handler = new GetClientTransactionsHandler(mapper);
+
+            var _Response = await handler.GetClientTransactions(_Request);
+
+            return Results.Ok(_Response);
         }
 
         [HttpGet("{transactionID}")]

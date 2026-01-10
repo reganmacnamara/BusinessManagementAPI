@@ -15,6 +15,9 @@ namespace InvoiceAutomationAPI.UseCases.Transactions.CreateTransaction
 
             _Transaction.Client = _Client;
 
+            if (_Transaction.TransactionType == "REC")
+                _Transaction.DueDate = null;
+
             m_Context.Transactions.Add(_Transaction);
 
             await m_Context.SaveChangesAsync();
