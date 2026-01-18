@@ -4,6 +4,7 @@ using InvoiceAutomationAPI.UseCases.Transactions.DeleteTransaction;
 using InvoiceAutomationAPI.UseCases.Transactions.GetClientTransactions;
 using InvoiceAutomationAPI.UseCases.Transactions.GetTransaction;
 using InvoiceAutomationAPI.UseCases.Transactions.GetTransactions;
+using InvoiceAutomationAPI.UseCases.Transactions.UpdateTransaction;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvoiceAutomationAPI.Controllers
@@ -71,6 +72,18 @@ namespace InvoiceAutomationAPI.Controllers
             var _Response = await handler.GetTransactions();
 
             return Results.Ok(_Response);
+        }
+
+        [HttpPost("Update")]
+        public async Task<IResult> UpdateTransaction([FromBody] UpdateTransactionRequest request)
+        {
+            var handler = new UpdateTransactionHandler(mapper);
+
+            var _Result = await handler.UpdateTransaction(request);
+
+            return _Result.TransactionId != 0
+                ? Results.Ok(_Result)
+                : Results.NotFound();
         }
     }
 }
