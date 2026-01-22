@@ -9,7 +9,7 @@ namespace InvoiceAutomationAPI.UseCases.Transactions.GetTransactions
     {
         public async Task<GetTransactionsResponse> GetTransactions()
         {
-            var _Transactions = m_Context.Transactions.Include(t => t.Client).ToList();
+            var _Transactions = await m_Context.Transactions.Include(t => t.Client).ToListAsync();
 
             var _Response = _Transactions.Count != 0
                 ? m_Mapper.Map<GetTransactionsResponse>(_Transactions)

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InvoiceAutomationAPI.UseCases.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace InvoiceAutomationAPI.UseCases.Clients.GetClients
 {
@@ -8,7 +9,7 @@ namespace InvoiceAutomationAPI.UseCases.Clients.GetClients
     {
         public async Task<GetClientsResponse> GetClients()
         {
-            var _Clients = m_Context.Clients.ToList();
+            var _Clients = await m_Context.Clients.ToListAsync();
 
             var _Response = _Clients.Count != 0
                 ? m_Mapper.Map<GetClientsResponse>(_Clients)
