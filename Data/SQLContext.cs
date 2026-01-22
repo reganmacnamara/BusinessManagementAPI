@@ -6,8 +6,8 @@ namespace InvoiceAutomationAPI.Data
     public class SQLContext : DbContext
     {
         public DbSet<Client> Clients { get; set; } = null!;
-
         public DbSet<Transaction> Transactions { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
