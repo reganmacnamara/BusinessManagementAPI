@@ -21,7 +21,7 @@ public class UpdateTransactionHandler(IMapper mapper) : BaseHandler(mapper)
                     p.Name == property.Name &&
                     p.PropertyType == property.PropertyType &&
                     p.CanWrite &&
-                    p.Name != "ClientID");
+                    p.Name != "TransactionId");
 
                 if (targetProperty != null)
                 {

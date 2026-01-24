@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using InvoiceAutomationAPI.UseCases.Products.CreateProduct;
 using InvoiceAutomationAPI.UseCases.Products.DeleteProduct;
+using InvoiceAutomationAPI.UseCases.Products.GetProduct;
 using InvoiceAutomationAPI.UseCases.Products.GetProducts;
+using InvoiceAutomationAPI.UseCases.Products.UpdateProduct;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InvoiceAutomationAPI.Controllers;
@@ -32,6 +34,23 @@ public class ProductController(IMapper mapper) : ControllerBase
         return Results.NoContent();
     }
 
+    [HttpGet("{productID}")]
+    public async Task<IResult> GetProduct([FromRoute] long productID)
+    {
+        var _Request = new GetProductRequest()
+        {
+            ProductID = productID
+        };
+
+        var handler = new GetProductHandler(mapper);
+
+        var _Result = await handler.GetProduct(_Request);
+
+        return _Result is not null
+            ? Results.Ok(_Result)
+            : Results.NotFound();
+    }
+
     [HttpGet]
     public async Task<IResult> GetProducts()
     {
@@ -40,5 +59,17 @@ public class ProductController(IMapper mapper) : ControllerBase
         var _Result = await handler.GetProducts();
 
         return Results.Ok(_Result);
+    }
+
+    [HttpPost("Update")]
+    public async Task<IResult> UpdateProduct([FromBody] UpdateProductRequest request)
+    {
+        var handler = new UpdateProductHandler(mapper);
+
+        var _Result = await handler.UpdateProduct(request);
+
+        return _Result.ProductId != 0
+            ? Results.Ok(_Result)
+            : Results.NotFound();
     }
 }

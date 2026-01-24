@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceAutomationAPI.Migrations
 {
     [DbContext(typeof(SQLContext))]
-    [Migration("20260122110730_Product")]
-    partial class Product
+    [Migration("20260122110730_AddProduct")]
+    partial class AddProduct
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

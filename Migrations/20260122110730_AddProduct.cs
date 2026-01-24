@@ -5,7 +5,7 @@
 namespace InvoiceAutomationAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Product : Migration
+    public partial class AddProduct : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
