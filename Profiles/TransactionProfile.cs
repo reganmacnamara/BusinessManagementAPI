@@ -17,7 +17,8 @@ namespace InvoiceAutomationAPI.Profiles
             CreateMap<Transaction, CreateTransactionResponse>();
 
             CreateMap<Transaction, GetTransactionResponse>()
-                .ForMember(response => response.Transaction, output => output.MapFrom(source => source));
+                .ForMember(response => response.Transaction, output => output.MapFrom(source => source))
+                .ForMember(response => response.TransactionItems, output => output.Ignore());
 
             CreateMap<List<Transaction>, GetTransactionsResponse>()
                 .ForMember(response => response.Transactions, output => output.MapFrom(source => source));

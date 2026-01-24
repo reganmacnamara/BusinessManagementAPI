@@ -39,8 +39,8 @@ public class UpdateTransactionHandler(IMapper mapper) : BaseHandler(mapper)
 
             return _Response;
         }
-
-        return new UpdateTransactionResponse();
+        else
+            throw new Exception("Transaction not found.");
     }
 
 }
