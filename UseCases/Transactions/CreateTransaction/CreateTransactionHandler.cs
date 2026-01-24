@@ -13,7 +13,10 @@ namespace InvoiceAutomationAPI.UseCases.Transactions.CreateTransaction
 
             var _Transaction = m_Mapper.Map<Transaction>(request);
 
-            _Transaction.Client = _Client;
+            if (_Client is not null)
+                _Transaction.Client = _Client;
+            else
+                throw new Exception("Client not found.");
 
             if (_Transaction.TransactionType == "REC")
                 _Transaction.DueDate = null;

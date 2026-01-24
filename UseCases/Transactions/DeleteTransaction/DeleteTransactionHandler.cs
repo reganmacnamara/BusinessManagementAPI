@@ -15,6 +15,8 @@ namespace InvoiceAutomationAPI.UseCases.Transactions.DeleteTransaction
                 m_Context.Transactions.Remove(_Transaction);
                 await m_Context.SaveChangesAsync();
             }
+            else
+                throw new Exception("Transaction not found.");
         }
     }
 

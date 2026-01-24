@@ -15,6 +15,8 @@ namespace InvoiceAutomationAPI.UseCases.Clients.DeleteClient
                 m_Context.Clients.Remove(_Client);
                 await m_Context.SaveChangesAsync();
             }
+            else
+                throw new Exception("Client not found.");
         }
     }
 

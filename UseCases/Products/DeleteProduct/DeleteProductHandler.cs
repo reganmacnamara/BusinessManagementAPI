@@ -14,5 +14,7 @@ public class DeleteProductHandler(IMapper mapper) : BaseHandler(mapper)
             m_Context.Products.Remove(_Product);
             await m_Context.SaveChangesAsync();
         }
+        else
+            throw new Exception("Product not found.");
     }
 }
