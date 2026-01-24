@@ -14,7 +14,9 @@ namespace InvoiceAutomationAPI.UseCases.Transactions.GetTransaction
                 .Where(transaction => transaction.TransactionID == request.TransactionID)
                 .SingleAsync();
 
-            var _TranactionItems = await m_Context.TransactionItems.Where(item => item.TransactionID == request.TransactionID).ToListAsync();
+            var _TranactionItems = await m_Context.TransactionItems
+                .Include(item => item.Product)
+                .Where(item => item.TransactionID == request.TransactionID).ToListAsync();
 
             var _Response = m_Mapper.Map<GetTransactionResponse>(_Transaction);
 
