@@ -13,7 +13,7 @@ public class TransactionItem
 
     public int Quantity { get; set; }
 
-    public int PricePerItem { get; set; }
+    public decimal PricePerItem { get; set; }
 
     public decimal LineGross { get; set; }
 
