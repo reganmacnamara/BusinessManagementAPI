@@ -3,16 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BusinessManagementAPI.Data
 {
-    public class SQLContext : DbContext
+    public class SQLContext(DbContextOptions<SQLContext> options) : DbContext(options)
     {
         public DbSet<Client> Clients { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Transaction> Transactions { get; set; } = null!;
         public DbSet<TransactionItem> TransactionItems { get; set; } = null!;
-
-        public SQLContext(DbContextOptions<SQLContext> options) : base(options)
-        {
-
-        }
     }
 }
