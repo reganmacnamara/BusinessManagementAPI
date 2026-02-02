@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessManagementAPI.UseCases.Products.GetProduct;
 
-public class GetProductHandler(IMapper mapper) : BaseHandler(mapper)
+public class GetProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
     public async Task<GetProductResponse> GetProduct(GetProductRequest request)
     {

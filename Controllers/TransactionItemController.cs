@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.TransactionItems.CreateTransactionItem;
 using BusinessManagementAPI.UseCases.TransactionItems.DeleteTransactionItem;
 using BusinessManagementAPI.UseCases.TransactionItems.GetTransactionItems;
@@ -9,12 +10,12 @@ namespace BusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TransactionItemController(IMapper mapper) : ControllerBase
+public class TransactionItemController(IMapper mapper, SQLContext context) : ControllerBase
 {
     [HttpPost("Create")]
     public async Task<IResult> CreateTransactionItem([FromBody] CreateTransactionItemRequest request)
     {
-        var handler = new CreateTransactionItemHandler(mapper);
+        var handler = new CreateTransactionItemHandler(mapper, context);
 
         var _Response = await handler.CreateTransactionItem(request);
 
@@ -26,7 +27,7 @@ public class TransactionItemController(IMapper mapper) : ControllerBase
     [HttpPost("Delete")]
     public async Task<IResult> DeleteTransactionItem([FromBody] DeleteTransactionItemRequest request)
     {
-        var handler = new DeleteTransactionItemHandler(mapper);
+        var handler = new DeleteTransactionItemHandler(mapper, context);
 
         await handler.DeleteTransactionItem(request);
 
@@ -36,7 +37,7 @@ public class TransactionItemController(IMapper mapper) : ControllerBase
     [HttpGet]
     public async Task<IResult> GetTransactions()
     {
-        var handler = new GetTransactionItemsHandler(mapper);
+        var handler = new GetTransactionItemsHandler(mapper, context);
 
         var _Response = await handler.GetTransactionItems();
 
@@ -46,7 +47,7 @@ public class TransactionItemController(IMapper mapper) : ControllerBase
     [HttpPost("Update")]
     public async Task<IResult> UpdateTransactionItem([FromBody] UpdateTransactionItemRequest request)
     {
-        var handler = new UpdateTransactionItemHandler(mapper);
+        var handler = new UpdateTransactionItemHandler(mapper, context);
 
         var _Result = await handler.UpdateTransactionItem(request);
 

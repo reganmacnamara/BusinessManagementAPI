@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Transactions.DeleteTransaction
 {
 
-    public class DeleteTransactionHandler(IMapper mapper) : BaseHandler(mapper)
+    public class DeleteTransactionHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
         public async Task DeleteTransaction(DeleteTransactionRequest request)
         {

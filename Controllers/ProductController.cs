@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Products.CreateProduct;
 using BusinessManagementAPI.UseCases.Products.DeleteProduct;
 using BusinessManagementAPI.UseCases.Products.GetProduct;
@@ -10,12 +11,12 @@ namespace BusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ProductController(IMapper mapper) : ControllerBase
+public class ProductController(IMapper mapper, SQLContext context) : ControllerBase
 {
     [HttpPost("Create")]
     public async Task<IResult> CreateProduct([FromBody] CreateProductRequest request)
     {
-        var handler = new CreateProductHandler(mapper);
+        var handler = new CreateProductHandler(mapper, context);
 
         var _Response = await handler.CreateProduct(request);
 
@@ -27,7 +28,7 @@ public class ProductController(IMapper mapper) : ControllerBase
     [HttpPost("Delete")]
     public async Task<IResult> DeleteProduct([FromBody] DeleteProductRequest request)
     {
-        var handler = new DeleteProductHandler(mapper);
+        var handler = new DeleteProductHandler(mapper, context);
 
         await handler.DeleteProduct(request);
 
@@ -42,7 +43,7 @@ public class ProductController(IMapper mapper) : ControllerBase
             ProductID = productID
         };
 
-        var handler = new GetProductHandler(mapper);
+        var handler = new GetProductHandler(mapper, context);
 
         var _Result = await handler.GetProduct(_Request);
 
@@ -54,7 +55,7 @@ public class ProductController(IMapper mapper) : ControllerBase
     [HttpGet]
     public async Task<IResult> GetProducts()
     {
-        var handler = new GetProductsHandler(mapper);
+        var handler = new GetProductsHandler(mapper, context);
 
         var _Result = await handler.GetProducts();
 
@@ -64,7 +65,7 @@ public class ProductController(IMapper mapper) : ControllerBase
     [HttpPost("Update")]
     public async Task<IResult> UpdateProduct([FromBody] UpdateProductRequest request)
     {
-        var handler = new UpdateProductHandler(mapper);
+        var handler = new UpdateProductHandler(mapper, context);
 
         var _Result = await handler.UpdateProduct(request);
 

@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Clients.DeleteClient
 {
 
-    public class DeleteClientHandler(IMapper mapper) : BaseHandler(mapper)
+    public class DeleteClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
         public async Task DeleteClient(DeleteClientRequest request)
         {

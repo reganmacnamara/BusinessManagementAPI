@@ -10,10 +10,9 @@ namespace BusinessManagementAPI.Data
         public DbSet<Transaction> Transactions { get; set; } = null!;
         public DbSet<TransactionItem> TransactionItems { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public SQLContext(DbContextOptions<SQLContext> options) : base(options)
         {
-            //TODO: Remove this and use a real method to store this
-            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-OTB92DD;Initial Catalog=InvoiceAutomationLocal;User ID=sa;Password=lqslqs;TrustServerCertificate=True;");
+
         }
     }
 }

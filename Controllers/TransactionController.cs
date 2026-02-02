@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Transactions.CreateTransaction;
 using BusinessManagementAPI.UseCases.Transactions.DeleteTransaction;
 using BusinessManagementAPI.UseCases.Transactions.GetClientTransactions;
@@ -11,12 +12,12 @@ namespace BusinessManagementAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TransactionController(IMapper mapper) : ControllerBase
+    public class TransactionController(IMapper mapper, SQLContext context) : ControllerBase
     {
         [HttpPost("Create")]
         public async Task<IResult> CreateTransaction([FromBody] CreateTransactionRequest request)
         {
-            var handler = new CreateTransactionHandler(mapper);
+            var handler = new CreateTransactionHandler(mapper, context);
 
             var _Response = await handler.CreateTransaction(request);
 
@@ -28,7 +29,7 @@ namespace BusinessManagementAPI.Controllers
         [HttpPost("Delete")]
         public async Task<IResult> DeleteTransaction([FromBody] DeleteTransactionRequest request)
         {
-            var handler = new DeleteTransactionHandler(mapper);
+            var handler = new DeleteTransactionHandler(mapper, context);
 
             await handler.DeleteTransaction(request);
 
@@ -40,7 +41,7 @@ namespace BusinessManagementAPI.Controllers
         {
             var _Request = new GetClientTransactionsRequest { ClientID = clientID };
 
-            var handler = new GetClientTransactionsHandler(mapper);
+            var handler = new GetClientTransactionsHandler(mapper, context);
 
             var _Response = await handler.GetClientTransactions(_Request);
 
@@ -50,7 +51,7 @@ namespace BusinessManagementAPI.Controllers
         [HttpGet("{transactionID}")]
         public async Task<IResult> GetTransaction([FromRoute] long transactionID)
         {
-            var handler = new GetTransactionHandler(mapper);
+            var handler = new GetTransactionHandler(mapper, context);
 
             var _Request = new GetTransactionRequest()
             {
@@ -67,7 +68,7 @@ namespace BusinessManagementAPI.Controllers
         [HttpGet]
         public async Task<IResult> GetTransactions()
         {
-            var handler = new GetTransactionsHandler(mapper);
+            var handler = new GetTransactionsHandler(mapper, context);
 
             var _Response = await handler.GetTransactions();
 
@@ -77,7 +78,7 @@ namespace BusinessManagementAPI.Controllers
         [HttpPost("Update")]
         public async Task<IResult> UpdateTransaction([FromBody] UpdateTransactionRequest request)
         {
-            var handler = new UpdateTransactionHandler(mapper);
+            var handler = new UpdateTransactionHandler(mapper, context);
 
             var _Result = await handler.UpdateTransaction(request);
 

@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.Models;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Transactions.CreateTransaction
 {
 
-    public class CreateTransactionHandler(IMapper mapper) : BaseHandler(mapper)
+    public class CreateTransactionHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
         public async Task<CreateTransactionResponse> CreateTransaction(CreateTransactionRequest request)
         {

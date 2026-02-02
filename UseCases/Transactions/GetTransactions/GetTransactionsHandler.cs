@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessManagementAPI.UseCases.Transactions.GetTransactions
 {
 
-    public class GetTransactionsHandler(IMapper mapper) : BaseHandler(mapper)
+    public class GetTransactionsHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
         public async Task<GetTransactionsResponse> GetTransactions()
         {

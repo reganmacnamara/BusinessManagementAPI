@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.Models;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Clients.CreateClient
 {
 
-    public class CreateClientHandler(IMapper mapper) : BaseHandler(mapper)
+    public class CreateClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
         public async Task<CreateClientResponse> CreateClient(CreateClientRequest request)
         {

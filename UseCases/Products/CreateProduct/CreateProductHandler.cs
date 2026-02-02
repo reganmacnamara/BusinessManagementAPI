@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.Models;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Products.CreateProduct;
 
-public class CreateProductHandler(IMapper mapper) : BaseHandler(mapper)
+public class CreateProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
     public async Task<CreateProductResponse> CreateProduct(CreateProductRequest request)
     {

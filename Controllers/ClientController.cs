@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Clients.CreateClient;
 using BusinessManagementAPI.UseCases.Clients.DeleteClient;
 using BusinessManagementAPI.UseCases.Clients.GetClient;
@@ -10,12 +11,12 @@ namespace BusinessManagementAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ClientController(IMapper mapper) : ControllerBase
+    public class ClientController(IMapper mapper, SQLContext context) : ControllerBase
     {
         [HttpPost("Create")]
         public async Task<IResult> CreateClient([FromBody] CreateClientRequest request)
         {
-            var handler = new CreateClientHandler(mapper);
+            var handler = new CreateClientHandler(mapper, context);
 
             var _Response = await handler.CreateClient(request);
 
@@ -27,7 +28,7 @@ namespace BusinessManagementAPI.Controllers
         [HttpPost("Delete")]
         public async Task<IResult> DeleteClient([FromBody] DeleteClientRequest request)
         {
-            var handler = new DeleteClientHandler(mapper);
+            var handler = new DeleteClientHandler(mapper, context);
 
             await handler.DeleteClient(request);
 
@@ -42,7 +43,7 @@ namespace BusinessManagementAPI.Controllers
                 ClientId = clientID
             };
 
-            var handler = new GetClientHandler(mapper);
+            var handler = new GetClientHandler(mapper, context);
 
             var _Result = await handler.GetClient(_Request);
 
@@ -54,7 +55,7 @@ namespace BusinessManagementAPI.Controllers
         [HttpGet]
         public async Task<IResult> GetClients()
         {
-            var handler = new GetClientsHandler(mapper);
+            var handler = new GetClientsHandler(mapper, context);
 
             var _Result = await handler.GetClients();
 
@@ -64,7 +65,7 @@ namespace BusinessManagementAPI.Controllers
         [HttpPost("Update")]
         public async Task<IResult> UpdateClient([FromBody] UpdateClientRequest request)
         {
-            var handler = new UpdateClientHandler(mapper);
+            var handler = new UpdateClientHandler(mapper, context);
 
             var _Result = await handler.UpdateClient(request);
 

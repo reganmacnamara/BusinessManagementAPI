@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Products.UpdateProduct;
 
-public class UpdateProductHandler(IMapper mapper) : BaseHandler(mapper)
+public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
     public async Task<UpdateProductResponse> UpdateProduct(UpdateProductRequest request)
     {

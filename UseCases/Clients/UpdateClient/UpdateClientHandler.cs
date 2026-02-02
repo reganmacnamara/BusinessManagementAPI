@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Clients.UpdateClient
 {
 
-    public class UpdateClientHandler(IMapper mapper) : BaseHandler(mapper)
+    public class UpdateClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
         public async Task<UpdateClientResponse> UpdateClient(UpdateClientRequest request)
         {

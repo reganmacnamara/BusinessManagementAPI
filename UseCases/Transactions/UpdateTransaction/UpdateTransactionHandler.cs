@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Transactions.UpdateTransaction;
 
-public class UpdateTransactionHandler(IMapper mapper) : BaseHandler(mapper)
+public class UpdateTransactionHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
 
     public async Task<UpdateTransactionResponse> UpdateTransaction(UpdateTransactionRequest request)
