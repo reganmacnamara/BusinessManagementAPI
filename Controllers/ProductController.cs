@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.UseCases.Products.CreateProduct;
 using BusinessManagementAPI.UseCases.Products.DeleteProduct;
+using BusinessManagementAPI.UseCases.Products.GetProduct;
+using BusinessManagementAPI.UseCases.Products.GetProducts;
 using BusinessManagementAPI.UseCases.Products.UpdateProduct;
-using InvoiceAutomationAPI.UseCases.Products.DeleteProduct;
-using InvoiceAutomationAPI.UseCases.Products.GetProduct;
-using InvoiceAutomationAPI.UseCases.Products.GetProducts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessManagementAPI.Controllers;

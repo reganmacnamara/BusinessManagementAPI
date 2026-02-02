@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.UseCases.Clients.CreateClient;
 using BusinessManagementAPI.UseCases.Clients.DeleteClient;
+using BusinessManagementAPI.UseCases.Clients.GetClient;
+using BusinessManagementAPI.UseCases.Clients.GetClients;
 using BusinessManagementAPI.UseCases.Clients.UpdateClient;
-using InvoiceAutomationAPI.UseCases.Clients.GetClient;
-using InvoiceAutomationAPI.UseCases.Clients.GetClients;
-using InvoiceAutomationAPI.UseCases.Clients.UpdateClient;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessManagementAPI.Controllers

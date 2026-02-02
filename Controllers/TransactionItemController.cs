@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.UseCases.TransactionItems.CreateTransactionItem;
 using BusinessManagementAPI.UseCases.TransactionItems.DeleteTransactionItem;
+using BusinessManagementAPI.UseCases.TransactionItems.GetTransactionItems;
 using BusinessManagementAPI.UseCases.TransactionItems.UpdateTransactionItem;
 using Microsoft.AspNetCore.Mvc;
 

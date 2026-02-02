@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.UseCases.Transactions.CreateTransaction;
 using BusinessManagementAPI.UseCases.Transactions.DeleteTransaction;
+using BusinessManagementAPI.UseCases.Transactions.GetClientTransactions;
+using BusinessManagementAPI.UseCases.Transactions.GetTransaction;
+using BusinessManagementAPI.UseCases.Transactions.GetTransactions;
 using BusinessManagementAPI.UseCases.Transactions.UpdateTransaction;
-using InvoiceAutomationAPI.UseCases.Transactions.DeleteTransaction;
-using InvoiceAutomationAPI.UseCases.Transactions.GetClientTransactions;
-using InvoiceAutomationAPI.UseCases.Transactions.GetTransaction;
-using InvoiceAutomationAPI.UseCases.Transactions.GetTransactions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessManagementAPI.Controllers
