@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.Data;
+using BusinessManagementAPI.Data;
 
-namespace InvoiceAutomationAPI.UseCases.Base;
+namespace BusinessManagementAPI.UseCases.Base;
 
 public class BaseHandler
 {

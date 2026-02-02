@@ -1,6 +1,6 @@
-﻿using InvoiceAutomationAPI.Models;
+﻿using BusinessManagementAPI.Models;
 
-namespace InvoiceAutomationAPI.UseCases.Clients.GetClient
+namespace BusinessManagementAPI.UseCases.Clients.GetClient
 {
 
     public class GetClientResponse

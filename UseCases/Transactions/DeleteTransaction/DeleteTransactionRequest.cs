@@ -1,4 +1,4 @@
-﻿namespace InvoiceAutomationAPI.UseCases.Transactions.DeleteTransaction
+﻿namespace BusinessManagementAPI.UseCases.Transactions.DeleteTransaction
 {
 
     public class DeleteTransactionRequest

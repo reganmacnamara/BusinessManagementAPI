@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.Models;
-using InvoiceAutomationAPI.UseCases.Base;
+using BusinessManagementAPI.Models;
+using BusinessManagementAPI.UseCases.Base;
 
-namespace InvoiceAutomationAPI.UseCases.Clients.CreateClient
+namespace BusinessManagementAPI.UseCases.Clients.CreateClient
 {
 
     public class CreateClientHandler(IMapper mapper) : BaseHandler(mapper)

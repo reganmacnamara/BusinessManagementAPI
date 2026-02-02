@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.UseCases.TransactionItems.CreateTransactionItem;
-using InvoiceAutomationAPI.UseCases.TransactionItems.DeleteTransactionItem;
-using InvoiceAutomationAPI.UseCases.TransactionItems.GetTransactionItems;
-using InvoiceAutomationAPI.UseCases.TransactionItems.UpdateTransactionItem;
+using BusinessManagementAPI.UseCases.TransactionItems.CreateTransactionItem;
+using BusinessManagementAPI.UseCases.TransactionItems.DeleteTransactionItem;
+using BusinessManagementAPI.UseCases.TransactionItems.UpdateTransactionItem;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InvoiceAutomationAPI.Controllers;
+namespace BusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]

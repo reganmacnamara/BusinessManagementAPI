@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.Models;
-using InvoiceAutomationAPI.UseCases.TransactionItems.CreateTransactionItem;
-using InvoiceAutomationAPI.UseCases.TransactionItems.GetTransactionItems;
+using BusinessManagementAPI.Models;
+using BusinessManagementAPI.UseCases.TransactionItems.CreateTransactionItem;
+using BusinessManagementAPI.UseCases.TransactionItems.GetTransactionItems;
 
-namespace InvoiceAutomationAPI.Profiles;
+namespace BusinessManagementAPI.Profiles;
 
 public class TransactionItemProfile : Profile
 {

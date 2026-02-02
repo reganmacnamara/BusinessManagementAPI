@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.Models;
-using InvoiceAutomationAPI.UseCases.Transactions.CreateTransaction;
-using InvoiceAutomationAPI.UseCases.Transactions.GetClientTransactions;
-using InvoiceAutomationAPI.UseCases.Transactions.GetTransaction;
-using InvoiceAutomationAPI.UseCases.Transactions.GetTransactions;
+using BusinessManagementAPI.Models;
+using BusinessManagementAPI.UseCases.Transactions.CreateTransaction;
+using BusinessManagementAPI.UseCases.Transactions.GetClientTransactions;
+using BusinessManagementAPI.UseCases.Transactions.GetTransaction;
+using BusinessManagementAPI.UseCases.Transactions.GetTransactions;
 
-namespace InvoiceAutomationAPI.Profiles
+namespace BusinessManagementAPI.Profiles
 {
     public class TransactionProfile : Profile
     {

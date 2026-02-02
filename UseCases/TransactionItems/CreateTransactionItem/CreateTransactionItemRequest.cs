@@ -1,4 +1,4 @@
-﻿namespace InvoiceAutomationAPI.UseCases.TransactionItems.CreateTransactionItem;
+﻿namespace BusinessManagementAPI.UseCases.TransactionItems.CreateTransactionItem;
 
 public class CreateTransactionItemRequest
 {

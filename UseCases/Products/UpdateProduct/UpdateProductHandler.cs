@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Base;
 
-namespace InvoiceAutomationAPI.UseCases.Products.UpdateProduct;
+namespace BusinessManagementAPI.UseCases.Products.UpdateProduct;
 
 public class UpdateProductHandler(IMapper mapper) : BaseHandler(mapper)
 {

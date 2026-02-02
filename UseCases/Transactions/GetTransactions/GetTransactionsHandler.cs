@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace InvoiceAutomationAPI.UseCases.Transactions.GetTransactions
+namespace BusinessManagementAPI.UseCases.Transactions.GetTransactions
 {
 
     public class GetTransactionsHandler(IMapper mapper) : BaseHandler(mapper)

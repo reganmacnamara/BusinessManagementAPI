@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Base;
 
-namespace InvoiceAutomationAPI.UseCases.Transactions.DeleteTransaction
+namespace BusinessManagementAPI.UseCases.Transactions.DeleteTransaction
 {
 
     public class DeleteTransactionHandler(IMapper mapper) : BaseHandler(mapper)

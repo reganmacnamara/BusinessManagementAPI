@@ -1,4 +1,4 @@
-﻿namespace InvoiceAutomationAPI.UseCases.Products.UpdateProduct;
+﻿namespace BusinessManagementAPI.UseCases.Products.UpdateProduct;
 
 public class UpdateProductResponse
 {

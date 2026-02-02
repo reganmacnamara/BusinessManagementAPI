@@ -1,4 +1,4 @@
-﻿namespace InvoiceAutomationAPI.UseCases.Transactions.GetTransaction
+﻿namespace BusinessManagementAPI.UseCases.Transactions.GetTransaction
 {
 
     public class GetTransactionRequest

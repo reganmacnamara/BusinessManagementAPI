@@ -1,4 +1,4 @@
-﻿namespace InvoiceAutomationAPI.Models
+﻿namespace BusinessManagementAPI.Models
 {
 
     public class Transaction

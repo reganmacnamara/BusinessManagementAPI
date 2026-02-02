@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.Models;
-using InvoiceAutomationAPI.UseCases.Base;
+using BusinessManagementAPI.Models;
+using BusinessManagementAPI.UseCases.Base;
 
-namespace InvoiceAutomationAPI.UseCases.Transactions.CreateTransaction
+namespace BusinessManagementAPI.UseCases.Transactions.CreateTransaction
 {
 
     public class CreateTransactionHandler(IMapper mapper) : BaseHandler(mapper)

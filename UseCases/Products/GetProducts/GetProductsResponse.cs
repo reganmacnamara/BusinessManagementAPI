@@ -1,6 +1,6 @@
-﻿using InvoiceAutomationAPI.Models;
+﻿using BusinessManagementAPI.Models;
 
-namespace InvoiceAutomationAPI.UseCases.Products.GetProducts;
+namespace BusinessManagementAPI.UseCases.Products.GetProducts;
 
 public class GetProductsResponse
 {

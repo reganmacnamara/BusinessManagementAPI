@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.UseCases.Products.CreateProduct;
+using BusinessManagementAPI.UseCases.Products.CreateProduct;
+using BusinessManagementAPI.UseCases.Products.DeleteProduct;
+using BusinessManagementAPI.UseCases.Products.UpdateProduct;
 using InvoiceAutomationAPI.UseCases.Products.DeleteProduct;
 using InvoiceAutomationAPI.UseCases.Products.GetProduct;
 using InvoiceAutomationAPI.UseCases.Products.GetProducts;
-using InvoiceAutomationAPI.UseCases.Products.UpdateProduct;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InvoiceAutomationAPI.Controllers;
+namespace BusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]

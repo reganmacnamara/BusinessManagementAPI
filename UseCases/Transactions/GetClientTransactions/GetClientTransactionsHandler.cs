@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Base;
 
-namespace InvoiceAutomationAPI.UseCases.Transactions.GetClientTransactions
+namespace BusinessManagementAPI.UseCases.Transactions.GetClientTransactions
 {
 
     public class GetClientTransactionsHandler(IMapper mapper) : BaseHandler(mapper)

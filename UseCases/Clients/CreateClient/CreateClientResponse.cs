@@ -1,4 +1,4 @@
-﻿namespace InvoiceAutomationAPI.UseCases.Clients.CreateClient
+﻿namespace BusinessManagementAPI.UseCases.Clients.CreateClient
 {
 
     public class CreateClientResponse

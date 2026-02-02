@@ -1,4 +1,4 @@
-﻿namespace InvoiceAutomationAPI.UseCases.Products.CreateProduct;
+﻿namespace BusinessManagementAPI.UseCases.Products.CreateProduct;
 
 public class CreateProductRequest
 {

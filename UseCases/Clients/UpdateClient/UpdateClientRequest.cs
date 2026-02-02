@@ -1,4 +1,4 @@
-﻿namespace InvoiceAutomationAPI.UseCases.Clients.UpdateClient
+﻿namespace BusinessManagementAPI.UseCases.Clients.UpdateClient
 {
 
     public class UpdateClientRequest

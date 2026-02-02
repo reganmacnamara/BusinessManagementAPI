@@ -1,7 +1,7 @@
-﻿using InvoiceAutomationAPI.Models;
+﻿using BusinessManagementAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace InvoiceAutomationAPI.Data
+namespace BusinessManagementAPI.Data
 {
     public class SQLContext : DbContext
     {

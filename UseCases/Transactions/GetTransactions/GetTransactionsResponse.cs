@@ -1,6 +1,6 @@
-﻿using InvoiceAutomationAPI.Models;
+﻿using BusinessManagementAPI.Models;
 
-namespace InvoiceAutomationAPI.UseCases.Transactions.GetTransactions
+namespace BusinessManagementAPI.UseCases.Transactions.GetTransactions
 {
 
     public class GetTransactionsResponse

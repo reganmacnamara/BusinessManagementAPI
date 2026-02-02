@@ -1,4 +1,4 @@
-﻿namespace InvoiceAutomationAPI.UseCases.Clients.GetClient
+﻿namespace BusinessManagementAPI.UseCases.Clients.GetClient
 {
 
     public class GetClientRequest

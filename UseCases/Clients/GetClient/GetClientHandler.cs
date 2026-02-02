@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace InvoiceAutomationAPI.UseCases.Clients.GetClient
+namespace BusinessManagementAPI.UseCases.Clients.GetClient
 {
 
     public class GetClientHandler(IMapper mapper) : BaseHandler(mapper)

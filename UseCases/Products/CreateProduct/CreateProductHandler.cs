@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.Models;
-using InvoiceAutomationAPI.UseCases.Base;
+using BusinessManagementAPI.Models;
+using BusinessManagementAPI.UseCases.Base;
 
-namespace InvoiceAutomationAPI.UseCases.Products.CreateProduct;
+namespace BusinessManagementAPI.UseCases.Products.CreateProduct;
 
 public class CreateProductHandler(IMapper mapper) : BaseHandler(mapper)
 {

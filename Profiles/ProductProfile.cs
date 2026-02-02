@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.Models;
-using InvoiceAutomationAPI.UseCases.Products.CreateProduct;
-using InvoiceAutomationAPI.UseCases.Products.GetProduct;
-using InvoiceAutomationAPI.UseCases.Products.GetProducts;
+using BusinessManagementAPI.Models;
+using BusinessManagementAPI.UseCases.Products.CreateProduct;
+using BusinessManagementAPI.UseCases.Products.GetProduct;
+using BusinessManagementAPI.UseCases.Products.GetProducts;
 
-namespace InvoiceAutomationAPI.Profiles;
+namespace BusinessManagementAPI.Profiles;
 
 public class ProductProfile : Profile
 {

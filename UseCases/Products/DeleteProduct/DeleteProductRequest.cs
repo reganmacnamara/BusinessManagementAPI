@@ -1,4 +1,4 @@
-﻿namespace InvoiceAutomationAPI.UseCases.Products.DeleteProduct;
+﻿namespace BusinessManagementAPI.UseCases.Products.DeleteProduct;
 
 public class DeleteProductRequest
 {

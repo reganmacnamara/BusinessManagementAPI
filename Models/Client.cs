@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace InvoiceAutomationAPI.Models
+namespace BusinessManagementAPI.Models
 {
 
     public class Client

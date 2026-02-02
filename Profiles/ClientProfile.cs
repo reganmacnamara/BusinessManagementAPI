@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.Models;
-using InvoiceAutomationAPI.UseCases.Clients.CreateClient;
-using InvoiceAutomationAPI.UseCases.Clients.GetClient;
-using InvoiceAutomationAPI.UseCases.Clients.GetClients;
-using InvoiceAutomationAPI.UseCases.Clients.UpdateClient;
+using BusinessManagementAPI.Models;
+using BusinessManagementAPI.UseCases.Clients.CreateClient;
+using BusinessManagementAPI.UseCases.Clients.GetClient;
+using BusinessManagementAPI.UseCases.Clients.GetClients;
+using BusinessManagementAPI.UseCases.Clients.UpdateClient;
 
-namespace InvoiceAutomationAPI.Profiles
+namespace BusinessManagementAPI.Profiles
 {
 
     public class ClientProfile : Profile

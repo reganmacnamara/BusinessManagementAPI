@@ -1,4 +1,4 @@
-﻿namespace InvoiceAutomationAPI.UseCases.TransactionItems.UpdateTransactionItem;
+﻿namespace BusinessManagementAPI.UseCases.TransactionItems.UpdateTransactionItem;
 
 public class UpdateTransactionItemResponse
 {

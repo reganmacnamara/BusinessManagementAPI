@@ -1,4 +1,4 @@
-﻿namespace InvoiceAutomationAPI.UseCases.Clients.DeleteClient
+﻿namespace BusinessManagementAPI.UseCases.Clients.DeleteClient
 {
 
     public class DeleteClientRequest

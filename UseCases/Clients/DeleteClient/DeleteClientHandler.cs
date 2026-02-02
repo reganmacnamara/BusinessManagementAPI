@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Base;
 
-namespace InvoiceAutomationAPI.UseCases.Clients.DeleteClient
+namespace BusinessManagementAPI.UseCases.Clients.DeleteClient
 {
 
     public class DeleteClientHandler(IMapper mapper) : BaseHandler(mapper)

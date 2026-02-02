@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Base;
 
-namespace InvoiceAutomationAPI.UseCases.Transactions.UpdateTransaction;
+namespace BusinessManagementAPI.UseCases.Transactions.UpdateTransaction;
 
 public class UpdateTransactionHandler(IMapper mapper) : BaseHandler(mapper)
 {

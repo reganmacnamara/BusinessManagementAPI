@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using InvoiceAutomationAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace InvoiceAutomationAPI.UseCases.Products.GetProduct;
+namespace BusinessManagementAPI.UseCases.Products.GetProduct;
 
 public class GetProductHandler(IMapper mapper) : BaseHandler(mapper)
 {
