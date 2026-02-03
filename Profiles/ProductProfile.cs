@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Models;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Products.CreateProduct;
 using BusinessManagementAPI.UseCases.Products.GetProduct;
 using BusinessManagementAPI.UseCases.Products.GetProducts;

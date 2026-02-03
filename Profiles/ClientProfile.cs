@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Models;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Clients.CreateClient;
 using BusinessManagementAPI.UseCases.Clients.GetClient;
 using BusinessManagementAPI.UseCases.Clients.GetClients;

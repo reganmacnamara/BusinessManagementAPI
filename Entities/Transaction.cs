@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.Models
+﻿namespace BusinessManagementAPI.Entities
 {
 
     public class Transaction

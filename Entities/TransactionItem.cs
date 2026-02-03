@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BusinessManagementAPI.Models;
+namespace BusinessManagementAPI.Entities;
 
 public class TransactionItem
 {

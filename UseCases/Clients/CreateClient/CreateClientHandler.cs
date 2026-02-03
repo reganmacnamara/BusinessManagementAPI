@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Models;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Clients.CreateClient

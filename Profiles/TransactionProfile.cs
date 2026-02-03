@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Models;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Transactions.CreateTransaction;
 using BusinessManagementAPI.UseCases.Transactions.GetClientTransactions;
 using BusinessManagementAPI.UseCases.Transactions.GetTransaction;

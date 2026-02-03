@@ -1,4 +1,4 @@
-﻿using BusinessManagementAPI.Models;
+﻿using BusinessManagementAPI.Entities;
 
 namespace BusinessManagementAPI.UseCases.Products.GetProducts;
 
