@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
-using BusinessManagementAPI.UseCases.TransactionItems.CreateTransactionItem;
 using BusinessManagementAPI.UseCases.TransactionItems.DeleteTransactionItem;
 using BusinessManagementAPI.UseCases.TransactionItems.GetTransactionItems;
-using BusinessManagementAPI.UseCases.TransactionItems.UpdateTransactionItem;
+using BusinessManagementAPI.UseCases.TransactionItems.UpsertTransactionItem;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessManagementAPI.Controllers;
@@ -12,18 +11,6 @@ namespace BusinessManagementAPI.Controllers;
 [Route("[controller]")]
 public class TransactionItemController(IMapper mapper, SQLContext context) : ControllerBase
 {
-    [HttpPost("Create")]
-    public async Task<IResult> CreateTransactionItem([FromBody] CreateTransactionItemRequest request)
-    {
-        var handler = new CreateTransactionItemHandler(mapper, context);
-
-        var _Response = await handler.CreateTransactionItem(request);
-
-        return _Response is not null
-            ? Results.Ok(_Response)
-            : Results.BadRequest();
-    }
-
     [HttpPost("Delete")]
     public async Task<IResult> DeleteTransactionItem([FromBody] DeleteTransactionItemRequest request)
     {
@@ -44,12 +31,14 @@ public class TransactionItemController(IMapper mapper, SQLContext context) : Con
         return Results.Ok(_Response);
     }
 
-    [HttpPost("Update")]
-    public async Task<IResult> UpdateTransactionItem([FromBody] UpdateTransactionItemRequest request)
+    [HttpPost("Upsert")]
+    public async Task<IResult> UpsertTransactionItem([FromBody] UpsertTransactionItemRequest request)
     {
-        var handler = new UpdateTransactionItemHandler(mapper, context);
+        var handler = new UpsertTransactionItemHandler(mapper, context);
 
-        var _Result = await handler.UpdateTransactionItem(request);
+        var _Result = request.TransactionItemID != 0
+            ? await handler.UpdateTransactionItem(request)
+            : await handler.CreateTransactionItem(request);
 
         return _Result.TransactionItemID != 0
             ? Results.Ok(_Result)

@@ -1,6 +1,6 @@
-﻿namespace BusinessManagementAPI.UseCases.TransactionItems.UpdateTransactionItem;
+﻿namespace BusinessManagementAPI.UseCases.TransactionItems.UpsertTransactionItem;
 
-public class UpdateTransactionItemRequest
+public class UpsertTransactionItemRequest
 {
     public long TransactionItemID { get; set; }
 

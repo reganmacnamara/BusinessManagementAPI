@@ -1,12 +1,37 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Models;
 using BusinessManagementAPI.UseCases.Base;
 
-namespace BusinessManagementAPI.UseCases.TransactionItems.UpdateTransactionItem;
+namespace BusinessManagementAPI.UseCases.TransactionItems.UpsertTransactionItem;
 
-public class UpdateTransactionItemHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class UpsertTransactionItemHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
-    public async Task<UpdateTransactionItemResponse> UpdateTransactionItem(UpdateTransactionItemRequest request)
+    public async Task<UpsertTransactionItemResponse> CreateTransactionItem(UpsertTransactionItemRequest request)
+    {
+        var _Transaction = m_Context.Transactions.Where(transaction => transaction.TransactionID == request.TransactionID).SingleOrDefault();
+        var _Product = m_Context.Products.Where(product => product.ProductID == request.ProductID).SingleOrDefault();
+
+        var _TransactionItem = m_Mapper.Map<TransactionItem>(request);
+
+        if (_Transaction is not null)
+            _TransactionItem.Transaction = _Transaction;
+        else
+            throw new Exception("Transaction not Found.");
+
+        if (_Product is not null)
+            _TransactionItem.Product = _Product;
+        else
+            throw new Exception("Product not Found.");
+
+        m_Context.TransactionItems.Add(_TransactionItem);
+
+        await m_Context.SaveChangesAsync();
+
+        return m_Mapper.Map<UpsertTransactionItemResponse>(_TransactionItem);
+    }
+
+    public async Task<UpsertTransactionItemResponse> UpdateTransactionItem(UpsertTransactionItemRequest request)
     {
         var _TransactionItem = await m_Context.TransactionItems.FindAsync(request.TransactionItemID);
 
@@ -28,7 +53,7 @@ public class UpdateTransactionItemHandler(IMapper mapper, SQLContext context) : 
                     p.Name == property.Name &&
                     p.PropertyType == property.PropertyType &&
                     p.CanWrite &&
-                    p.Name != "TransactionId");
+                    p.Name != "TransactionItemID");
 
                 if (targetProperty != null)
                 {
@@ -39,7 +64,7 @@ public class UpdateTransactionItemHandler(IMapper mapper, SQLContext context) : 
 
             await m_Context.SaveChangesAsync();
 
-            var _Response = new UpdateTransactionItemResponse()
+            var _Response = new UpsertTransactionItemResponse()
             {
                 TransactionItemID = _TransactionItem.TransactionItemID
             };

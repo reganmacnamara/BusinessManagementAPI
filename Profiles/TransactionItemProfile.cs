@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Models;
-using BusinessManagementAPI.UseCases.TransactionItems.CreateTransactionItem;
 using BusinessManagementAPI.UseCases.TransactionItems.GetTransactionItems;
+using BusinessManagementAPI.UseCases.TransactionItems.UpsertTransactionItem;
 
 namespace BusinessManagementAPI.Profiles;
 
@@ -9,9 +9,9 @@ public class TransactionItemProfile : Profile
 {
     public TransactionItemProfile()
     {
-        CreateMap<CreateTransactionItemRequest, TransactionItem>();
+        CreateMap<UpsertTransactionItemRequest, TransactionItem>();
 
-        CreateMap<TransactionItem, CreateTransactionItemResponse>();
+        CreateMap<TransactionItem, UpsertTransactionItemResponse>();
 
         CreateMap<List<TransactionItem>, GetTransactionItemsResponse>()
                 .ForMember(response => response.TransactionItems, output => output.MapFrom(source => source));
