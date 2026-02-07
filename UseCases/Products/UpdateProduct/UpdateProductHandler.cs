@@ -12,7 +12,7 @@ public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHand
 
         if (_Product is not null)
         {
-            _Product = UpdateEntity(_Product, request, ["ProductID"]);
+            _Product = UpdateEntityFromRequest(_Product, request, ["ProductID"]);
 
             await m_Context.SaveChangesAsync();
 

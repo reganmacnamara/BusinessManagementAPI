@@ -44,7 +44,7 @@ public class UpsertTransactionItemHandler(IMapper mapper, SQLContext context) : 
             else
                 throw new Exception("Product not found.");
 
-            _TransactionItem = UpdateEntity(_TransactionItem, request, ["TransactionItemID"]);
+            _TransactionItem = UpdateEntityFromRequest(_TransactionItem, request, ["TransactionItemID"]);
 
             await m_Context.SaveChangesAsync();
 

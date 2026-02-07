@@ -13,7 +13,7 @@ namespace BusinessManagementAPI.UseCases.Clients.UpdateClient
 
             if (_Client is not null)
             {
-                _Client = UpdateEntity(_Client, request, ["ClientID"]);
+                _Client = UpdateEntityFromRequest(_Client, request, ["ClientID"]);
 
                 await m_Context.SaveChangesAsync();
 

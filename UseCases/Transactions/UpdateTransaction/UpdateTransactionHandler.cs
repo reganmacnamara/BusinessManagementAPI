@@ -18,7 +18,7 @@ public class UpdateTransactionHandler(IMapper mapper, SQLContext context) : Base
             if (_Client is null)
                 throw new Exception("Client not found.");
 
-            _Transaction = UpdateEntity(_Transaction, request, ["TransactionID"]);
+            _Transaction = UpdateEntityFromRequest(_Transaction, request, ["TransactionID"]);
 
             _Transaction.Client = _Client;
 

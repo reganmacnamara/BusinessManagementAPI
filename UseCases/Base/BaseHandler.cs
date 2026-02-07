@@ -23,15 +23,15 @@ public class BaseHandler
     /// <param name="propertiesToIgnore"></param>
     /// <returns name="entity"></returns>
     /// <exception cref="ArgumentException"></exception>
-    public T UpdateEntity<T>(T entity, object propertyValues, List<string> propertiesToIgnore = null!)
+    public T UpdateEntityFromRequest<T>(T entity, object request, List<string> propertiesToIgnore = null!)
     {
-        if (entity is null || propertyValues is null)
+        if (entity is null || request is null)
             throw new ArgumentException("entity or propertyValues cannot be null.");
 
         var _PropertiesToIgnore = propertiesToIgnore ?? [];
 
         var _EntityProperties = entity.GetType().GetProperties();
-        var _NewPropertyValues = propertyValues.GetType().GetProperties();
+        var _NewPropertyValues = request.GetType().GetProperties();
 
         foreach (var property in _NewPropertyValues)
         {
@@ -43,7 +43,7 @@ public class BaseHandler
 
             if (targetProperty is not null)
             {
-                var value = property.GetValue(propertyValues);
+                var value = property.GetValue(request);
                 targetProperty.SetValue(entity, value);
             }
         }
