@@ -2,5 +2,5 @@
 
 public class UpdateTransactionResponse
 {
-    public long TransactionId { get; set; }
+    public long TransactionID { get; set; }
 }

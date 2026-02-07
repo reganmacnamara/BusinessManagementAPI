@@ -13,4 +13,41 @@ public class BaseHandler
         m_Mapper = mapper;
         m_Context = context;
     }
+
+    /// <summary>
+    /// Updates the Property Values of an Entity using reflection. Mainly used to set values of an entity from an API Request
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="entity"></param>
+    /// <param name="propertyValues"></param>
+    /// <param name="propertiesToIgnore"></param>
+    /// <returns name="entity"></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public T UpdateEntity<T>(T entity, object propertyValues, List<string> propertiesToIgnore = null!)
+    {
+        if (entity is null || propertyValues is null)
+            throw new ArgumentException("entity or propertyValues cannot be null.");
+
+        var _PropertiesToIgnore = propertiesToIgnore ?? [];
+
+        var _EntityProperties = entity.GetType().GetProperties();
+        var _NewPropertyValues = propertyValues.GetType().GetProperties();
+
+        foreach (var property in _NewPropertyValues)
+        {
+            var targetProperty = _EntityProperties.FirstOrDefault(p =>
+                p.Name == property.Name &&
+                p.PropertyType == property.PropertyType &&
+                p.CanWrite &&
+                !_PropertiesToIgnore.Any(i => i == p.Name));
+
+            if (targetProperty is not null)
+            {
+                var value = property.GetValue(propertyValues);
+                targetProperty.SetValue(entity, value);
+            }
+        }
+
+        return entity;
+    }
 }

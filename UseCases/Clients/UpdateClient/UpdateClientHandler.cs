@@ -13,23 +13,7 @@ namespace BusinessManagementAPI.UseCases.Clients.UpdateClient
 
             if (_Client is not null)
             {
-                var _RequestProperties = request.GetType().GetProperties();
-                var _ClientProperties = _Client.GetType().GetProperties();
-
-                foreach (var property in _RequestProperties)
-                {
-                    var targetProperty = _ClientProperties.FirstOrDefault(p =>
-                        p.Name == property.Name &&
-                        p.PropertyType == property.PropertyType &&
-                        p.CanWrite &&
-                        p.Name != "ClientID");
-
-                    if (targetProperty != null)
-                    {
-                        var value = property.GetValue(request, null);
-                        targetProperty.SetValue(_Client, value, null);
-                    }
-                }
+                _Client = UpdateEntity(_Client, request, ["ClientID"]);
 
                 await m_Context.SaveChangesAsync();
 

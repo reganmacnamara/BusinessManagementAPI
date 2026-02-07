@@ -9,33 +9,24 @@ public class UpdateTransactionHandler(IMapper mapper, SQLContext context) : Base
 
     public async Task<UpdateTransactionResponse> UpdateTransaction(UpdateTransactionRequest request)
     {
-        var _Transaction = await m_Context.Transactions.FindAsync(request.TransactionId);
+        var _Transaction = await m_Context.Transactions.FindAsync(request.TransactionID);
 
         if (_Transaction is not null)
         {
-            var _RequestProperties = request.GetType().GetProperties();
-            var _TransactionProperties = _Transaction.GetType().GetProperties();
+            var _Client = await m_Context.Clients.FindAsync(request.ClientID);
 
-            foreach (var property in _RequestProperties)
-            {
-                var targetProperty = _TransactionProperties.FirstOrDefault(p =>
-                    p.Name == property.Name &&
-                    p.PropertyType == property.PropertyType &&
-                    p.CanWrite &&
-                    p.Name != "TransactionId");
+            if (_Client is null)
+                throw new Exception("Client not found.");
 
-                if (targetProperty != null)
-                {
-                    var value = property.GetValue(request, null);
-                    targetProperty.SetValue(_Transaction, value, null);
-                }
-            }
+            _Transaction = UpdateEntity(_Transaction, request, ["TransactionID"]);
+
+            _Transaction.Client = _Client;
 
             await m_Context.SaveChangesAsync();
 
             var _Response = new UpdateTransactionResponse()
             {
-                TransactionId = _Transaction.TransactionID
+                TransactionID = _Transaction.TransactionID
             };
 
             return _Response;

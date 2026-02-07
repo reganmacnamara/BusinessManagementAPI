@@ -82,7 +82,7 @@ namespace BusinessManagementAPI.Controllers
 
             var _Result = await handler.UpdateTransaction(request);
 
-            return _Result.TransactionId != 0
+            return _Result.TransactionID != 0
                 ? Results.Ok(_Result)
                 : Results.NotFound();
         }

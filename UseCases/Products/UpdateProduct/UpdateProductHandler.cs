@@ -12,23 +12,7 @@ public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHand
 
         if (_Product is not null)
         {
-            var _RequestProperties = request.GetType().GetProperties();
-            var _ClientProperties = _Product.GetType().GetProperties();
-
-            foreach (var property in _RequestProperties)
-            {
-                var targetProperty = _ClientProperties.FirstOrDefault(p =>
-                    p.Name == property.Name &&
-                    p.PropertyType == property.PropertyType &&
-                    p.CanWrite &&
-                    p.Name != "ProductID");
-
-                if (targetProperty != null)
-                {
-                    var value = property.GetValue(request, null);
-                    targetProperty.SetValue(_Product, value, null);
-                }
-            }
+            _Product = UpdateEntity(_Product, request, ["ProductID"]);
 
             await m_Context.SaveChangesAsync();
 

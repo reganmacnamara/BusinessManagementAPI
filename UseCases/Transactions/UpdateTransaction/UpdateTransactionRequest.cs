@@ -2,8 +2,23 @@
 
 public class UpdateTransactionRequest
 {
-    public long TransactionId { get; set; }
+    public long TransactionID { get; set; }
 
-    public DateTime DueDate { get; set; }
+    public string TransactionRef { get; set; } = string.Empty;
 
+    public DateTime? TransactionDate { get; set; } = DateTime.Now;
+
+    public string TransactionType { get; set; }
+
+    public DateTime? DueDate { get; set; } = DateTime.Today.AddDays(30);
+
+    public long ClientID { get; set; }
+
+    public decimal GrossValue { get; set; }
+
+    public decimal TaxValue { get; set; }
+
+    public decimal NetValue { get; set; }
+
+    public decimal OffsetValue { get; set; }
 }
