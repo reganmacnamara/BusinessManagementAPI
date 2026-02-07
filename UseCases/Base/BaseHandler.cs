@@ -3,25 +3,14 @@ using BusinessManagementAPI.Data;
 
 namespace BusinessManagementAPI.UseCases.Base;
 
-public class BaseHandler
+public class BaseHandler(IMapper mapper, SQLContext context)
 {
-    public SQLContext m_Context = default!;
-    public IMapper m_Mapper = default!;
-
-    public BaseHandler(IMapper mapper, SQLContext context)
-    {
-        m_Mapper = mapper;
-        m_Context = context;
-    }
+    public SQLContext m_Context = context;
+    public IMapper m_Mapper = mapper;
 
     /// <summary>
     /// Updates the Property Values of an Entity using reflection. Mainly used to set values of an entity from an API Request
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="entity"></param>
-    /// <param name="request"></param>
-    /// <param name="ignoredProperties"></param>
-    /// <returns name="entity"></returns>
     /// <exception cref="ArgumentException"></exception>
     public T UpdateEntityFromRequest<T>(T entity, object request, List<string> ignoredProperties = null!)
     {
