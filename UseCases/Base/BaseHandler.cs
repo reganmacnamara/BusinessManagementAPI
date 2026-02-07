@@ -19,16 +19,16 @@ public class BaseHandler
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="entity"></param>
-    /// <param name="propertyValues"></param>
-    /// <param name="propertiesToIgnore"></param>
+    /// <param name="request"></param>
+    /// <param name="ignoredProperties"></param>
     /// <returns name="entity"></returns>
     /// <exception cref="ArgumentException"></exception>
-    public T UpdateEntityFromRequest<T>(T entity, object request, List<string> propertiesToIgnore = null!)
+    public T UpdateEntityFromRequest<T>(T entity, object request, List<string> ignoredProperties = null!)
     {
         if (entity is null || request is null)
             throw new ArgumentException("entity or propertyValues cannot be null.");
 
-        var _PropertiesToIgnore = propertiesToIgnore ?? [];
+        var _PropertiesToIgnore = ignoredProperties ?? [];
 
         var _EntityProperties = entity.GetType().GetProperties();
         var _NewPropertyValues = request.GetType().GetProperties();
