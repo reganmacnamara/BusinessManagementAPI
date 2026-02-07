@@ -12,6 +12,7 @@ public class BaseHandler(IMapper mapper, SQLContext context)
     /// Updates the Property Values of an Entity using reflection. Mainly used to set values of an entity from an API Request
     /// </summary>
     /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="Exception"></exception>
     public T UpdateEntityFromRequest<T>(T entity, object request, List<string> ignoredProperties = null!)
     {
         if (entity is null || request is null)
@@ -26,12 +27,15 @@ public class BaseHandler(IMapper mapper, SQLContext context)
         {
             var targetProperty = _EntityProperties.FirstOrDefault(p =>
                 p.Name == property.Name &&
-                p.PropertyType == property.PropertyType &&
+                //p.PropertyType == property.PropertyType &&
                 p.CanWrite &&
                 !_PropertiesToIgnore.Any(i => i == p.Name));
 
             if (targetProperty is not null)
             {
+                if (targetProperty.PropertyType != property.PropertyType)
+                    throw new Exception($"The Property {targetProperty.Name} in {nameof(entity)} and {nameof(request)} do not match.");
+
                 var value = property.GetValue(request);
                 targetProperty.SetValue(entity, value);
             }
