@@ -12,6 +12,11 @@ public class DeleteProductHandler(IMapper mapper, SQLContext context) : BaseHand
 
         if (_Product is not null)
         {
+            var _IsProductUsed = m_Context.TransactionItems.Where(item => item.Product == _Product || item.ProductID == _Product.ProductID).Any();
+
+            if (_IsProductUsed)
+                return Results.Conflict("Cannot delete a Product that still has history.");
+
             m_Context.Products.Remove(_Product);
             await m_Context.SaveChangesAsync();
             return Results.NoContent();
