@@ -7,6 +7,6 @@ namespace BusinessManagementAPI.UseCases.Products.GetProducts;
 
 public class GetProductsHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
-    public async Task<GetProductsResponse> GetProducts()
-        => new() { Products = await m_Context.Products.ToListAsync() };
+    public async Task<IResult> GetProducts()
+        => Results.Ok(new GetProductsResponse { Products = await m_Context.Products.ToListAsync() });
 }

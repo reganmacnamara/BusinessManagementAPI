@@ -7,7 +7,7 @@ namespace BusinessManagementAPI.UseCases.Clients.DeleteClient
 
     public class DeleteClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
-        public async Task DeleteClient(DeleteClientRequest request)
+        public async Task<IResult> DeleteClient(DeleteClientRequest request)
         {
             var _Client = m_Context.Clients.Find(request.ClientID);
 
@@ -20,9 +20,11 @@ namespace BusinessManagementAPI.UseCases.Clients.DeleteClient
 
                 m_Context.Clients.Remove(_Client);
                 await m_Context.SaveChangesAsync();
+
+                return Results.NoContent();
             }
             else
-                throw new Exception("Client not found.");
+                return Results.NotFound("Client not found.");
         }
     }
 

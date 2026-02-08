@@ -8,7 +8,7 @@ namespace BusinessManagementAPI.UseCases.Transactions.GetTransactions
 
     public class GetTransactionsHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
-        public async Task<GetTransactionsResponse> GetTransactions()
+        public async Task<IResult> GetTransactions()
         {
             var _Transactions = await m_Context.Transactions.Include(t => t.Client).ToListAsync();
 
@@ -16,7 +16,7 @@ namespace BusinessManagementAPI.UseCases.Transactions.GetTransactions
                 ? m_Mapper.Map<GetTransactionsResponse>(_Transactions)
                 : new GetTransactionsResponse();
 
-            return _Response;
+            return Results.Ok(_Response);
         }
     }
 

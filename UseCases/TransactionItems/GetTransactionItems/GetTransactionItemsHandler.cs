@@ -7,13 +7,13 @@ namespace BusinessManagementAPI.UseCases.TransactionItems.GetTransactionItems;
 
 public class GetTransactionItemsHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
-    public async Task<GetTransactionItemsResponse> GetTransactionItems()
+    public async Task<IResult> GetTransactionItems()
     {
         var _TransactionItems = await m_Context.TransactionItems
             .Include(item => item.Transaction)
             .Include(item => item.Product)
             .ToListAsync() ?? [];
 
-        return m_Mapper.Map<GetTransactionItemsResponse>(_TransactionItems);
+        return Results.Ok(m_Mapper.Map<GetTransactionItemsResponse>(_TransactionItems));
     }
 }

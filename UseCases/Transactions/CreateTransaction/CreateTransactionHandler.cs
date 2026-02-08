@@ -8,7 +8,7 @@ namespace BusinessManagementAPI.UseCases.Transactions.CreateTransaction
 
     public class CreateTransactionHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
-        public async Task<CreateTransactionResponse> CreateTransaction(CreateTransactionRequest request)
+        public async Task<IResult> CreateTransaction(CreateTransactionRequest request)
         {
             var _Client = m_Context.Clients.Find(request.ClientID);
 
@@ -17,7 +17,7 @@ namespace BusinessManagementAPI.UseCases.Transactions.CreateTransaction
             if (_Client is not null)
                 _Transaction.Client = _Client;
             else
-                throw new Exception("Client not found.");
+                return Results.NotFound("Client not found.");
 
             if (_Transaction.TransactionType == "REC")
                 _Transaction.DueDate = null;
@@ -28,7 +28,7 @@ namespace BusinessManagementAPI.UseCases.Transactions.CreateTransaction
 
             var _Response = m_Mapper.Map<CreateTransactionResponse>(_Transaction);
 
-            return _Response;
+            return Results.Ok(_Response);
         }
     }
 

@@ -21,9 +21,7 @@ namespace BusinessManagementAPI.Controllers
 
             var _Response = await handler.CreateTransaction(request);
 
-            return _Response is not null
-                ? Results.Ok(_Response)
-                : Results.BadRequest();
+            return _Response;
         }
 
         [HttpPost("Delete")]
@@ -31,9 +29,9 @@ namespace BusinessManagementAPI.Controllers
         {
             var handler = new DeleteTransactionHandler(mapper, context);
 
-            await handler.DeleteTransaction(request);
+            var _Response = await handler.DeleteTransaction(request);
 
-            return Results.NoContent();
+            return _Response;
         }
 
         [HttpGet("Client/{clientID}")]
@@ -45,7 +43,7 @@ namespace BusinessManagementAPI.Controllers
 
             var _Response = await handler.GetClientTransactions(_Request);
 
-            return Results.Ok(_Response);
+            return _Response;
         }
 
         [HttpGet("{transactionID}")]
@@ -60,9 +58,7 @@ namespace BusinessManagementAPI.Controllers
 
             var _Response = await handler.GetTransaction(_Request);
 
-            return _Response is not null
-                ? Results.Ok(_Response)
-                : Results.BadRequest();
+            return _Response;
         }
 
         [HttpGet]
@@ -72,7 +68,7 @@ namespace BusinessManagementAPI.Controllers
 
             var _Response = await handler.GetTransactions();
 
-            return Results.Ok(_Response);
+            return _Response;
         }
 
         [HttpPost("Update")]
@@ -82,9 +78,7 @@ namespace BusinessManagementAPI.Controllers
 
             var _Result = await handler.UpdateTransaction(request);
 
-            return _Result.TransactionID != 0
-                ? Results.Ok(_Result)
-                : Results.NotFound();
+            return _Result;
         }
     }
 }

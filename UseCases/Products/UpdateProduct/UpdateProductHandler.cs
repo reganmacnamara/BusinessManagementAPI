@@ -6,7 +6,7 @@ namespace BusinessManagementAPI.UseCases.Products.UpdateProduct;
 
 public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
-    public async Task<UpdateProductResponse> UpdateProduct(UpdateProductRequest request)
+    public async Task<IResult> UpdateProduct(UpdateProductRequest request)
     {
         var _Product = await m_Context.Products.FindAsync(request.ProductID);
 
@@ -21,9 +21,9 @@ public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHand
                 ProductId = _Product.ProductID
             };
 
-            return _Response;
+            return Results.Ok(_Response);
         }
 
-        return new UpdateProductResponse();
+        return Results.NotFound("Product not found.");
     }
 }

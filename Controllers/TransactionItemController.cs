@@ -16,9 +16,9 @@ public class TransactionItemController(IMapper mapper, SQLContext context) : Con
     {
         var handler = new DeleteTransactionItemHandler(mapper, context);
 
-        await handler.DeleteTransactionItem(request);
+        var _Response = await handler.DeleteTransactionItem(request);
 
-        return Results.NoContent();
+        return _Response;
     }
 
     [HttpGet]
@@ -28,7 +28,7 @@ public class TransactionItemController(IMapper mapper, SQLContext context) : Con
 
         var _Response = await handler.GetTransactionItems();
 
-        return Results.Ok(_Response);
+        return _Response;
     }
 
     [HttpPost("Upsert")]
@@ -40,8 +40,6 @@ public class TransactionItemController(IMapper mapper, SQLContext context) : Con
             ? await handler.UpdateTransactionItem(request)
             : await handler.CreateTransactionItem(request);
 
-        return _Result.TransactionItemID != 0
-            ? Results.Ok(_Result)
-            : Results.NotFound();
+        return _Result;
     }
 }

@@ -20,9 +20,7 @@ namespace BusinessManagementAPI.Controllers
 
             var _Response = await handler.CreateClient(request);
 
-            return _Response is CreateClientResponse
-                ? Results.Ok(_Response)
-                : Results.BadRequest();
+            return _Response;
         }
 
         [HttpPost("Delete")]
@@ -30,9 +28,9 @@ namespace BusinessManagementAPI.Controllers
         {
             var handler = new DeleteClientHandler(mapper, context);
 
-            await handler.DeleteClient(request);
+            var _Response = await handler.DeleteClient(request);
 
-            return Results.NoContent();
+            return _Response;
         }
 
         [HttpGet("{clientID}")]
@@ -47,9 +45,7 @@ namespace BusinessManagementAPI.Controllers
 
             var _Result = await handler.GetClient(_Request);
 
-            return _Result is not null
-                ? Results.Ok(_Result)
-                : Results.NotFound();
+            return _Result;
         }
 
         [HttpGet]
@@ -59,7 +55,7 @@ namespace BusinessManagementAPI.Controllers
 
             var _Result = await handler.GetClients();
 
-            return Results.Ok(_Result);
+            return _Result;
         }
 
         [HttpPost("Update")]
@@ -69,9 +65,7 @@ namespace BusinessManagementAPI.Controllers
 
             var _Result = await handler.UpdateClient(request);
 
-            return _Result.ClientID != 0
-                ? Results.Ok(_Result)
-                : Results.NotFound();
+            return _Result;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace BusinessManagementAPI.UseCases.Clients.CreateClient
 
     public class CreateClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
-        public async Task<CreateClientResponse> CreateClient(CreateClientRequest request)
+        public async Task<IResult> CreateClient(CreateClientRequest request)
         {
             var _Client = m_Mapper.Map<Client>(request);
 
@@ -18,7 +18,7 @@ namespace BusinessManagementAPI.UseCases.Clients.CreateClient
 
             var _Response = m_Mapper.Map<CreateClientResponse>(_Client);
 
-            return _Response;
+            return Results.Created(string.Empty, _Response);
         }
     }
 

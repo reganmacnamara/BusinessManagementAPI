@@ -8,12 +8,15 @@ namespace BusinessManagementAPI.UseCases.Transactions.GetTransaction
 
     public class GetTransactionHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
-        public async Task<GetTransactionResponse> GetTransaction(GetTransactionRequest request)
+        public async Task<IResult> GetTransaction(GetTransactionRequest request)
         {
             var _Transaction = await m_Context.Transactions
                 .Include(transaction => transaction.Client)
                 .Where(transaction => transaction.TransactionID == request.TransactionID)
-                .SingleAsync();
+                .SingleOrDefaultAsync();
+
+            if (_Transaction == null)
+                return Results.NotFound("Transaction not found.");
 
             var _TranactionItems = await m_Context.TransactionItems
                 .Include(item => item.Product)
@@ -23,7 +26,7 @@ namespace BusinessManagementAPI.UseCases.Transactions.GetTransaction
 
             _Response.TransactionItems = _TranactionItems;
 
-            return _Response;
+            return Results.Ok(_Response);
         }
     }
 

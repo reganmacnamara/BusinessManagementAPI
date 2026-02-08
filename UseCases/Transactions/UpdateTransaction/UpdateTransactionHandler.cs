@@ -7,7 +7,7 @@ namespace BusinessManagementAPI.UseCases.Transactions.UpdateTransaction;
 public class UpdateTransactionHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
 
-    public async Task<UpdateTransactionResponse> UpdateTransaction(UpdateTransactionRequest request)
+    public async Task<IResult> UpdateTransaction(UpdateTransactionRequest request)
     {
         var _Transaction = await m_Context.Transactions.FindAsync(request.TransactionID);
 
@@ -16,7 +16,7 @@ public class UpdateTransactionHandler(IMapper mapper, SQLContext context) : Base
             var _Client = await m_Context.Clients.FindAsync(request.ClientID);
 
             if (_Client is null)
-                throw new Exception("Client not found.");
+                return Results.NotFound("Client not found.");
 
             _Transaction = UpdateEntityFromRequest(_Transaction, request, ["TransactionID"]);
 
@@ -29,10 +29,10 @@ public class UpdateTransactionHandler(IMapper mapper, SQLContext context) : Base
                 TransactionID = _Transaction.TransactionID
             };
 
-            return _Response;
+            return Results.Ok(_Response);
         }
         else
-            throw new Exception("Transaction not found.");
+            return Results.NotFound("Transaction not found.");
     }
 
 }

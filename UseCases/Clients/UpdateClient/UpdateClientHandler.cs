@@ -7,7 +7,7 @@ namespace BusinessManagementAPI.UseCases.Clients.UpdateClient
 
     public class UpdateClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
-        public async Task<UpdateClientResponse> UpdateClient(UpdateClientRequest request)
+        public async Task<IResult> UpdateClient(UpdateClientRequest request)
         {
             var _Client = await m_Context.Clients.FindAsync(request.ClientId);
 
@@ -22,10 +22,10 @@ namespace BusinessManagementAPI.UseCases.Clients.UpdateClient
                     ClientID = _Client.ClientID
                 };
 
-                return _Response;
+                return Results.Ok(_Response);
             }
-
-            return new UpdateClientResponse();
+            else
+                return Results.NotFound("Client was not found.");
         }
     }
 

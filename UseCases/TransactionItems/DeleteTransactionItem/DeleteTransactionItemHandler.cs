@@ -6,7 +6,7 @@ namespace BusinessManagementAPI.UseCases.TransactionItems.DeleteTransactionItem;
 
 public class DeleteTransactionItemHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
-    public async Task DeleteTransactionItem(DeleteTransactionItemRequest request)
+    public async Task<IResult> DeleteTransactionItem(DeleteTransactionItemRequest request)
     {
         var _TransactionItem = m_Context.TransactionItems.FirstOrDefault(product => product.TransactionItemID == request.TransactionItemID);
 
@@ -14,8 +14,9 @@ public class DeleteTransactionItemHandler(IMapper mapper, SQLContext context) : 
         {
             m_Context.TransactionItems.Remove(_TransactionItem);
             await m_Context.SaveChangesAsync();
+            return Results.NoContent();
         }
         else
-            throw new Exception("Transactin Item not found.");
+            return Results.NotFound("Transactin Item not found.");
     }
 }

@@ -8,13 +8,16 @@ namespace BusinessManagementAPI.UseCases.Clients.GetClient
 
     public class GetClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
-        public async Task<GetClientResponse> GetClient(GetClientRequest request)
+        public async Task<IResult> GetClient(GetClientRequest request)
         {
-            var _Client = await m_Context.Clients.Where(client => client.ClientID == request.ClientId).SingleAsync();
+            var _Client = await m_Context.Clients.Where(client => client.ClientID == request.ClientId).SingleOrDefaultAsync();
+
+            if (_Client is null)
+                return Results.NotFound("Client not found.");
 
             var _Response = m_Mapper.Map<GetClientResponse>(_Client);
 
-            return _Response;
+            return Results.Ok(_Response);
         }
     }
 

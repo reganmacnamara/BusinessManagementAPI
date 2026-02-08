@@ -7,7 +7,7 @@ namespace BusinessManagementAPI.UseCases.Transactions.DeleteTransaction
 
     public class DeleteTransactionHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
-        public async Task DeleteTransaction(DeleteTransactionRequest request)
+        public async Task<IResult> DeleteTransaction(DeleteTransactionRequest request)
         {
             var _Transaction = m_Context.Transactions.Find(request.TransactionID);
 
@@ -15,9 +15,10 @@ namespace BusinessManagementAPI.UseCases.Transactions.DeleteTransaction
             {
                 m_Context.Transactions.Remove(_Transaction);
                 await m_Context.SaveChangesAsync();
+                return Results.NoContent();
             }
             else
-                throw new Exception("Transaction not found.");
+                return Results.NotFound("Transaction not found.");
         }
     }
 

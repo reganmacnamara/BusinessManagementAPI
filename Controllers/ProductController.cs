@@ -20,9 +20,7 @@ public class ProductController(IMapper mapper, SQLContext context) : ControllerB
 
         var _Response = await handler.CreateProduct(request);
 
-        return _Response is CreateProductResponse
-            ? Results.Ok(_Response)
-            : Results.BadRequest();
+        return _Response;
     }
 
     [HttpPost("Delete")]
@@ -30,9 +28,9 @@ public class ProductController(IMapper mapper, SQLContext context) : ControllerB
     {
         var handler = new DeleteProductHandler(mapper, context);
 
-        await handler.DeleteProduct(request);
+        var _Response = await handler.DeleteProduct(request);
 
-        return Results.NoContent();
+        return _Response;
     }
 
     [HttpGet("{productID}")]
@@ -47,9 +45,7 @@ public class ProductController(IMapper mapper, SQLContext context) : ControllerB
 
         var _Result = await handler.GetProduct(_Request);
 
-        return _Result is not null
-            ? Results.Ok(_Result)
-            : Results.NotFound();
+        return _Result;
     }
 
     [HttpGet]
@@ -59,7 +55,7 @@ public class ProductController(IMapper mapper, SQLContext context) : ControllerB
 
         var _Result = await handler.GetProducts();
 
-        return Results.Ok(_Result);
+        return _Result;
     }
 
     [HttpPost("Update")]
@@ -69,8 +65,6 @@ public class ProductController(IMapper mapper, SQLContext context) : ControllerB
 
         var _Result = await handler.UpdateProduct(request);
 
-        return _Result.ProductId != 0
-            ? Results.Ok(_Result)
-            : Results.NotFound();
+        return _Result;
     }
 }

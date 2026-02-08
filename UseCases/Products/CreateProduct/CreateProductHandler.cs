@@ -7,7 +7,7 @@ namespace BusinessManagementAPI.UseCases.Products.CreateProduct;
 
 public class CreateProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
-    public async Task<CreateProductResponse> CreateProduct(CreateProductRequest request)
+    public async Task<IResult> CreateProduct(CreateProductRequest request)
     {
         var _Product = m_Mapper.Map<Product>(request);
 
@@ -15,6 +15,6 @@ public class CreateProductHandler(IMapper mapper, SQLContext context) : BaseHand
 
         await m_Context.SaveChangesAsync();
 
-        return new CreateProductResponse() { ProductID = _Product.ProductID };
+        return Results.Created(string.Empty, new CreateProductResponse() { ProductID = _Product.ProductID });
     }
 }

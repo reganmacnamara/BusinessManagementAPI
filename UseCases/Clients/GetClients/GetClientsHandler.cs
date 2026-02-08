@@ -8,7 +8,7 @@ namespace BusinessManagementAPI.UseCases.Clients.GetClients
 
     public class GetClientsHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {
-        public async Task<GetClientsResponse> GetClients()
+        public async Task<IResult> GetClients()
         {
             var _Clients = await m_Context.Clients.ToListAsync();
 
@@ -16,7 +16,7 @@ namespace BusinessManagementAPI.UseCases.Clients.GetClients
                 ? m_Mapper.Map<GetClientsResponse>(_Clients)
                 : new GetClientsResponse();
 
-            return _Response;
+            return Results.Ok(_Response);
         }
     }
 

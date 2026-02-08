@@ -34,7 +34,11 @@ public class BaseHandler(IMapper mapper, SQLContext context)
             if (targetProperty is not null)
             {
                 if (targetProperty.PropertyType != property.PropertyType)
-                    throw new Exception($"The Property {targetProperty.Name} in {nameof(entity)} and {nameof(request)} do not match.");
+                {
+                    var _EntityType = entity.GetType();
+                    var _RequestType = request.GetType();
+                    throw new Exception($"The Types of Property {targetProperty.Name} in {_EntityType} and {_RequestType} do not match.");
+                }
 
                 var value = property.GetValue(request);
                 targetProperty.SetValue(entity, value);
