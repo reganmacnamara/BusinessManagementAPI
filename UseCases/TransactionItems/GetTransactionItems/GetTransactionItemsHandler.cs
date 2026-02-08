@@ -9,10 +9,10 @@ public class GetTransactionItemsHandler(IMapper mapper, SQLContext context) : Ba
 {
     public async Task<IResult> GetTransactionItems()
     {
-        var _TransactionItems = await m_Context.TransactionItems
+        var _TransactionItems = m_Context.TransactionItems
             .Include(item => item.Transaction)
             .Include(item => item.Product)
-            .ToListAsync() ?? [];
+            .ToList() ?? [];
 
         return Results.Ok(m_Mapper.Map<GetTransactionItemsResponse>(_TransactionItems));
     }

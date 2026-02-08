@@ -9,7 +9,7 @@ namespace BusinessManagementAPI.UseCases.Clients.UpdateClient
     {
         public async Task<IResult> UpdateClient(UpdateClientRequest request)
         {
-            var _Client = await m_Context.Clients.FindAsync(request.ClientId);
+            var _Client = m_Context.Clients.Find(request.ClientId);
 
             if (_Client is not null)
             {

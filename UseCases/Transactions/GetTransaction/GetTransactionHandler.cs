@@ -10,17 +10,17 @@ namespace BusinessManagementAPI.UseCases.Transactions.GetTransaction
     {
         public async Task<IResult> GetTransaction(GetTransactionRequest request)
         {
-            var _Transaction = await m_Context.Transactions
+            var _Transaction = m_Context.Transactions
                 .Include(transaction => transaction.Client)
                 .Where(transaction => transaction.TransactionID == request.TransactionID)
-                .SingleOrDefaultAsync();
+                .SingleOrDefault();
 
             if (_Transaction == null)
                 return Results.NotFound("Transaction not found.");
 
-            var _TranactionItems = await m_Context.TransactionItems
+            var _TranactionItems = m_Context.TransactionItems
                 .Include(item => item.Product)
-                .Where(item => item.TransactionID == request.TransactionID).ToListAsync();
+                .Where(item => item.TransactionID == request.TransactionID).ToList();
 
             var _Response = m_Mapper.Map<GetTransactionResponse>(_Transaction);
 

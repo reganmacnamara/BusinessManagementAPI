@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Base;
-using Microsoft.EntityFrameworkCore;
 
 namespace BusinessManagementAPI.UseCases.Clients.GetClients
 {
@@ -10,7 +9,7 @@ namespace BusinessManagementAPI.UseCases.Clients.GetClients
     {
         public async Task<IResult> GetClients()
         {
-            var _Clients = await m_Context.Clients.ToListAsync();
+            var _Clients = m_Context.Clients.ToList();
 
             var _Response = _Clients.Count != 0
                 ? m_Mapper.Map<GetClientsResponse>(_Clients)

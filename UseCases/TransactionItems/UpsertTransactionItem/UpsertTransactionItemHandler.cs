@@ -33,7 +33,7 @@ public class UpsertTransactionItemHandler(IMapper mapper, SQLContext context) : 
 
     public async Task<IResult> UpdateTransactionItem(UpsertTransactionItemRequest request)
     {
-        var _TransactionItem = await m_Context.TransactionItems.FindAsync(request.TransactionItemID);
+        var _TransactionItem = m_Context.TransactionItems.Find(request.TransactionItemID);
 
         if (_TransactionItem is not null)
         {

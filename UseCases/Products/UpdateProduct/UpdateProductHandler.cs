@@ -8,7 +8,7 @@ public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHand
 {
     public async Task<IResult> UpdateProduct(UpdateProductRequest request)
     {
-        var _Product = await m_Context.Products.FindAsync(request.ProductID);
+        var _Product = m_Context.Products.Find(request.ProductID);
 
         if (_Product is not null)
         {
