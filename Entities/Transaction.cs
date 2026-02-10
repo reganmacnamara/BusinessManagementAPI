@@ -23,6 +23,10 @@
 
         public decimal OffsetValue { get; set; }
 
+        public decimal OffsetingValue { get; set; }
+
+        public bool Outstanding { get; set; }
+
         public Client Client { get; set; }
     }
 

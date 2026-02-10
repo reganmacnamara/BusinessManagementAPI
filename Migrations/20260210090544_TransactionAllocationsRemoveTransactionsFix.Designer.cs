@@ -4,6 +4,7 @@ using BusinessManagementAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceAutomationAPI.Migrations
 {
     [DbContext(typeof(SQLContext))]
-    partial class SQLContextModelSnapshot : ModelSnapshot
+    [Migration("20260210090544_TransactionAllocationsRemoveTransactionsFix")]
+    partial class TransactionAllocationsRemoveTransactionsFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,9 +165,6 @@ namespace InvoiceAutomationAPI.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("OffsetValue")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("OffsetingValue")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("Outstanding")

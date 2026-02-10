@@ -4,6 +4,7 @@ using BusinessManagementAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceAutomationAPI.Migrations
 {
     [DbContext(typeof(SQLContext))]
-    partial class SQLContextModelSnapshot : ModelSnapshot
+    [Migration("20260210080251_TransactionAllocations")]
+    partial class TransactionAllocations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,9 +167,6 @@ namespace InvoiceAutomationAPI.Migrations
                     b.Property<decimal>("OffsetValue")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("OffsetingValue")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<bool>("Outstanding")
                         .HasColumnType("bit");
 
@@ -211,7 +211,12 @@ namespace InvoiceAutomationAPI.Migrations
                     b.Property<long>("RecievingID")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("TransactionAllocationID1")
+                        .HasColumnType("bigint");
+
                     b.HasKey("TransactionAllocationID");
+
+                    b.HasIndex("TransactionAllocationID1");
 
                     b.ToTable("TransactionAllocations");
                 });
@@ -265,6 +270,13 @@ namespace InvoiceAutomationAPI.Migrations
                     b.Navigation("Client");
                 });
 
+            modelBuilder.Entity("BusinessManagementAPI.Entities.TransactionAllocation", b =>
+                {
+                    b.HasOne("BusinessManagementAPI.Entities.TransactionAllocation", null)
+                        .WithMany("Transactions")
+                        .HasForeignKey("TransactionAllocationID1");
+                });
+
             modelBuilder.Entity("BusinessManagementAPI.Entities.TransactionItem", b =>
                 {
                     b.HasOne("BusinessManagementAPI.Entities.Product", "Product")
@@ -282,6 +294,11 @@ namespace InvoiceAutomationAPI.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Transaction");
+                });
+
+            modelBuilder.Entity("BusinessManagementAPI.Entities.TransactionAllocation", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

@@ -9,6 +9,7 @@ namespace BusinessManagementAPI.Data
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Service> Services { get; set; } = null!;
         public DbSet<Transaction> Transactions { get; set; } = null!;
+        public DbSet<TransactionAllocation> TransactionAllocations { get; set; } = null!;
         public DbSet<TransactionItem> TransactionItems { get; set; } = null!;
     }
 }
