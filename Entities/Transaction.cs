@@ -27,6 +27,8 @@
 
         public bool Outstanding { get; set; }
 
+        public decimal OutstandingValue { get; set; }
+
         public Client Client { get; set; }
     }
 

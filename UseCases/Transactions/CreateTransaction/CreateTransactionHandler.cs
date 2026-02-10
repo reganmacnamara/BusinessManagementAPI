@@ -22,6 +22,12 @@ namespace BusinessManagementAPI.UseCases.Transactions.CreateTransaction
             if (_Transaction.TransactionType == "REC")
                 _Transaction.DueDate = null;
 
+            if (_Transaction.TransactionType == "INV")
+            {
+                _Transaction.Outstanding = true;
+                _Transaction.OutstandingValue = _Transaction.NetValue;
+            }
+
             m_Context.Transactions.Add(_Transaction);
 
             await m_Context.SaveChangesAsync();
