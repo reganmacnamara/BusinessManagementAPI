@@ -14,4 +14,8 @@ public class TransactionAllocation
     public decimal AllocationValue { get; set; }
 
     public DateTime AllocationDate { get; set; }
+
+    public Transaction AllocatingTransaction { get; set; }
+
+    public Transaction RecievingTransaction { get; set; }
 }
