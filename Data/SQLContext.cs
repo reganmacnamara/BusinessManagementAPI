@@ -11,5 +11,12 @@ namespace BusinessManagementAPI.Data
         public DbSet<Transaction> Transactions { get; set; } = null!;
         public DbSet<TransactionAllocation> TransactionAllocations { get; set; } = null!;
         public DbSet<TransactionItem> TransactionItems { get; set; } = null!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(SQLContext).Assembly);
+        }
     }
 }
