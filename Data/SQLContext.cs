@@ -18,5 +18,6 @@ namespace BusinessManagementAPI.Data
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SQLContext).Assembly);
         }
+
     }
 }

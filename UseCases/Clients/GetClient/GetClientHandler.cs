@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Clients.GetClient
@@ -9,7 +10,7 @@ namespace BusinessManagementAPI.UseCases.Clients.GetClient
     {
         public async Task<IResult> GetClient(GetClientRequest request)
         {
-            var _Client = m_Context.Clients.Where(client => client.ClientID == request.ClientId).SingleOrDefault();
+            var _Client = m_Context.Find<Client>(request.ClientId);
 
             if (_Client is null)
                 return Results.NotFound("Client not found.");
