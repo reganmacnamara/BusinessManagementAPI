@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
 using BusinessManagementAPI.UseCases.TransactionAllocations.GetTransactionAllocationsByTransaction;
 
@@ -10,8 +11,10 @@ public class GetAllocationsByTransactionHandler(IMapper mapper, SQLContext conte
     public async Task<IResult> GetAllocationsByTransaction(GetAllocationsByTransactionRequest request)
     {
         var _TransactionAllocations = (request.IsReciever
-            ? m_Context.TransactionAllocations.Where(t => t.RecievingID == request.TransactionID)
-            : m_Context.TransactionAllocations.Where(t => t.AllocatingID == request.TransactionID)).ToList();
+            ? m_Context.GetEntities<TransactionAllocation>()
+                .Where(t => t.RecievingID == request.TransactionID)
+            : m_Context.GetEntities<TransactionAllocation>()
+                .Where(t => t.AllocatingID == request.TransactionID)).ToList();
 
         var _Response = new GetAllocationsByTransactionResponse()
         {

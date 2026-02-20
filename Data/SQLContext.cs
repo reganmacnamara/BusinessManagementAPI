@@ -19,5 +19,8 @@ namespace BusinessManagementAPI.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SQLContext).Assembly);
         }
 
+        public IQueryable<T> GetEntities<T>() where T : class
+            => Set<T>();
+
     }
 }
