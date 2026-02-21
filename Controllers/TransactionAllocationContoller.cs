@@ -1,27 +1,16 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
-using BusinessManagementAPI.UseCases.TransactionAllocations.CreateTransactionAllocation;
 using BusinessManagementAPI.UseCases.TransactionAllocations.DeleteTransactionAllocation;
 using BusinessManagementAPI.UseCases.TransactionAllocations.GetAllocationsByTransaction;
-using BusinessManagementAPI.UseCases.TransactionAllocations.GetTransactionAllocationsByTransaction;
+using BusinessManagementAPI.UseCases.TransactionAllocations.UpsertTransactionAllocation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessManagementAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("TransactionAllocation")]
 public class TransactionAllocationContoller(IMapper mapper, SQLContext context) : ControllerBase
 {
-    [HttpPost("Create")]
-    public async Task<IResult> CreateTransactionAllocation([FromBody] CreateTransactionAllocationRequest request)
-    {
-        var handler = new CreateTransactionAllocationHandler(mapper, context);
-
-        var _Response = await handler.CreateTransactionAllocation(request);
-
-        return _Response;
-    }
-
     [HttpPost("Delete")]
     public async Task<IResult> DeleteTransactionAllocation([FromBody] DeleteTransactionAllocationRequest request)
     {
@@ -38,6 +27,18 @@ public class TransactionAllocationContoller(IMapper mapper, SQLContext context) 
         var handler = new GetAllocationsByTransactionHandler(mapper, context);
 
         var _Response = await handler.GetAllocationsByTransaction(request);
+
+        return _Response;
+    }
+
+    [HttpPost("Upsert")]
+    public async Task<IResult> UpsertTransactionAllocation([FromBody] UpsertTransactionAllocationRequest request)
+    {
+        var handler = new UpsertTransactionAllocationHandler(mapper, context);
+
+        var _Response = request.TransactionAllocationID != 0
+            ? await handler.UpdateTransactionAllocation(request)
+            : await handler.CreateTransactionAllocation(request);
 
         return _Response;
     }

@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.TransactionAllocations.GetTransactionAllocationsByTransaction;
+﻿namespace BusinessManagementAPI.UseCases.TransactionAllocations.GetAllocationsByTransaction;
 
 public class GetAllocationsByTransactionRequest
 {

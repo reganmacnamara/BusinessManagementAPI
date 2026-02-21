@@ -2,7 +2,6 @@
 using BusinessManagementAPI.Data;
 using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
-using BusinessManagementAPI.UseCases.TransactionAllocations.GetTransactionAllocationsByTransaction;
 
 namespace BusinessManagementAPI.UseCases.TransactionAllocations.GetAllocationsByTransaction;
 

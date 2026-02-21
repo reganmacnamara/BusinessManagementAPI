@@ -1,6 +1,6 @@
 ﻿using BusinessManagementAPI.Entities;
 
-namespace BusinessManagementAPI.UseCases.TransactionAllocations.GetTransactionAllocationsByTransaction;
+namespace BusinessManagementAPI.UseCases.TransactionAllocations.GetAllocationsByTransaction;
 
 
 public class GetAllocationsByTransactionResponse

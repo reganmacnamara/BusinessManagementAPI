@@ -13,7 +13,8 @@ namespace BusinessManagementAPI.UseCases.Transactions.DeleteTransaction
 
             if (_Transaction is not null)
             {
-                var _TransactionAllocations = m_Context.TransactionAllocations.Where(ta => ta.AllocatingID == _Transaction.TransactionID || ta.RecievingID == _Transaction.TransactionID);
+                var _TransactionAllocations = m_Context.TransactionAllocations.Where(ta => ta.AllocatingID == _Transaction.TransactionID
+                    || ta.RecievingID == _Transaction.TransactionID);
 
                 if (_TransactionAllocations.Any())
                     return Results.BadRequest("Cannot delete a Transaction that has allocations against it.");
