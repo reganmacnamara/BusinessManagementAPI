@@ -25,6 +25,10 @@ namespace BusinessManagementAPI.Entities
         public string State { get; set; } = string.Empty;
 
         public string Country { get; set; } = string.Empty;
+
+        //Navigation Properties
+
+        public List<Invoice> Invoices { get; set; }
     }
 
 }

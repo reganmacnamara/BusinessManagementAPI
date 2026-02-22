@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessManagementAPI.UseCases.Products.DeleteProduct;
 
@@ -8,11 +10,14 @@ public class DeleteProductHandler(IMapper mapper, SQLContext context) : BaseHand
 {
     public async Task<IResult> DeleteProduct(DeleteProductRequest request)
     {
-        var _Product = m_Context.Products.FirstOrDefault(product => product.ProductID == request.ProductID);
+        var _Product = m_Context.GetEntities<Product>()
+            .Where(product => product.ProductID == request.ProductID)
+            .Include(p => p.InvoiceItems)
+            .SingleOrDefault();
 
         if (_Product is not null)
         {
-            var _IsProductUsed = m_Context.TransactionItems.Where(item => item.Product == _Product || item.ProductID == _Product.ProductID).Any();
+            var _IsProductUsed = _Product.InvoiceItems.Count != 0;
 
             if (_IsProductUsed)
                 return Results.Conflict("Cannot delete a Product that still has history.");

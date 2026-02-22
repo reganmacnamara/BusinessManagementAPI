@@ -27,5 +27,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(p => p.QuantityOnHand)
             .HasDefaultValue(0);
+
+        builder.HasMany(p => p.InvoiceItems)
+            .WithOne(ii => ii.Product)
+            .HasForeignKey(ii => ii.ProductID);
     }
 }
