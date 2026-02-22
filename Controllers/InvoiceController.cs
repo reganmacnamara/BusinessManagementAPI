@@ -2,10 +2,12 @@
 using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 using BusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
+using BusinessManagementAPI.UseCases.Invoices.DeleteInvoiceItem;
 using BusinessManagementAPI.UseCases.Invoices.GetClientInvoices;
 using BusinessManagementAPI.UseCases.Invoices.GetInvoice;
 using BusinessManagementAPI.UseCases.Invoices.GetInvoices;
 using BusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
+using BusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessManagementAPI.Controllers;
@@ -35,6 +37,21 @@ public class InvoiceController(IMapper mapper, SQLContext context) : ControllerB
         var handler = new DeleteInvoiceHandler(mapper, context);
 
         var _Response = await handler.DeleteInvoice(_Request);
+
+        return _Response;
+    }
+
+    [HttpDelete("Item/{invoiceItemID}")]
+    public async Task<IResult> DeleteInvoiceItem([FromRoute] long invoiceItemID)
+    {
+        var _Request = new DeleteInvoiceItemRequest()
+        {
+            InvoiceItemID = invoiceItemID
+        };
+
+        var handler = new DeleteInvoiceItemHandler(mapper, context);
+
+        var _Response = await handler.DeleteInvoiceItem(_Request);
 
         return _Response;
     }
@@ -85,6 +102,18 @@ public class InvoiceController(IMapper mapper, SQLContext context) : ControllerB
         var handler = new UpdateInvoiceHandler(mapper, context);
 
         var _Response = await handler.UpdateInvoice(request);
+
+        return _Response;
+    }
+
+    [HttpPut("Item")]
+    public async Task<IResult> UpsertInvoiceItem([FromBody] UpsertInvoiceItemRequest request)
+    {
+        var handler = new UpsertInvoiceItemHandler(mapper, context);
+
+        var _Response = request.InvoiceItemID != 0
+            ? await handler.CreateInvoiceItem(request)
+            : await handler.UpdateInvoiceItem(request);
 
         return _Response;
     }

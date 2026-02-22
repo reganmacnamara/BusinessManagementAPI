@@ -1,18 +1,21 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Services;
 using BusinessManagementAPI.UseCases.Receipts.CreateReceipt;
 using BusinessManagementAPI.UseCases.Receipts.DeleteReceipt;
+using BusinessManagementAPI.UseCases.Receipts.DeleteReceiptItem;
 using BusinessManagementAPI.UseCases.Receipts.GetClientReceipts;
 using BusinessManagementAPI.UseCases.Receipts.GetReceipt;
 using BusinessManagementAPI.UseCases.Receipts.GetReceipts;
 using BusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
+using BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ReceiptController(IMapper mapper, SQLContext context) : ControllerBase
+public class ReceiptController(IAllocationService allocationService, IMapper mapper, SQLContext context) : ControllerBase
 {
     [HttpPost]
     public async Task<IResult> CreateReceipt([FromBody] CreateReceiptRequest request)
@@ -35,6 +38,21 @@ public class ReceiptController(IMapper mapper, SQLContext context) : ControllerB
         var handler = new DeleteReceiptHandler(mapper, context);
 
         var _Response = await handler.DeleteReceipt(_Request);
+
+        return _Response;
+    }
+
+    [HttpDelete("Item/{receiptItemID}")]
+    public async Task<IResult> DeleteReceiptItem([FromRoute] long receiptItemID)
+    {
+        var _Request = new DeleteReceiptItemRequest()
+        {
+            ReceiptItemID = receiptItemID
+        };
+
+        var handler = new DeleteReceiptItemHandler(mapper, context);
+
+        var _Response = await handler.DeleteReceiptItem(_Request);
 
         return _Response;
     }
@@ -85,6 +103,16 @@ public class ReceiptController(IMapper mapper, SQLContext context) : ControllerB
         var handler = new UpdateReceiptHandler(mapper, context);
 
         var _Response = await handler.UpdateReceipt(request);
+
+        return _Response;
+    }
+
+    [HttpPut("Item")]
+    public async Task<IResult> UpsertReceiptItem([FromBody] UpsertReceiptItemRequest request)
+    {
+        var handler = new UpsertReceiptItemHandler(allocationService, mapper, context);
+
+        var _Response = await handler.UpdateReceiptItem(request);
 
         return _Response;
     }

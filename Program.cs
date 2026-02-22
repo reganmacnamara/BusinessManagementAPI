@@ -1,4 +1,5 @@
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,8 @@ builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
 
 builder.Services.AddDbContext<SQLContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IAllocationService, AllocationService>();
 
 var app = builder.Build();
 
