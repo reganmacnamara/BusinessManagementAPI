@@ -23,12 +23,17 @@ public class ProductController(IMapper mapper, SQLContext context) : ControllerB
         return _Response;
     }
 
-    [HttpDelete]
-    public async Task<IResult> DeleteProduct([FromBody] DeleteProductRequest request)
+    [HttpDelete("{productID}")]
+    public async Task<IResult> DeleteProduct([FromRoute] long productID)
     {
+        var _Request = new DeleteProductRequest()
+        {
+            ProductID = productID
+        };
+
         var handler = new DeleteProductHandler(mapper, context);
 
-        var _Response = await handler.DeleteProduct(request);
+        var _Response = await handler.DeleteProduct(_Request);
 
         return _Response;
     }

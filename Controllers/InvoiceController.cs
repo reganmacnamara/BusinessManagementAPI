@@ -2,6 +2,7 @@
 using BusinessManagementAPI.Data;
 using BusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 using BusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
+using BusinessManagementAPI.UseCases.Invoices.GetClientInvoices;
 using BusinessManagementAPI.UseCases.Invoices.GetInvoice;
 using BusinessManagementAPI.UseCases.Invoices.GetInvoices;
 using BusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
@@ -23,17 +24,37 @@ public class InvoiceController(IMapper mapper, SQLContext context) : ControllerB
         return _Response;
     }
 
-    [HttpDelete]
-    public async Task<IResult> DeleteInvoice([FromBody] DeleteInvoiceRequest request)
+    [HttpDelete("{invoiceID}")]
+    public async Task<IResult> DeleteInvoice([FromRoute] long invoiceID)
     {
+        var _Request = new DeleteInvoiceRequest()
+        {
+            InvoiceID = invoiceID
+        };
+
         var handler = new DeleteInvoiceHandler(mapper, context);
 
-        var _Response = await handler.DeleteInvoice(request);
+        var _Response = await handler.DeleteInvoice(_Request);
 
         return _Response;
     }
 
-    [HttpGet("GetInvoice/{invoiceID}")]
+    [HttpGet("Client/{clientID}")]
+    public async Task<IResult> GetClientInvoices([FromRoute] long clientID)
+    {
+        var _Request = new GetClientInvoicesRequest()
+        {
+            ClientID = clientID
+        };
+
+        var handler = new GetClientInvoicesHandler(mapper, context);
+
+        var _Response = await handler.GetClientInvoices(_Request);
+
+        return _Response;
+    }
+
+    [HttpGet("{invoiceID}")]
     public async Task<IResult> GetInvoice([FromRoute] long invoiceID)
     {
         var _Request = new GetInvoiceRequest()

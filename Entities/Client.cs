@@ -29,6 +29,7 @@ namespace BusinessManagementAPI.Entities
         //Navigation Properties
 
         public List<Invoice> Invoices { get; set; }
+        public List<Receipt> Receipts { get; set; }
     }
 
 }

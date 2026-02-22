@@ -2,5 +2,5 @@
 
 public class CreateInvoiceResponse
 {
-    public long TransactionID { get; set; }
+    public long InvoiceID { get; set; }
 }

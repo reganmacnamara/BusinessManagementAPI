@@ -50,6 +50,10 @@ namespace BusinessManagementAPI.Data.Configurations
             builder.HasMany(c => c.InvoiceItems)
                 .WithOne(t => t.Invoice)
                 .HasForeignKey(c => c.InvoiceID);
+
+            builder.HasMany(c => c.ReceiptItems)
+                .WithOne(t => t.Invoice)
+                .HasForeignKey(c => c.InvoiceID);
         }
     }
 }

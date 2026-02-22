@@ -9,6 +9,8 @@ namespace BusinessManagementAPI.Data
         public DbSet<Invoice> Invoices { get; set; } = null!;
         public DbSet<InvoiceItem> InvoiceItems { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Receipt> Receipts { get; set; } = null!;
+        public DbSet<ReceiptItem> ReceiptItems { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

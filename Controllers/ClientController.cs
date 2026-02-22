@@ -23,12 +23,17 @@ namespace BusinessManagementAPI.Controllers
             return _Response;
         }
 
-        [HttpDelete]
-        public async Task<IResult> DeleteClient([FromBody] DeleteClientRequest request)
+        [HttpDelete("{clientID}")]
+        public async Task<IResult> DeleteClient([FromRoute] long clientID)
         {
+            var _Request = new DeleteClientRequest()
+            {
+                ClientID = clientID
+            };
+
             var handler = new DeleteClientHandler(mapper, context);
 
-            var _Response = await handler.DeleteClient(request);
+            var _Response = await handler.DeleteClient(_Request);
 
             return _Response;
         }
