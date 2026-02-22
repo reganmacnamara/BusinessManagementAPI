@@ -13,7 +13,7 @@ namespace BusinessManagementAPI.Controllers;
 [Route("[controller]")]
 public class ProductController(IMapper mapper, SQLContext context) : ControllerBase
 {
-    [HttpPost("Create")]
+    [HttpPost]
     public async Task<IResult> CreateProduct([FromBody] CreateProductRequest request)
     {
         var handler = new CreateProductHandler(mapper, context);
@@ -23,7 +23,7 @@ public class ProductController(IMapper mapper, SQLContext context) : ControllerB
         return _Response;
     }
 
-    [HttpPost("Delete")]
+    [HttpDelete]
     public async Task<IResult> DeleteProduct([FromBody] DeleteProductRequest request)
     {
         var handler = new DeleteProductHandler(mapper, context);
@@ -58,7 +58,7 @@ public class ProductController(IMapper mapper, SQLContext context) : ControllerB
         return _Result;
     }
 
-    [HttpPost("Update")]
+    [HttpPatch]
     public async Task<IResult> UpdateProduct([FromBody] UpdateProductRequest request)
     {
         var handler = new UpdateProductHandler(mapper, context);

@@ -13,7 +13,7 @@ namespace BusinessManagementAPI.Controllers
     [Route("[controller]")]
     public class ClientController(IMapper mapper, SQLContext context) : ControllerBase
     {
-        [HttpPost("Create")]
+        [HttpPost]
         public async Task<IResult> CreateClient([FromBody] CreateClientRequest request)
         {
             var handler = new CreateClientHandler(mapper, context);
@@ -23,7 +23,7 @@ namespace BusinessManagementAPI.Controllers
             return _Response;
         }
 
-        [HttpPost("Delete")]
+        [HttpDelete]
         public async Task<IResult> DeleteClient([FromBody] DeleteClientRequest request)
         {
             var handler = new DeleteClientHandler(mapper, context);
@@ -58,7 +58,7 @@ namespace BusinessManagementAPI.Controllers
             return _Result;
         }
 
-        [HttpPost("Update")]
+        [HttpPatch]
         public async Task<IResult> UpdateClient([FromBody] UpdateClientRequest request)
         {
             var handler = new UpdateClientHandler(mapper, context);

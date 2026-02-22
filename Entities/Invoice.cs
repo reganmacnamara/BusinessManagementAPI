@@ -2,13 +2,11 @@
 
 public class Invoice
 {
-    public long TransactionID { get; set; }
+    public long InvoiceID { get; set; }
 
-    public string TransactionRef { get; set; } = string.Empty;
+    public string InvoiceRef { get; set; } = string.Empty;
 
-    public DateTime? TransactionDate { get; set; }
-
-    public string TransactionType { get; set; } = "INV";
+    public DateTime? InvoiceDate { get; set; }
 
     public DateTime? DueDate { get; set; }
 

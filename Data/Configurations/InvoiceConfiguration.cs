@@ -8,16 +8,13 @@ namespace BusinessManagementAPI.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Invoice> builder)
         {
-            builder.HasKey(c => c.TransactionID);
+            builder.HasKey(c => c.InvoiceID);
 
-            builder.Property(c => c.TransactionRef)
+            builder.Property(c => c.InvoiceRef)
                 .IsRequired();
 
-            builder.Property(c => c.TransactionDate)
+            builder.Property(c => c.InvoiceDate)
                 .HasDefaultValueSql("GETDATE()")
-                .IsRequired();
-
-            builder.Property(c => c.TransactionType)
                 .IsRequired();
 
             builder.Property(c => c.DueDate)

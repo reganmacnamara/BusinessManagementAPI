@@ -1,0 +1,70 @@
+﻿using AutoMapper;
+using BusinessManagementAPI.Data;
+using BusinessManagementAPI.UseCases.Invoices.CreateInvoice;
+using BusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
+using BusinessManagementAPI.UseCases.Invoices.GetInvoice;
+using BusinessManagementAPI.UseCases.Invoices.GetInvoices;
+using BusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BusinessManagementAPI.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class InvoiceController(IMapper mapper, SQLContext context) : ControllerBase
+{
+    [HttpPost]
+    public async Task<IResult> CreateInvoice([FromBody] CreateInvoiceRequest request)
+    {
+        var handler = new CreateInvoiceHandler(mapper, context);
+
+        var _Response = await handler.CreateInvoice(request);
+
+        return _Response;
+    }
+
+    [HttpDelete]
+    public async Task<IResult> DeleteInvoice([FromBody] DeleteInvoiceRequest request)
+    {
+        var handler = new DeleteInvoiceHandler(mapper, context);
+
+        var _Response = await handler.DeleteInvoice(request);
+
+        return _Response;
+    }
+
+    [HttpGet("GetInvoice/{invoiceID}")]
+    public async Task<IResult> GetInvoice([FromRoute] long invoiceID)
+    {
+        var _Request = new GetInvoiceRequest()
+        {
+            InvoiceID = invoiceID
+        };
+
+        var handler = new GetInvoiceHandler(mapper, context);
+
+        var _Response = await handler.GetInvoice(_Request);
+
+        return _Response;
+    }
+
+    [HttpGet]
+    public async Task<IResult> GetInvoices()
+    {
+        var handler = new GetInvoicesHandler(mapper, context);
+
+        var _Response = await handler.GetInvoices();
+
+        return _Response;
+    }
+
+    [HttpPatch]
+    public async Task<IResult> UpdateInvoice([FromBody] UpdateInvoiceRequest request)
+    {
+        var handler = new UpdateInvoiceHandler(mapper, context);
+
+        var _Response = await handler.UpdateInvoice(request);
+
+        return _Response;
+    }
+}

@@ -1,7 +1,9 @@
-﻿namespace BusinessManagementAPI.UseCases.Invoices.CreateInvoice;
+﻿namespace BusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
 
-public class CreateInvoiceRequest
+public class UpdateInvoiceRequest
 {
+    public long InvoiceID { get; set; }
+
     public string InvoiceRef { get; set; } = string.Empty;
 
     public DateTime InvoiceDate { get; set; }
