@@ -23,13 +23,12 @@ public class BaseHandler(IMapper mapper, SQLContext context)
         var _EntityProperties = entity.GetType().GetProperties();
         var _NewPropertyValues = request.GetType().GetProperties();
 
-        foreach (var property in _NewPropertyValues)
+        foreach (var property in _NewPropertyValues.Where(p => !_PropertiesToIgnore.Contains(p.Name)))
         {
             var targetProperty = _EntityProperties.FirstOrDefault(p =>
                 p.Name == property.Name &&
-                //p.PropertyType == property.PropertyType &&
-                p.CanWrite &&
-                !_PropertiesToIgnore.Any(i => i == p.Name));
+                p.PropertyType == property.PropertyType &&
+                p.CanWrite);
 
             if (targetProperty is not null)
             {

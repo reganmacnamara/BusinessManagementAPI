@@ -11,7 +11,6 @@ public class AllocationService : IAllocationService
             if ((invoice.OffsetValue + allocation.NetValue) > invoice.NetValue)
                 throw new Exception("Cannot allocate more to Invoice than its Net Value.");
 
-            invoice.ReceiptItems.Add(allocation);
             invoice.OffsetValue += allocation.NetValue;
             invoice.Outstanding = invoice.OffsetValue == invoice.NetValue;
         }

@@ -13,6 +13,16 @@ public class UpdateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
         if (_Invoice == null || request.InvoiceID == 0)
             return Results.NotFound("Invoice could not be found.");
 
+        if (request.ClientID != _Invoice.ClientID)
+        {
+            var _Client = m_Context.Clients.Find(request.ClientID);
+
+            if (_Client == null || request.ClientID == 0)
+                return Results.NotFound("Client could not be found.");
+
+            _Invoice.Client = _Client;
+        }
+
         _Invoice = UpdateEntityFromRequest(_Invoice, request, ["InvoiceID"]);
 
         await m_Context.SaveChangesAsync();

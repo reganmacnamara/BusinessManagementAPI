@@ -39,11 +39,11 @@ public class InvoiceItemConfiguration : IEntityTypeConfiguration<InvoiceItem>
             .HasDefaultValue(0);
 
         builder.HasOne(c => c.Invoice)
-                .WithMany(t => t.InvoiceItems)
+                .WithMany()
                 .HasForeignKey(c => c.InvoiceID);
 
         builder.HasOne(c => c.Product)
-                .WithMany(t => t.InvoiceItems)
+                .WithMany()
                 .HasForeignKey(c => c.ProductID);
     }
 }

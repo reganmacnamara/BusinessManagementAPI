@@ -25,7 +25,6 @@ namespace BusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
             _InvoiceItem.Product = _Product;
 
             m_Context.InvoiceItems.Add(_InvoiceItem);
-            _Invoice.InvoiceItems.Add(_InvoiceItem);
 
             _ = await m_Context.SaveChangesAsync();
 

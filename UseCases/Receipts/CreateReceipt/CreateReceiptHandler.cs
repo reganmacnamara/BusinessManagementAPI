@@ -2,8 +2,6 @@
 using BusinessManagementAPI.Data;
 using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
-using BusinessManagementAPI.UseCases.Invoices.CreateInvoice;
-using Microsoft.EntityFrameworkCore;
 
 namespace BusinessManagementAPI.UseCases.Receipts.CreateReceipt;
 
@@ -13,7 +11,6 @@ public class CreateReceiptHandler(IMapper mapper, SQLContext context) : BaseHand
     {
         var _Client = m_Context.GetEntities<Client>()
             .Where(c => c.ClientID == request.ClientID)
-            .Include(c => c.Invoices)
             .SingleOrDefault();
 
         if (_Client is null)
@@ -25,11 +22,10 @@ public class CreateReceiptHandler(IMapper mapper, SQLContext context) : BaseHand
         _Receipt.Outstanding = true;
 
         m_Context.Receipts.Add(_Receipt);
-        _Client.Receipts.Add(_Receipt);
 
         _ = await m_Context.SaveChangesAsync();
 
-        var _Response = m_Mapper.Map<CreateInvoiceResponse>(_Receipt);
+        var _Response = m_Mapper.Map<CreateReceiptResponse>(_Receipt);
 
         return Results.Created(string.Empty, _Response);
     }

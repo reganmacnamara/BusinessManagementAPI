@@ -2,7 +2,6 @@
 using BusinessManagementAPI.Data;
 using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
-using Microsoft.EntityFrameworkCore;
 
 namespace BusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 
@@ -12,7 +11,6 @@ public class CreateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
     {
         var _Client = m_Context.GetEntities<Client>()
             .Where(c => c.ClientID == request.ClientID)
-            .Include(c => c.Invoices)
             .SingleOrDefault();
 
         if (_Client is null)
@@ -24,7 +22,6 @@ public class CreateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
         _Invoice.Outstanding = true;
 
         m_Context.Invoices.Add(_Invoice);
-        _Client.Invoices.Add(_Invoice);
 
         _ = await m_Context.SaveChangesAsync();
 

@@ -112,8 +112,8 @@ public class InvoiceController(IMapper mapper, SQLContext context) : ControllerB
         var handler = new UpsertInvoiceItemHandler(mapper, context);
 
         var _Response = request.InvoiceItemID != 0
-            ? await handler.CreateInvoiceItem(request)
-            : await handler.UpdateInvoiceItem(request);
+            ? await handler.UpdateInvoiceItem(request)
+            : await handler.CreateInvoiceItem(request);
 
         return _Response;
     }

@@ -41,11 +41,7 @@ public class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
             .IsRequired();
 
         builder.HasOne(c => c.Client)
-            .WithMany(c => c.Receipts)
+            .WithMany()
             .HasForeignKey(c => c.ClientID);
-
-        builder.HasMany(c => c.ReceiptItems)
-            .WithOne(t => t.Receipt)
-            .HasForeignKey(c => c.ReceiptID);
     }
 }

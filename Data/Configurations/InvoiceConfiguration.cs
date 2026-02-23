@@ -44,16 +44,8 @@ namespace BusinessManagementAPI.Data.Configurations
                 .IsRequired();
 
             builder.HasOne(c => c.Client)
-                .WithMany(c => c.Invoices)
+                .WithMany()
                 .HasForeignKey(c => c.ClientID);
-
-            builder.HasMany(c => c.InvoiceItems)
-                .WithOne(t => t.Invoice)
-                .HasForeignKey(c => c.InvoiceID);
-
-            builder.HasMany(c => c.ReceiptItems)
-                .WithOne(t => t.Invoice)
-                .HasForeignKey(c => c.InvoiceID);
         }
     }
 }

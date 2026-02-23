@@ -26,6 +26,4 @@ public class Invoice
     //Navigation Properties
 
     public Client Client { get; set; }
-    public List<InvoiceItem> InvoiceItems { get; set; } = [];
-    public List<ReceiptItem> ReceiptItems { get; set; } = [];
 }

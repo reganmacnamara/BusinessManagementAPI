@@ -36,13 +36,5 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
 
         builder.Property(c => c.Country)
             .IsRequired();
-
-        builder.HasMany(c => c.Invoices)
-            .WithOne(t => t.Client)
-            .HasForeignKey(t => t.ClientID);
-
-        builder.HasMany(c => c.Receipts)
-            .WithOne(t => t.Client)
-            .HasForeignKey(t => t.ClientID);
     }
 }

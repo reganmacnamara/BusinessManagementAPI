@@ -18,8 +18,4 @@ public class Product
     public decimal UnitPrice { get; set; }
 
     public long QuantityOnHand { get; set; }
-
-    //Navigation Properties
-
-    public List<InvoiceItem> InvoiceItems { get; set; }
 }

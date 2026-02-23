@@ -68,7 +68,7 @@ namespace InvoiceAutomationAPI.Migrations
 
                     b.HasKey("ClientID");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("BusinessManagementAPI.Entities.Invoice", b =>
@@ -117,7 +117,7 @@ namespace InvoiceAutomationAPI.Migrations
 
                     b.HasIndex("ClientID");
 
-                    b.ToTable("Invoices");
+                    b.ToTable("Invoices", (string)null);
                 });
 
             modelBuilder.Entity("BusinessManagementAPI.Entities.InvoiceItem", b =>
@@ -170,7 +170,7 @@ namespace InvoiceAutomationAPI.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("InvoiceItems");
+                    b.ToTable("InvoiceItems", (string)null);
                 });
 
             modelBuilder.Entity("BusinessManagementAPI.Entities.Product", b =>
@@ -205,7 +205,7 @@ namespace InvoiceAutomationAPI.Migrations
 
                     b.HasKey("ProductID");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("BusinessManagementAPI.Entities.Receipt", b =>
@@ -250,7 +250,7 @@ namespace InvoiceAutomationAPI.Migrations
 
                     b.HasIndex("ClientID");
 
-                    b.ToTable("Receipts");
+                    b.ToTable("Receipts", (string)null);
                 });
 
             modelBuilder.Entity("BusinessManagementAPI.Entities.ReceiptItem", b =>
@@ -288,7 +288,7 @@ namespace InvoiceAutomationAPI.Migrations
 
                     b.HasIndex("ReceiptID");
 
-                    b.ToTable("ReceiptItems");
+                    b.ToTable("ReceiptItems", (string)null);
                 });
 
             modelBuilder.Entity("BusinessManagementAPI.Entities.Invoice", b =>

@@ -3,7 +3,6 @@ using BusinessManagementAPI.Data;
 using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.Services;
 using BusinessManagementAPI.UseCases.Base;
-using BusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
@@ -29,7 +28,6 @@ namespace BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
             _Invoice = await allocationService.AllocateToInvoice(_ReceiptItem, _Invoice);
 
             m_Context.ReceiptItems.Add(_ReceiptItem);
-            _Receipt.ReceiptItems.Add(_ReceiptItem);
 
             _ = await m_Context.SaveChangesAsync();
 

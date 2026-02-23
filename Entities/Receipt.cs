@@ -16,5 +16,4 @@ public class Receipt
     //Navigation Properties
 
     public Client Client { get; set; }
-    public List<ReceiptItem> ReceiptItems { get; set; }
 }
