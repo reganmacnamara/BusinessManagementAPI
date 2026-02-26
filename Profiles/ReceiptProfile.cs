@@ -11,6 +11,8 @@ namespace BusinessManagementAPI.Profiles
             _ = CreateMap<CreateReceiptRequest, Receipt>()
                 .ForMember(d => d.Outstanding, o => o.Ignore())
                 .ForMember(d => d.Client, o => o.Ignore());
+
+            _ = CreateMap<Receipt, CreateReceiptResponse>();
         }
     }
 }

@@ -112,7 +112,9 @@ public class ReceiptController(IAllocationService allocationService, IMapper map
     {
         var handler = new UpsertReceiptItemHandler(allocationService, mapper, context);
 
-        var _Response = await handler.UpdateReceiptItem(request);
+        var _Response = request.ReceiptItemID != 0
+            ? await handler.UpdateReceiptItem(request)
+            : await handler.CreateReceiptItem(request);
 
         return _Response;
     }
