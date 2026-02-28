@@ -6,13 +6,13 @@ public class AllocationService : IAllocationService
 {
     public async Task<Invoice> AllocateToInvoice(ReceiptItem allocation, Invoice invoice)
     {
-        if (!invoice.Outstanding && allocation.NetValue <= invoice.NetValue)
+        if (invoice.Outstanding && allocation.NetValue <= invoice.NetValue)
         {
             if ((invoice.OffsetValue + allocation.NetValue) > invoice.NetValue)
-                throw new Exception("Cannot allocate more to Invoice than its Net Value.");
+                throw new Exception("Cannot allocate more to Invoice than it's Net Value.");
 
             invoice.OffsetValue += allocation.NetValue;
-            invoice.Outstanding = invoice.OffsetValue == invoice.NetValue;
+            invoice.Outstanding = !(invoice.OffsetValue == invoice.NetValue);
         }
         return invoice;
     }
