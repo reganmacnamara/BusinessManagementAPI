@@ -13,21 +13,19 @@ public class DeleteProductHandler(IMapper mapper, SQLContext context) : BaseHand
             .SingleOrDefault(product => product.ProductID == request.ProductID);
 
         if (_Product is not null)
-        {
+            return Results.NotFound("Product not found.");
 
-            var _IsProductUsed = m_Context.GetEntities<InvoiceItem>()
+
+        var _IsProductUsed = m_Context.GetEntities<InvoiceItem>()
                 .Where(p => p.ProductID == request.ProductID)
                 .ToList()
                 .Count != 0;
 
-            if (_IsProductUsed)
-                return Results.Conflict("Cannot delete a Product that still has history.");
+        if (_IsProductUsed)
+            return Results.Conflict("Cannot delete a Product that still has history.");
 
-            m_Context.Products.Remove(_Product);
-            await m_Context.SaveChangesAsync();
-            return Results.NoContent();
-        }
-        else
-            return Results.NotFound("Product not found.");
+        m_Context.Products.Remove(_Product);
+        await m_Context.SaveChangesAsync();
+        return Results.NoContent();
     }
 }

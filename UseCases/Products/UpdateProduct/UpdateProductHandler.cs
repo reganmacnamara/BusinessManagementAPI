@@ -13,19 +13,17 @@ public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHand
             .SingleOrDefault(p => p.ProductID == request.ProductID);
 
         if (_Product is not null)
+            return Results.NotFound("Product not found.");
+
+        _Product = UpdateEntityFromRequest(_Product, request, ["ProductID"]);
+
+        await m_Context.SaveChangesAsync();
+
+        var _Response = new UpdateProductResponse()
         {
-            _Product = UpdateEntityFromRequest(_Product, request, ["ProductID"]);
+            ProductId = _Product.ProductID
+        };
 
-            await m_Context.SaveChangesAsync();
-
-            var _Response = new UpdateProductResponse()
-            {
-                ProductId = _Product.ProductID
-            };
-
-            return Results.Ok(_Response);
-        }
-
-        return Results.NotFound("Product not found.");
+        return Results.Ok(_Response);
     }
 }

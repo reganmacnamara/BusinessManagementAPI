@@ -14,20 +14,18 @@ namespace BusinessManagementAPI.UseCases.Clients.UpdateClient
                 .SingleOrDefault(c => c.ClientID == request.ClientId);
 
             if (_Client is not null)
-            {
-                _Client = UpdateEntityFromRequest(_Client, request, ["ClientID"]);
-
-                await m_Context.SaveChangesAsync();
-
-                var _Response = new UpdateClientResponse()
-                {
-                    ClientID = _Client.ClientID
-                };
-
-                return Results.Ok(_Response);
-            }
-            else
                 return Results.NotFound("Client was not found.");
+
+            _Client = UpdateEntityFromRequest(_Client, request, ["ClientID"]);
+
+            await m_Context.SaveChangesAsync();
+
+            var _Response = new UpdateClientResponse()
+            {
+                ClientID = _Client.ClientID
+            };
+
+            return Results.Ok(_Response);
         }
     }
 
