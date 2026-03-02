@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Clients.UpdateClient
@@ -9,7 +10,8 @@ namespace BusinessManagementAPI.UseCases.Clients.UpdateClient
     {
         public async Task<IResult> UpdateClient(UpdateClientRequest request)
         {
-            var _Client = m_Context.Clients.Find(request.ClientId);
+            var _Client = m_Context.GetEntities<Client>()
+                .SingleOrDefault(c => c.ClientID == request.ClientId);
 
             if (_Client is not null)
             {

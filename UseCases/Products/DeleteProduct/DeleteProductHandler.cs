@@ -10,13 +10,13 @@ public class DeleteProductHandler(IMapper mapper, SQLContext context) : BaseHand
     public async Task<IResult> DeleteProduct(DeleteProductRequest request)
     {
         var _Product = m_Context.GetEntities<Product>()
-            .Where(product => product.ProductID == request.ProductID)
-            .SingleOrDefault();
+            .SingleOrDefault(product => product.ProductID == request.ProductID);
 
         if (_Product is not null)
         {
 
-            var _IsProductUsed = m_Context.InvoiceItems.Where(p => p.ProductID == request.ProductID)
+            var _IsProductUsed = m_Context.GetEntities<InvoiceItem>()
+                .Where(p => p.ProductID == request.ProductID)
                 .ToList()
                 .Count != 0;
 

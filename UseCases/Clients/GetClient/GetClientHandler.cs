@@ -10,7 +10,8 @@ namespace BusinessManagementAPI.UseCases.Clients.GetClient
     {
         public async Task<IResult> GetClient(GetClientRequest request)
         {
-            var _Client = m_Context.Find<Client>(request.ClientId);
+            var _Client = m_Context.GetEntities<Client>()
+                .SingleOrDefault(c => c.ClientID == request.ClientId);
 
             if (_Client is null)
                 return Results.NotFound("Client not found.");

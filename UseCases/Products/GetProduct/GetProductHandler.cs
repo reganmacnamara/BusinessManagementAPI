@@ -9,7 +9,8 @@ public class GetProductHandler(IMapper mapper, SQLContext context) : BaseHandler
 {
     public async Task<IResult> GetProduct(GetProductRequest request)
     {
-        var _Product = m_Context.Find<Product>(request.ProductID);
+        var _Product = m_Context.GetEntities<Product>()
+            .SingleOrDefault(p => p.ProductID == request.ProductID);
 
         if (_Product is null)
             return Results.NotFound("Product was not found.");

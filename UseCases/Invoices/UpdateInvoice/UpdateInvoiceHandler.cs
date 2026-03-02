@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
@@ -8,14 +9,16 @@ public class UpdateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
 {
     public async Task<IResult> UpdateInvoice(UpdateInvoiceRequest request)
     {
-        var _Invoice = m_Context.Invoices.Find(request.InvoiceID);
+        var _Invoice = m_Context.GetEntities<Invoice>()
+            .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);
 
         if (_Invoice == null || request.InvoiceID == 0)
             return Results.NotFound("Invoice could not be found.");
 
         if (request.ClientID != _Invoice.ClientID)
         {
-            var _Client = m_Context.Clients.Find(request.ClientID);
+            var _Client = m_Context.GetEntities<Client>()
+                .SingleOrDefault(c => c.ClientID == request.ClientID);
 
             if (_Client == null || request.ClientID == 0)
                 return Results.NotFound("Client could not be found.");

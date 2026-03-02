@@ -18,7 +18,7 @@ public class GetInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler
         if (_Invoice is null)
             return Results.NotFound($"Invoice {request.InvoiceID} could not be found.");
 
-        var _InvoiceItems = m_Context.InvoiceItems
+        var _InvoiceItems = m_Context.GetEntities<InvoiceItem>()
             .Include(ii => ii.Product)
             .Where(ii => ii.InvoiceID == request.InvoiceID)
             .ToList();

@@ -11,8 +11,7 @@ namespace BusinessManagementAPI.UseCases.Clients.DeleteClient
         public async Task<IResult> DeleteClient(DeleteClientRequest request)
         {
             var _Client = m_Context.GetEntities<Client>()
-                .Where(c => c.ClientID == request.ClientID)
-                .SingleOrDefault();
+                .SingleOrDefault(c => c.ClientID == request.ClientID);
 
             if (_Client is not null)
             {

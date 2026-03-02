@@ -10,8 +10,7 @@ public class DeleteReceiptHandler(IMapper mapper, SQLContext context) : BaseHand
     public async Task<IResult> DeleteReceipt(DeleteReceiptRequest request)
     {
         var _Receipt = m_Context.GetEntities<Receipt>()
-            .Where(i => i.ReceiptID == request.ReceiptID)
-            .SingleOrDefault();
+            .SingleOrDefault(i => i.ReceiptID == request.ReceiptID);
 
         if (_Receipt is null)
             return Results.NotFound($"Receipt {request.ReceiptID} could not be found.");
@@ -19,7 +18,7 @@ public class DeleteReceiptHandler(IMapper mapper, SQLContext context) : BaseHand
         if (_Receipt.OffsetValue != 0)
             return Results.Conflict("Cannot delete an Receipt with Allocations.");
 
-        var _RecieptItems = m_Context.ReceiptItems.Where(i => i.ReceiptID == request.ReceiptID).ToList();
+        var _RecieptItems = m_Context.GetEntities<ReceiptItem>().Where(i => i.ReceiptID == request.ReceiptID).ToList();
 
         m_Context.RemoveRange(_RecieptItems);
         m_Context.Remove(_Receipt);

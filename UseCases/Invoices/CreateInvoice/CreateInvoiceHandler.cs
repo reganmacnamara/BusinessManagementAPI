@@ -10,8 +10,7 @@ public class CreateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
     public async Task<IResult> CreateInvoice(CreateInvoiceRequest request)
     {
         var _Client = m_Context.GetEntities<Client>()
-            .Where(c => c.ClientID == request.ClientID)
-            .SingleOrDefault();
+            .SingleOrDefault(c => c.ClientID == request.ClientID);
 
         if (_Client is null)
             return Results.NotFound("Client not found.");

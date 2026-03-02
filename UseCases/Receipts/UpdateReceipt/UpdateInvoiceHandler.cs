@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
@@ -8,7 +9,8 @@ public class UpdateReceiptHandler(IMapper mapper, SQLContext context) : BaseHand
 {
     public async Task<IResult> UpdateReceipt(UpdateReceiptRequest request)
     {
-        var _Receipt = m_Context.Receipts.Find(request.ReceiptID);
+        var _Receipt = m_Context.GetEntities<Receipt>()
+            .SingleOrDefault(r => r.ReceiptID == request.ReceiptID);
 
         if (_Receipt == null || request.ReceiptID == 0)
             return Results.NotFound("Receipt could not be found.");

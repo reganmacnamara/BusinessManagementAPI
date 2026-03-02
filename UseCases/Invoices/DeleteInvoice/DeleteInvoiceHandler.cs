@@ -10,8 +10,7 @@ public class DeleteInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
     public async Task<IResult> DeleteInvoice(DeleteInvoiceRequest request)
     {
         var _Invoice = m_Context.GetEntities<Invoice>()
-            .Where(i => i.InvoiceID == request.InvoiceID)
-            .SingleOrDefault();
+            .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);
 
         if (_Invoice is null)
             return Results.NotFound($"Invoice {request.InvoiceID} could not be found.");

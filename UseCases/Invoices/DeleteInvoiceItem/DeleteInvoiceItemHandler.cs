@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Invoices.DeleteInvoiceItem;
@@ -8,7 +9,8 @@ public class DeleteInvoiceItemHandler(IMapper mapper, SQLContext context) : Base
 {
     public async Task<IResult> DeleteInvoiceItem(DeleteInvoiceItemRequest request)
     {
-        var _InvoiceItem = await m_Context.InvoiceItems.FindAsync(request.InvoiceItemID);
+        var _InvoiceItem = m_Context.GetEntities<InvoiceItem>()
+            .SingleOrDefault(ii => ii.InvoiceItemID == request.InvoiceItemID);
 
         if (_InvoiceItem is null)
             return Results.NotFound("Invoice Item not found.");

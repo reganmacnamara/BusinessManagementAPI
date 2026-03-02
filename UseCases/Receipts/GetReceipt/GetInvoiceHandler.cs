@@ -18,7 +18,7 @@ public class GetReceiptHandler(IMapper mapper, SQLContext context) : BaseHandler
         if (_Receipt is null)
             return Results.NotFound($"Receipt {request.ReceiptID} could not be found.");
 
-        var _ReceiptItems = m_Context.ReceiptItems
+        var _ReceiptItems = m_Context.GetEntities<ReceiptItem>()
             .Include(ri => ri.Invoice)
             .Where(ri => ri.ReceiptID == request.ReceiptID)
             .ToList();

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,7 @@ public class GetReceiptsHandler(IMapper mapper, SQLContext context) : BaseHandle
     {
         var _Response = new GetReceiptsResponse()
         {
-            Receipts = [.. m_Context.Receipts.Include(r => r.Client)]
+            Receipts = [.. m_Context.GetEntities<Receipt>().Include(r => r.Client)]
         };
 
         return Results.Ok(_Response);

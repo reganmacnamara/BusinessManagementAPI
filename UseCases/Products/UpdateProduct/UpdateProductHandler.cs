@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
 
 namespace BusinessManagementAPI.UseCases.Products.UpdateProduct;
@@ -8,7 +9,8 @@ public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHand
 {
     public async Task<IResult> UpdateProduct(UpdateProductRequest request)
     {
-        var _Product = m_Context.Products.Find(request.ProductID);
+        var _Product = m_Context.GetEntities<Product>()
+            .SingleOrDefault(p => p.ProductID == request.ProductID);
 
         if (_Product is not null)
         {

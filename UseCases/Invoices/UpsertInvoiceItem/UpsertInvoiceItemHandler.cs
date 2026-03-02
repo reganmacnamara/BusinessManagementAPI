@@ -11,12 +11,14 @@ namespace BusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
         public async Task<IResult> CreateInvoiceItem(UpsertInvoiceItemRequest request)
         {
             var _InvoiceItem = m_Mapper.Map<InvoiceItem>(request);
-            var _Invoice = await m_Context.Invoices.FindAsync(request.InvoiceID);
+            var _Invoice = m_Context.GetEntities<Invoice>()
+                .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);
 
             if (_Invoice == null)
                 return Results.NotFound("Invoice could not be found.");
 
-            var _Product = await m_Context.Products.FindAsync(request.ProductID);
+            var _Product = m_Context.GetEntities<Product>()
+                .SingleOrDefault(p => p.ProductID == request.ProductID);
 
             if (_Product == null)
                 return Results.NotFound("Product could not be found.");
