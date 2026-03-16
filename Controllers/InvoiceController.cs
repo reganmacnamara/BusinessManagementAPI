@@ -4,7 +4,7 @@ using BusinessManagementAPI.Services;
 using BusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 using BusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
 using BusinessManagementAPI.UseCases.Invoices.DeleteInvoiceItem;
-using BusinessManagementAPI.UseCases.Invoices.ExportInvoicePdf;
+using BusinessManagementAPI.UseCases.Invoices.GetInvoicePdf;
 using BusinessManagementAPI.UseCases.Invoices.GetClientInvoices;
 using BusinessManagementAPI.UseCases.Invoices.GetInvoice;
 using BusinessManagementAPI.UseCases.Invoices.GetInvoices;
@@ -109,16 +109,16 @@ public class InvoiceController(IPdfService pdfService, IMapper mapper, SQLContex
     }
 
     [HttpGet("{invoiceID}/pdf")]
-    public async Task<IResult> ExportInvoicePdf([FromRoute] long invoiceID)
+    public async Task<IResult> GetInvoicePdf([FromRoute] long invoiceID)
     {
-        var _Request = new ExportInvoicePdfRequest()
+        var _Request = new GetInvoicePdfRequest()
         {
             InvoiceID = invoiceID
         };
 
-        var handler = new ExportInvoicePdfHandler(pdfService, mapper, context);
+        var handler = new GetInvoicePdfHandler(pdfService, mapper, context);
 
-        var _Response = await handler.ExportInvoicePdf(_Request);
+        var _Response = await handler.GetInvoicePdf(_Request);
 
         return _Response;
     }

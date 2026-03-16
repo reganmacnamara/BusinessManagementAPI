@@ -5,11 +5,11 @@ using BusinessManagementAPI.Services;
 using BusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessManagementAPI.UseCases.Receipts.ExportReceiptPdf;
+namespace BusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;
 
-public class ExportReceiptPdfHandler(IPdfService pdfService, IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class GetReceiptPdfHandler(IPdfService pdfService, IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
-    public async Task<IResult> ExportReceiptPdf(ExportReceiptPdfRequest request)
+    public async Task<IResult> GetReceiptPdf(GetReceiptPdfRequest request)
     {
         var _Receipt = m_Context.GetEntities<Receipt>()
             .AsNoTracking()

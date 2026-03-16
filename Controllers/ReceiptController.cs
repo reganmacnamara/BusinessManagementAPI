@@ -4,7 +4,7 @@ using BusinessManagementAPI.Services;
 using BusinessManagementAPI.UseCases.Receipts.CreateReceipt;
 using BusinessManagementAPI.UseCases.Receipts.DeleteReceipt;
 using BusinessManagementAPI.UseCases.Receipts.DeleteReceiptItem;
-using BusinessManagementAPI.UseCases.Receipts.ExportReceiptPdf;
+using BusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;
 using BusinessManagementAPI.UseCases.Receipts.GetClientReceipts;
 using BusinessManagementAPI.UseCases.Receipts.GetReceipt;
 using BusinessManagementAPI.UseCases.Receipts.GetReceipts;
@@ -109,16 +109,16 @@ public class ReceiptController(IAllocationService allocationService, IPdfService
     }
 
     [HttpGet("{receiptID}/pdf")]
-    public async Task<IResult> ExportReceiptPdf([FromRoute] long receiptID)
+    public async Task<IResult> GetReceiptPdf([FromRoute] long receiptID)
     {
-        var _Request = new ExportReceiptPdfRequest()
+        var _Request = new GetReceiptPdfRequest()
         {
             ReceiptID = receiptID
         };
 
-        var handler = new ExportReceiptPdfHandler(pdfService, mapper, context);
+        var handler = new GetReceiptPdfHandler(pdfService, mapper, context);
 
-        var _Response = await handler.ExportReceiptPdf(_Request);
+        var _Response = await handler.GetReceiptPdf(_Request);
 
         return _Response;
     }
