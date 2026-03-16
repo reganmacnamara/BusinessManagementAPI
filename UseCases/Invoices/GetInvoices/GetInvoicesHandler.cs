@@ -12,7 +12,7 @@ public class GetInvoicesHandler(IMapper mapper, SQLContext context) : BaseHandle
     {
         var _Response = new GetInvoicesResponse()
         {
-            Invoices = [.. m_Context.GetEntities<Invoice>().Include(i => i.Client)]
+            Invoices = [.. m_Context.GetEntities<Invoice>().AsNoTracking().Include(i => i.Client)]
         };
 
         return Results.Ok(_Response);

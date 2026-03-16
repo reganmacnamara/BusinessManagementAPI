@@ -12,7 +12,7 @@ public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHand
         var _Product = m_Context.GetEntities<Product>()
             .SingleOrDefault(p => p.ProductID == request.ProductID);
 
-        if (_Product is not null)
+        if (_Product is null)
             return Results.NotFound("Product not found.");
 
         _Product = UpdateEntityFromRequest(_Product, request, ["ProductID"]);

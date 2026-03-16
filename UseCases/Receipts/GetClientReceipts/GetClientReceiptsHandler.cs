@@ -11,6 +11,7 @@ public class GetClientReceiptsHandler(IMapper mapper, SQLContext context) : Base
     public async Task<IResult> GetClientReceipts(GetClientReceiptsRequest request)
     {
         var _Receipts = m_Context.GetEntities<Receipt>()
+            .AsNoTracking()
             .Include(r => r.Client)
             .Where(i => i.ClientID == request.ClientID)
             .ToList();

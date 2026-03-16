@@ -11,6 +11,7 @@ namespace BusinessManagementAPI.UseCases.Clients.GetClients
         public async Task<IResult> GetClients()
         {
             var _Clients = m_Context.GetEntities<Client>()
+                .AsNoTracking()
                 .ToList();
 
             var _Response = _Clients.Count != 0

@@ -50,7 +50,7 @@ public class ReceiptController(IAllocationService allocationService, IMapper map
             ReceiptItemID = receiptItemID
         };
 
-        var handler = new DeleteReceiptItemHandler(mapper, context);
+        var handler = new DeleteReceiptItemHandler(allocationService, mapper, context);
 
         var _Response = await handler.DeleteReceiptItem(_Request);
 

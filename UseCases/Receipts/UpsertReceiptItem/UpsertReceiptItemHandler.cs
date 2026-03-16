@@ -27,7 +27,14 @@ namespace BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
             _ReceiptItem.Receipt = _Receipt;
             _ReceiptItem.Invoice = _Invoice;
 
-            _Invoice = await allocationService.AllocateToInvoice(_ReceiptItem, _Invoice);
+            try
+            {
+                _Invoice = await allocationService.AllocateToInvoice(_ReceiptItem, _Invoice);
+            }
+            catch (Exception ex)
+            {
+                return Results.Conflict(ex.Message);
+            }
 
             m_Context.ReceiptItems.Add(_ReceiptItem);
 
@@ -52,9 +59,18 @@ namespace BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
             if (_ReceiptItem == null)
                 return Results.NotFound("Receipt Item could not be found.");
 
+            await allocationService.DeallocateFromInvoice(_ReceiptItem, _ReceiptItem.Invoice);
+
             _ReceiptItem = UpdateEntityFromRequest(_ReceiptItem, request, ["ReceiptItemID"]);
 
-            _ReceiptItem.Invoice = await allocationService.AllocateToInvoice(_ReceiptItem, _ReceiptItem.Invoice);
+            try
+            {
+                _ReceiptItem.Invoice = await allocationService.AllocateToInvoice(_ReceiptItem, _ReceiptItem.Invoice);
+            }
+            catch (Exception ex)
+            {
+                return Results.Conflict(ex.Message);
+            }
 
             _ = await m_Context.SaveChangesAsync();
 
@@ -63,7 +79,7 @@ namespace BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
                 ReceiptItemID = _ReceiptItem.ReceiptItemID
             };
 
-            return Results.Created(string.Empty, _Response);
+            return Results.Ok(_Response);
         }
     }
 }

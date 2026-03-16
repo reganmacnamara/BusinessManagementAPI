@@ -13,7 +13,7 @@ namespace BusinessManagementAPI.UseCases.Clients.UpdateClient
             var _Client = m_Context.GetEntities<Client>()
                 .SingleOrDefault(c => c.ClientID == request.ClientId);
 
-            if (_Client is not null)
+            if (_Client is null)
                 return Results.NotFound("Client was not found.");
 
             _Client = UpdateEntityFromRequest(_Client, request, ["ClientID"]);

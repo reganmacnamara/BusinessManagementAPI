@@ -20,7 +20,7 @@ namespace BusinessManagementAPI.UseCases.Clients.DeleteClient
             var _Receipts = m_Context.Receipts.Where(i => i.ClientID == request.ClientID).ToList();
 
             if (_Invoices.Count > 0 || _Receipts.Count > 0)
-                throw new Exception($"{_Client.ClientName} has Transactions in the system and cannot be deleted.");
+                return Results.Conflict($"{_Client.ClientName} has Transactions in the system and cannot be deleted.");
 
             m_Context.Clients.Remove(_Client);
 

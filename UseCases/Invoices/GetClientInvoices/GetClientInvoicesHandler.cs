@@ -11,6 +11,7 @@ public class GetClientInvoicesHandler(IMapper mapper, SQLContext context) : Base
     public async Task<IResult> GetClientInvoices(GetClientInvoicesRequest request)
     {
         var _Invoices = m_Context.GetEntities<Invoice>()
+            .AsNoTracking()
             .Include(i => i.Client)
             .Where(i => i.ClientID == request.ClientID)
             .ToList();

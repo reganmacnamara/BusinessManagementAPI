@@ -58,7 +58,7 @@ namespace BusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
                 InvoiceItemID = _InvoiceItem.InvoiceItemID
             };
 
-            return Results.Created(string.Empty, _Response);
+            return Results.Ok(_Response);
         }
     }
 }

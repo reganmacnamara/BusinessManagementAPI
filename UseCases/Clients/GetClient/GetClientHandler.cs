@@ -11,6 +11,7 @@ namespace BusinessManagementAPI.UseCases.Clients.GetClient
         public async Task<IResult> GetClient(GetClientRequest request)
         {
             var _Client = m_Context.GetEntities<Client>()
+                .AsNoTracking()
                 .SingleOrDefault(c => c.ClientID == request.ClientId);
 
             if (_Client is null)

@@ -12,7 +12,7 @@ public class DeleteProductHandler(IMapper mapper, SQLContext context) : BaseHand
         var _Product = m_Context.GetEntities<Product>()
             .SingleOrDefault(product => product.ProductID == request.ProductID);
 
-        if (_Product is not null)
+        if (_Product is null)
             return Results.NotFound("Product not found.");
 
 
