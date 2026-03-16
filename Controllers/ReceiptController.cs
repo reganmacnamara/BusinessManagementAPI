@@ -4,6 +4,7 @@ using BusinessManagementAPI.Services;
 using BusinessManagementAPI.UseCases.Receipts.CreateReceipt;
 using BusinessManagementAPI.UseCases.Receipts.DeleteReceipt;
 using BusinessManagementAPI.UseCases.Receipts.DeleteReceiptItem;
+using BusinessManagementAPI.UseCases.Receipts.ExportReceiptPdf;
 using BusinessManagementAPI.UseCases.Receipts.GetClientReceipts;
 using BusinessManagementAPI.UseCases.Receipts.GetReceipt;
 using BusinessManagementAPI.UseCases.Receipts.GetReceipts;
@@ -15,7 +16,7 @@ namespace BusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ReceiptController(IAllocationService allocationService, IMapper mapper, SQLContext context) : ControllerBase
+public class ReceiptController(IAllocationService allocationService, IPdfService pdfService, IMapper mapper, SQLContext context) : ControllerBase
 {
     [HttpPost]
     public async Task<IResult> CreateReceipt([FromBody] CreateReceiptRequest request)
@@ -103,6 +104,21 @@ public class ReceiptController(IAllocationService allocationService, IMapper map
         var handler = new UpdateReceiptHandler(mapper, context);
 
         var _Response = await handler.UpdateReceipt(request);
+
+        return _Response;
+    }
+
+    [HttpGet("{receiptID}/pdf")]
+    public async Task<IResult> ExportReceiptPdf([FromRoute] long receiptID)
+    {
+        var _Request = new ExportReceiptPdfRequest()
+        {
+            ReceiptID = receiptID
+        };
+
+        var handler = new ExportReceiptPdfHandler(pdfService, mapper, context);
+
+        var _Response = await handler.ExportReceiptPdf(_Request);
 
         return _Response;
     }

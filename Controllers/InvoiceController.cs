@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BusinessManagementAPI.Data;
+using BusinessManagementAPI.Services;
 using BusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 using BusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
 using BusinessManagementAPI.UseCases.Invoices.DeleteInvoiceItem;
+using BusinessManagementAPI.UseCases.Invoices.ExportInvoicePdf;
 using BusinessManagementAPI.UseCases.Invoices.GetClientInvoices;
 using BusinessManagementAPI.UseCases.Invoices.GetInvoice;
 using BusinessManagementAPI.UseCases.Invoices.GetInvoices;
@@ -14,7 +16,7 @@ namespace BusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class InvoiceController(IMapper mapper, SQLContext context) : ControllerBase
+public class InvoiceController(IPdfService pdfService, IMapper mapper, SQLContext context) : ControllerBase
 {
     [HttpPost]
     public async Task<IResult> CreateInvoice([FromBody] CreateInvoiceRequest request)
@@ -102,6 +104,21 @@ public class InvoiceController(IMapper mapper, SQLContext context) : ControllerB
         var handler = new UpdateInvoiceHandler(mapper, context);
 
         var _Response = await handler.UpdateInvoice(request);
+
+        return _Response;
+    }
+
+    [HttpGet("{invoiceID}/pdf")]
+    public async Task<IResult> ExportInvoicePdf([FromRoute] long invoiceID)
+    {
+        var _Request = new ExportInvoicePdfRequest()
+        {
+            InvoiceID = invoiceID
+        };
+
+        var handler = new ExportInvoicePdfHandler(pdfService, mapper, context);
+
+        var _Response = await handler.ExportInvoicePdf(_Request);
 
         return _Response;
     }

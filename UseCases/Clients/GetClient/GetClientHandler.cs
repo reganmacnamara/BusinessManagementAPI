@@ -2,6 +2,7 @@
 using BusinessManagementAPI.Data;
 using BusinessManagementAPI.Entities;
 using BusinessManagementAPI.UseCases.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessManagementAPI.UseCases.Clients.GetClient
 {
