@@ -16,18 +16,21 @@ public class RegisterAccountHandler(IAccountService accountService, IMapper mapp
             Password = request.Password,
         };
 
-        var _EmailIsUsed = context.GetEntities<Account>()
+        if (_Account.Password.Length <= 5)
+            return Results.BadRequest("Password must be longer than 5 characters.");
+
+        var _EmailIsUsed = m_Context.GetEntities<Account>()
             .Any(a => a.Email == _Account.Email);
 
         if (_EmailIsUsed)
-            return Results.Conflict("Email already in use.");
+            return Results.BadRequest("Email already in use.");
 
         _Account.IsActive = true;
         _Account.CreatedDate = DateTime.Now;
 
-        context.Accounts.Add(_Account);
+        m_Context.Accounts.Add(_Account);
 
-        _ = await context.SaveChangesAsync();
+        _ = await m_Context.SaveChangesAsync();
 
         await accountService.RegisterAccount(_Account);
 
