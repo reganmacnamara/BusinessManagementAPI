@@ -15,5 +15,5 @@ public class Receipt
 
     //Navigation Properties
 
-    public Client Client { get; set; }
+    public Client Client { get; set; } = default!;
 }

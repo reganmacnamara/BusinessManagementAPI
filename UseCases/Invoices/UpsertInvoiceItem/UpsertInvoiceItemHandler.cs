@@ -60,7 +60,7 @@ namespace BusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
 
             _InvoiceItem = UpdateEntityFromRequest(_InvoiceItem, request, ["InvoiceItemID"]);
 
-            Product _Product;
+            Product? _Product;
             if (_InvoiceItem.ProductID != _OldProductID)
             {
                 _Product = m_Context.GetEntities<Product>()

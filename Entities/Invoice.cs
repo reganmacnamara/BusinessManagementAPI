@@ -25,5 +25,5 @@ public class Invoice
 
     //Navigation Properties
 
-    public Client Client { get; set; }
+    public Client Client { get; set; } = default!;
 }

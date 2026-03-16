@@ -14,6 +14,6 @@ public class InvoiceItem
 
     //Navigation Properties
 
-    public Invoice Invoice { get; set; }
-    public Product Product { get; set; }
+    public Invoice Invoice { get; set; } = default!;
+    public Product Product { get; set; } = default!;
 }

@@ -5,7 +5,7 @@
     {
         public long ClientId { get; set; }
 
-        public string ClientName { get; set; }
+        public string ClientName { get; set; } = string.Empty;
 
         public string ClientEmail { get; set; } = string.Empty;
 
