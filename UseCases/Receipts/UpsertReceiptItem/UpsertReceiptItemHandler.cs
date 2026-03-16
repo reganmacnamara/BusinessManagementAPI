@@ -36,10 +36,6 @@ namespace BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
                 return Results.Conflict(ex.Message);
             }
 
-            _Receipt.GrossValue += _ReceiptItem.GrossValue;
-            _Receipt.TaxValue += _ReceiptItem.TaxValue;
-            _Receipt.NetValue += _ReceiptItem.NetValue;
-
             m_Context.ReceiptItems.Add(_ReceiptItem);
 
             _ = await m_Context.SaveChangesAsync();
@@ -65,10 +61,6 @@ namespace BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
 
             await allocationService.DeallocateFromInvoice(_ReceiptItem, _ReceiptItem.Invoice);
 
-            _ReceiptItem.Receipt.GrossValue -= _ReceiptItem.GrossValue;
-            _ReceiptItem.Receipt.TaxValue -= _ReceiptItem.TaxValue;
-            _ReceiptItem.Receipt.NetValue -= _ReceiptItem.NetValue;
-
             _ReceiptItem = UpdateEntityFromRequest(_ReceiptItem, request, ["ReceiptItemID"]);
 
             try
@@ -79,10 +71,6 @@ namespace BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
             {
                 return Results.Conflict(ex.Message);
             }
-
-            _ReceiptItem.Receipt.GrossValue += _ReceiptItem.GrossValue;
-            _ReceiptItem.Receipt.TaxValue += _ReceiptItem.TaxValue;
-            _ReceiptItem.Receipt.NetValue += _ReceiptItem.NetValue;
 
             _ = await m_Context.SaveChangesAsync();
 
