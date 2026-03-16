@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "name": "C#: BusinessManagementAPI [https]",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}\\BusinessManagementAPI.csproj",
+            "launchConfigurationId": "TargetFramework=;https"
+        }
+    ]
+}

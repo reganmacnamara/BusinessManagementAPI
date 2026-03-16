@@ -25,10 +25,10 @@ public class BaseHandler(IMapper mapper, SQLContext context)
 
         foreach (var property in _NewPropertyValues.Where(p => !_PropertiesToIgnore.Contains(p.Name)))
         {
-            var targetProperty = _EntityProperties.FirstOrDefault(p =>
-                p.Name == property.Name &&
-                p.PropertyType == property.PropertyType &&
-                p.CanWrite);
+            var targetProperty = _EntityProperties
+                .FirstOrDefault(p => p.Name == property.Name &&
+                    p.PropertyType == property.PropertyType &&
+                    p.CanWrite);
 
             if (targetProperty is not null)
             {
