@@ -10,7 +10,12 @@ public class Account
 
     public bool IsActive { get; set; }
 
+    public long RoleID { get; set; }
+
     public DateTime CreatedDate { get; set; }
 
     public DateTime LastLoginDate { get; set; }
+
+
+    public Role Role { get; set; } = default!;
 }
