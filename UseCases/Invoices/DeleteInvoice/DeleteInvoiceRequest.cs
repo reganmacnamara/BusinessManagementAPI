@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
+﻿namespace MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
 
 public class DeleteInvoiceRequest
 {

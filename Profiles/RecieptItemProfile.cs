@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
 
-namespace BusinessManagementAPI.Profiles;
+namespace MacsBusinessManagementAPI.Profiles;
 
 public class RecieptItemProfile : Profile
 {

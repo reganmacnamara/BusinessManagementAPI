@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Receipts.GetClientReceipts;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessManagementAPI.UseCases.Receipts.GetClientReceipts;
+namespace MacsBusinessManagementAPI.UseCases.Receipts.GetClientReceipts;
 
 public class GetClientReceiptsHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {

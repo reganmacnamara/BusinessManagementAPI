@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Clients.GetClient
+﻿namespace MacsBusinessManagementAPI.UseCases.Clients.GetClient
 {
 
     public class GetClientRequest

@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Services;
 using BusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 using BusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
 using BusinessManagementAPI.UseCases.Invoices.DeleteInvoiceItem;
@@ -8,11 +6,14 @@ using BusinessManagementAPI.UseCases.Invoices.GetInvoicePdf;
 using BusinessManagementAPI.UseCases.Invoices.GetClientInvoices;
 using BusinessManagementAPI.UseCases.Invoices.GetInvoice;
 using BusinessManagementAPI.UseCases.Invoices.GetInvoices;
-using BusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
-using BusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
 using Microsoft.AspNetCore.Mvc;
+using MacsBusinessManagementAPI.UseCases.Invoices.CreateInvoice;
+using MacsBusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
+using MacsBusinessManagementAPI.Services;
+using MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
+using MacsBusinessManagementAPI.Data;
 
-namespace BusinessManagementAPI.Controllers;
+namespace MacsBusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]

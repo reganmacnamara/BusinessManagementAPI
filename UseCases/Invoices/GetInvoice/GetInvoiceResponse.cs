@@ -1,6 +1,6 @@
-﻿using BusinessManagementAPI.Entities;
+﻿using MacsBusinessManagementAPI.Entities;
 
-namespace BusinessManagementAPI.UseCases.Invoices.GetInvoice;
+namespace MacsBusinessManagementAPI.UseCases.Invoices.GetInvoice;
 
 public class GetInvoiceResponse
 {

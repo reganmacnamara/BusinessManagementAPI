@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Receipts.CreateReceipt;
+﻿namespace MacsBusinessManagementAPI.UseCases.Receipts.CreateReceipt;
 
 public class CreateReceiptResponse
 {

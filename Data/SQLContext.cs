@@ -1,7 +1,7 @@
-﻿using BusinessManagementAPI.Entities;
+﻿using MacsBusinessManagementAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessManagementAPI.Data
+namespace MacsBusinessManagementAPI.Data
 {
     public class SQLContext(DbContextOptions<SQLContext> options) : DbContext(options)
     {

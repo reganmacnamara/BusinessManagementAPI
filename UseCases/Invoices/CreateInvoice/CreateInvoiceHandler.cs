@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.UseCases.Base;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.UseCases.Base;
 
-namespace BusinessManagementAPI.UseCases.Invoices.CreateInvoice;
+namespace MacsBusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 
 public class CreateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {

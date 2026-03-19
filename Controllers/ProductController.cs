@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.UseCases.Products.CreateProduct;
 using BusinessManagementAPI.UseCases.Products.DeleteProduct;
 using BusinessManagementAPI.UseCases.Products.GetProduct;
 using BusinessManagementAPI.UseCases.Products.GetProducts;
-using BusinessManagementAPI.UseCases.Products.UpdateProduct;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.UseCases.Products.CreateProduct;
+using MacsBusinessManagementAPI.UseCases.Products.UpdateProduct;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BusinessManagementAPI.Controllers;
+namespace MacsBusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]

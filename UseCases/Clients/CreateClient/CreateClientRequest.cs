@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Clients.CreateClient
+﻿namespace MacsBusinessManagementAPI.UseCases.Clients.CreateClient
 {
 
     public class CreateClientRequest

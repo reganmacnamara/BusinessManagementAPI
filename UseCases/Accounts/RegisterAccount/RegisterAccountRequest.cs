@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Accounts.RegisterAccount;
+﻿namespace MacsBusinessManagementAPI.UseCases.Accounts.RegisterAccount;
 
 public class RegisterAccountRequest
 {

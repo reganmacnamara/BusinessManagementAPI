@@ -1,4 +1,4 @@
-namespace BusinessManagementAPI.UseCases.Invoices.GetInvoicePdf;
+namespace MacsBusinessManagementAPI.UseCases.Invoices.GetInvoicePdf;
 
 public class GetInvoicePdfRequest
 {

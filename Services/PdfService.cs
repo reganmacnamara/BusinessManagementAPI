@@ -1,9 +1,9 @@
-using BusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Entities;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-namespace BusinessManagementAPI.Services;
+namespace MacsBusinessManagementAPI.Services;
 
 public class PdfService : IPdfService
 {

@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.UseCases.Base;
 
-namespace BusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
+namespace MacsBusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
 
 public class UpdateReceiptHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {

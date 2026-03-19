@@ -1,11 +1,11 @@
 using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.Services;
-using BusinessManagementAPI.UseCases.Base;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Services;
+using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessManagementAPI.UseCases.Invoices.GetInvoicePdf;
+namespace MacsBusinessManagementAPI.UseCases.Invoices.GetInvoicePdf;
 
 public class GetInvoicePdfHandler(IPdfService pdfService, IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {

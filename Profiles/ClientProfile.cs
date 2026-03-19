@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.UseCases.Clients.CreateClient;
-using BusinessManagementAPI.UseCases.Clients.GetClient;
-using BusinessManagementAPI.UseCases.Clients.GetClients;
-using BusinessManagementAPI.UseCases.Clients.UpdateClient;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.UseCases.Clients.CreateClient;
+using MacsBusinessManagementAPI.UseCases.Clients.GetClient;
+using MacsBusinessManagementAPI.UseCases.Clients.GetClients;
+using MacsBusinessManagementAPI.UseCases.Clients.UpdateClient;
 
-namespace BusinessManagementAPI.Profiles
+namespace MacsBusinessManagementAPI.Profiles
 {
 
     public class ClientProfile : Profile

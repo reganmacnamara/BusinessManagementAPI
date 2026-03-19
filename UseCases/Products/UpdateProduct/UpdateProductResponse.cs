@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Products.UpdateProduct;
+﻿namespace MacsBusinessManagementAPI.UseCases.Products.UpdateProduct;
 
 public class UpdateProductResponse
 {

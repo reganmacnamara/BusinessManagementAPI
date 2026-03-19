@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
+﻿namespace MacsBusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
 
 public class UpdateInvoiceRequest
 {

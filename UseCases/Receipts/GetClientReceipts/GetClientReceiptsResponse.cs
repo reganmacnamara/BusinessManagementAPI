@@ -1,6 +1,6 @@
-﻿using BusinessManagementAPI.Entities;
+﻿using MacsBusinessManagementAPI.Entities;
 
-namespace BusinessManagementAPI.UseCases.Receipts.GetClientReceipts;
+namespace MacsBusinessManagementAPI.UseCases.Receipts.GetClientReceipts;
 
 public class GetClientReceiptsResponse
 {

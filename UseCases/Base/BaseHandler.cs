@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 
-namespace BusinessManagementAPI.UseCases.Base;
+namespace MacsBusinessManagementAPI.UseCases.Base;
 
 public class BaseHandler(IMapper mapper, SQLContext context)
 {

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.Services;
-using BusinessManagementAPI.UseCases.Base;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Services;
+using MacsBusinessManagementAPI.UseCases.Base;
 
-namespace BusinessManagementAPI.UseCases.Accounts.RegisterAccount;
+namespace MacsBusinessManagementAPI.UseCases.Accounts.RegisterAccount;
 
 public class RegisterAccountHandler(IAccountService accountService, IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {

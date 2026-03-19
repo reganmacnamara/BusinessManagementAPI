@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.UseCases.Base;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessManagementAPI.UseCases.Clients.GetClients
+namespace MacsBusinessManagementAPI.UseCases.Clients.GetClients
 {
 
     public class GetClientsHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)

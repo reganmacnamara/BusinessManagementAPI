@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.Services;
-using BusinessManagementAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Services;
+using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
+namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
 {
     public class UpsertReceiptItemHandler(IAllocationService allocationService, IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
     {

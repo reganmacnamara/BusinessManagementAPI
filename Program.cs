@@ -1,5 +1,5 @@
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Services;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Infrastructure;
 

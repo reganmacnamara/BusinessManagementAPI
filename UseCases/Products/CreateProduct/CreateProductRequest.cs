@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Products.CreateProduct;
+﻿namespace MacsBusinessManagementAPI.UseCases.Products.CreateProduct;
 
 public class CreateProductRequest
 {

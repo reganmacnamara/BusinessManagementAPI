@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Products.CreateProduct;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.UseCases.Base;
 
-namespace BusinessManagementAPI.UseCases.Products.CreateProduct;
+namespace MacsBusinessManagementAPI.UseCases.Products.CreateProduct;
 
 public class CreateProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {

@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
+﻿namespace MacsBusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
 
 public class UpdateReceiptResponse
 {

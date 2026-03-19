@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Invoices.GetClientInvoices;
+﻿namespace MacsBusinessManagementAPI.UseCases.Invoices.GetClientInvoices;
 
 public class GetClientInvoicesRequest
 {

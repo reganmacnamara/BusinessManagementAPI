@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Clients.UpdateClient
+﻿namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
 {
 
     public class UpdateClientResponse

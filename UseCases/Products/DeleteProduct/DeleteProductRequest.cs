@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Products.DeleteProduct;
+﻿namespace MacsBusinessManagementAPI.UseCases.Products.DeleteProduct;
 
 public class DeleteProductRequest
 {

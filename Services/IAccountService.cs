@@ -1,6 +1,6 @@
-﻿using BusinessManagementAPI.Entities;
+﻿using MacsBusinessManagementAPI.Entities;
 
-namespace BusinessManagementAPI.Services;
+namespace MacsBusinessManagementAPI.Services;
 
 public interface IAccountService
 {

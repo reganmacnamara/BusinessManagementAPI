@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
+﻿namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
 
 public class UpsertInvoiceItemRequest
 {

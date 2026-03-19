@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Products.UpdateProduct;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.UseCases.Base;
 
-namespace BusinessManagementAPI.UseCases.Products.UpdateProduct;
+namespace MacsBusinessManagementAPI.UseCases.Products.UpdateProduct;
 
 public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {

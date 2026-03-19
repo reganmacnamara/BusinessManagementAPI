@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Invoices.CreateInvoice;
+﻿namespace MacsBusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 
 public class CreateInvoiceRequest
 {

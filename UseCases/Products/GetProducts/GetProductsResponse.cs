@@ -1,6 +1,6 @@
-﻿using BusinessManagementAPI.Entities;
+﻿using MacsBusinessManagementAPI.Entities;
 
-namespace BusinessManagementAPI.UseCases.Products.GetProducts;
+namespace MacsBusinessManagementAPI.UseCases.Products.GetProducts;
 
 public class GetProductsResponse
 {

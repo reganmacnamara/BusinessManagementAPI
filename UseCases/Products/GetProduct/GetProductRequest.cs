@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Products.GetProduct;
+﻿namespace MacsBusinessManagementAPI.UseCases.Products.GetProduct;
 
 public class GetProductRequest
 {

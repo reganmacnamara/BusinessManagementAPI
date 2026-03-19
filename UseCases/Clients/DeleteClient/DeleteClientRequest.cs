@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Clients.DeleteClient
+﻿namespace MacsBusinessManagementAPI.UseCases.Clients.DeleteClient
 {
 
     public class DeleteClientRequest

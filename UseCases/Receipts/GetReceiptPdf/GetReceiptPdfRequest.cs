@@ -1,4 +1,4 @@
-namespace BusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;
+namespace MacsBusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;
 
 public class GetReceiptPdfRequest
 {

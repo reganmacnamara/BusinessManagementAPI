@@ -1,6 +1,6 @@
-﻿using BusinessManagementAPI.Entities;
+﻿using MacsBusinessManagementAPI.Entities;
 
-namespace BusinessManagementAPI.UseCases.Clients.GetClients
+namespace MacsBusinessManagementAPI.UseCases.Clients.GetClients
 {
 
     public class GetClientsResponse

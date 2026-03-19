@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
+﻿namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
 
 public class UpsertReceiptItemRequest
 {

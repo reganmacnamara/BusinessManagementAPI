@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BusinessManagementAPI.Entities;
+namespace MacsBusinessManagementAPI.Entities;
 
 public class Product
 {

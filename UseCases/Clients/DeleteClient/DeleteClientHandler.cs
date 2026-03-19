@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.UseCases.Base;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.UseCases.Base;
 
-namespace BusinessManagementAPI.UseCases.Clients.DeleteClient
+namespace MacsBusinessManagementAPI.UseCases.Clients.DeleteClient
 {
 
     public class DeleteClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)

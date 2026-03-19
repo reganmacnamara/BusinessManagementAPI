@@ -1,4 +1,4 @@
-﻿namespace BusinessManagementAPI.Entities;
+﻿namespace MacsBusinessManagementAPI.Entities;
 
 public class Receipt
 {

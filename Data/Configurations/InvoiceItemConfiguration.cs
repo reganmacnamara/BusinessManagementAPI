@@ -1,8 +1,8 @@
-﻿using BusinessManagementAPI.Entities;
+﻿using MacsBusinessManagementAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BusinessManagementAPI.Data.Configurations;
+namespace MacsBusinessManagementAPI.Data.Configurations;
 
 public class InvoiceItemConfiguration : IEntityTypeConfiguration<InvoiceItem>
 {

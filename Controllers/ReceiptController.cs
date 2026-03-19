@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Services;
-using BusinessManagementAPI.UseCases.Receipts.CreateReceipt;
 using BusinessManagementAPI.UseCases.Receipts.DeleteReceipt;
 using BusinessManagementAPI.UseCases.Receipts.DeleteReceiptItem;
 using BusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;
@@ -9,10 +6,14 @@ using BusinessManagementAPI.UseCases.Receipts.GetClientReceipts;
 using BusinessManagementAPI.UseCases.Receipts.GetReceipt;
 using BusinessManagementAPI.UseCases.Receipts.GetReceipts;
 using BusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
-using BusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
 using Microsoft.AspNetCore.Mvc;
+using MacsBusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
+using MacsBusinessManagementAPI.UseCases.Receipts.CreateReceipt;
+using MacsBusinessManagementAPI.Services;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
 
-namespace BusinessManagementAPI.Controllers;
+namespace MacsBusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]

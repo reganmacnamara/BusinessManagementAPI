@@ -1,11 +1,11 @@
 using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.Services;
-using BusinessManagementAPI.UseCases.Base;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Services;
+using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;
+namespace MacsBusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;
 
 public class GetReceiptPdfHandler(IPdfService pdfService, IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {

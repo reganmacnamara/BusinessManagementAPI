@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.Data;
-using BusinessManagementAPI.Entities;
-using BusinessManagementAPI.UseCases.Base;
+using BusinessManagementAPI.UseCases.Invoices.GetInvoice;
+using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace BusinessManagementAPI.UseCases.Invoices.GetInvoice;
+namespace MacsBusinessManagementAPI.UseCases.Invoices.GetInvoice;
 
 public class GetInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
 {
