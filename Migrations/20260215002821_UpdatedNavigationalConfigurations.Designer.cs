@@ -25,7 +25,7 @@ namespace InvoiceAutomationAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Client", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Client", b =>
                 {
                     b.Property<long>("ClientID")
                         .ValueGeneratedOnAdd()
@@ -74,7 +74,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Product", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Product", b =>
                 {
                     b.Property<long>("ProductID")
                         .ValueGeneratedOnAdd()
@@ -109,7 +109,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Service", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Service", b =>
                 {
                     b.Property<long>("ServiceID")
                         .ValueGeneratedOnAdd()
@@ -143,7 +143,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Transaction", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Transaction", b =>
                 {
                     b.Property<long>("TransactionID")
                         .ValueGeneratedOnAdd()
@@ -196,7 +196,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.TransactionAllocation", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.TransactionAllocation", b =>
                 {
                     b.Property<long>("TransactionAllocationID")
                         .ValueGeneratedOnAdd()
@@ -225,7 +225,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("TransactionAllocations");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.TransactionItem", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.TransactionItem", b =>
                 {
                     b.Property<long>("TransactionItemID")
                         .ValueGeneratedOnAdd()
@@ -263,9 +263,9 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("TransactionItems");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Transaction", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Transaction", b =>
                 {
-                    b.HasOne("BusinessManagementAPI.Entities.Client", "Client")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -274,15 +274,15 @@ namespace InvoiceAutomationAPI.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.TransactionAllocation", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.TransactionAllocation", b =>
                 {
-                    b.HasOne("BusinessManagementAPI.Entities.Transaction", "AllocatingTransaction")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Transaction", "AllocatingTransaction")
                         .WithMany()
                         .HasForeignKey("AllocatingID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("BusinessManagementAPI.Entities.Transaction", "RecievingTransaction")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Transaction", "RecievingTransaction")
                         .WithMany()
                         .HasForeignKey("RecievingID")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -293,15 +293,15 @@ namespace InvoiceAutomationAPI.Migrations
                     b.Navigation("RecievingTransaction");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.TransactionItem", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.TransactionItem", b =>
                 {
-                    b.HasOne("BusinessManagementAPI.Entities.Product", "Product")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessManagementAPI.Entities.Transaction", "Transaction")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Transaction", "Transaction")
                         .WithMany()
                         .HasForeignKey("TransactionID")
                         .OnDelete(DeleteBehavior.Cascade)

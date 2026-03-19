@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.UseCases.Products.DeleteProduct;
-using BusinessManagementAPI.UseCases.Products.GetProduct;
-using BusinessManagementAPI.UseCases.Products.GetProducts;
+using MacsBusinessManagementAPI.UseCases.Products.DeleteProduct;
+using MacsBusinessManagementAPI.UseCases.Products.GetProduct;
+using MacsBusinessManagementAPI.UseCases.Products.GetProducts;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.UseCases.Products.CreateProduct;
 using MacsBusinessManagementAPI.UseCases.Products.UpdateProduct;

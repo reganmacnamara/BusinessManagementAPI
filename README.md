@@ -1,4 +1,4 @@
-# BusinessManagementAPI
+# MacsBusinessManagementAPI
 
 A RESTful Web API for managing clients, products, invoices, and receipts — built with ASP.NET Core 8 and Entity Framework Core.
 
@@ -39,7 +39,7 @@ Controller → Handler (UseCase) → BaseHandler → EF Core (SQLContext)
 ```
 
 ```
-BusinessManagementAPI/
+MacsBusinessManagementAPI/
 ├── Controllers/         # Route definitions — delegate to use case handlers
 ├── UseCases/            # One folder per domain (Clients, Invoices, Products, Receipts)
 │   └── <Domain>/
@@ -112,8 +112,8 @@ BusinessManagementAPI/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/reganmacnamara/BusinessManagementAPI.git
-cd BusinessManagementAPI
+git clone https://github.com/reganmacnamara/MacsBusinessManagementAPI.git
+cd MacsBusinessManagementAPI
 ```
 
 2. Update the connection string in `appsettings.json`:

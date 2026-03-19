@@ -25,7 +25,7 @@ namespace InvoiceAutomationAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Client", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Client", b =>
                 {
                     b.Property<long>("ClientID")
                         .ValueGeneratedOnAdd()
@@ -74,7 +74,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Invoice", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Invoice", b =>
                 {
                     b.Property<long>("InvoiceID")
                         .ValueGeneratedOnAdd()
@@ -123,7 +123,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Invoices");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.InvoiceItem", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.InvoiceItem", b =>
                 {
                     b.Property<long>("InvoiceItemID")
                         .ValueGeneratedOnAdd()
@@ -176,7 +176,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("InvoiceItems");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Product", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Product", b =>
                 {
                     b.Property<long>("ProductID")
                         .ValueGeneratedOnAdd()
@@ -211,9 +211,9 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Invoice", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Invoice", b =>
                 {
-                    b.HasOne("BusinessManagementAPI.Entities.Client", "Client")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Client", "Client")
                         .WithMany("Invoices")
                         .HasForeignKey("ClientID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -222,15 +222,15 @@ namespace InvoiceAutomationAPI.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.InvoiceItem", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.InvoiceItem", b =>
                 {
-                    b.HasOne("BusinessManagementAPI.Entities.Invoice", "Invoice")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Invoice", "Invoice")
                         .WithMany("InvoiceItems")
                         .HasForeignKey("InvoiceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessManagementAPI.Entities.Product", "Product")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Product", "Product")
                         .WithMany("InvoiceItems")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -241,17 +241,17 @@ namespace InvoiceAutomationAPI.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Client", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Client", b =>
                 {
                     b.Navigation("Invoices");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Invoice", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Invoice", b =>
                 {
                     b.Navigation("InvoiceItems");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Product", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Product", b =>
                 {
                     b.Navigation("InvoiceItems");
                 });

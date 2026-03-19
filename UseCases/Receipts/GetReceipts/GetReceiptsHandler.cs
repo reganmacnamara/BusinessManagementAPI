@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.UseCases.Receipts.GetReceipts;
+using MacsBusinessManagementAPI.UseCases.Receipts.GetReceipts;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.UseCases.Base;

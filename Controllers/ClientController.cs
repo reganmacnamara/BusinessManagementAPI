@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.UseCases.Clients.DeleteClient;
-using BusinessManagementAPI.UseCases.Clients.GetClient;
-using BusinessManagementAPI.UseCases.Clients.GetClients;
-using BusinessManagementAPI.UseCases.Clients.UpdateClient;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.UseCases.Clients.CreateClient;
+using MacsBusinessManagementAPI.UseCases.Clients.DeleteClient;
+using MacsBusinessManagementAPI.UseCases.Clients.GetClient;
+using MacsBusinessManagementAPI.UseCases.Clients.GetClients;
 using MacsBusinessManagementAPI.UseCases.Clients.UpdateClient;
 using Microsoft.AspNetCore.Mvc;
 

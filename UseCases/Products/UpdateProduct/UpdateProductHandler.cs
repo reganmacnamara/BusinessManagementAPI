@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessManagementAPI.UseCases.Products.UpdateProduct;
+using MacsBusinessManagementAPI.UseCases.Products.UpdateProduct;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.UseCases.Base;

@@ -22,7 +22,7 @@ namespace InvoiceAutomationAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Account", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Account", b =>
                 {
                     b.Property<long>("AccountID")
                         .ValueGeneratedOnAdd()
@@ -56,7 +56,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Client", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Client", b =>
                 {
                     b.Property<long>("ClientID")
                         .ValueGeneratedOnAdd()
@@ -105,7 +105,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Invoice", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Invoice", b =>
                 {
                     b.Property<long>("InvoiceID")
                         .ValueGeneratedOnAdd()
@@ -154,7 +154,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Invoices");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.InvoiceItem", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.InvoiceItem", b =>
                 {
                     b.Property<long>("InvoiceItemID")
                         .ValueGeneratedOnAdd()
@@ -207,7 +207,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("InvoiceItems");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Product", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Product", b =>
                 {
                     b.Property<long>("ProductID")
                         .ValueGeneratedOnAdd()
@@ -242,7 +242,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Receipt", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Receipt", b =>
                 {
                     b.Property<long>("ReceiptID")
                         .ValueGeneratedOnAdd()
@@ -287,7 +287,7 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("Receipts");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.ReceiptItem", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.ReceiptItem", b =>
                 {
                     b.Property<long>("ReceiptItemID")
                         .ValueGeneratedOnAdd()
@@ -325,9 +325,9 @@ namespace InvoiceAutomationAPI.Migrations
                     b.ToTable("ReceiptItems");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Invoice", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Invoice", b =>
                 {
-                    b.HasOne("BusinessManagementAPI.Entities.Client", "Client")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -336,15 +336,15 @@ namespace InvoiceAutomationAPI.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.InvoiceItem", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.InvoiceItem", b =>
                 {
-                    b.HasOne("BusinessManagementAPI.Entities.Invoice", "Invoice")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Invoice", "Invoice")
                         .WithMany()
                         .HasForeignKey("InvoiceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessManagementAPI.Entities.Product", "Product")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -355,9 +355,9 @@ namespace InvoiceAutomationAPI.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.Receipt", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.Receipt", b =>
                 {
-                    b.HasOne("BusinessManagementAPI.Entities.Client", "Client")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -366,15 +366,15 @@ namespace InvoiceAutomationAPI.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("BusinessManagementAPI.Entities.ReceiptItem", b =>
+            modelBuilder.Entity("MacsBusinessManagementAPI.Entities.ReceiptItem", b =>
                 {
-                    b.HasOne("BusinessManagementAPI.Entities.Invoice", "Invoice")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Invoice", "Invoice")
                         .WithMany()
                         .HasForeignKey("InvoiceID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessManagementAPI.Entities.Receipt", "Receipt")
+                    b.HasOne("MacsBusinessManagementAPI.Entities.Receipt", "Receipt")
                         .WithMany()
                         .HasForeignKey("ReceiptID")
                         .OnDelete(DeleteBehavior.Cascade)
