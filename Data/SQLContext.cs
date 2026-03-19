@@ -5,7 +5,6 @@ namespace MacsBusinessManagementAPI.Data
 {
     public class SQLContext(DbContextOptions<SQLContext> options) : DbContext(options)
     {
-        public DbSet<Account> Accounts { get; set; } = null!;
         public DbSet<Client> Clients { get; set; } = null!;
         public DbSet<Invoice> Invoices { get; set; } = null!;
         public DbSet<InvoiceItem> InvoiceItems { get; set; } = null!;
