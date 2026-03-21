@@ -23,7 +23,7 @@ public class CreateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
 
         m_Context.Invoices.Add(_Invoice);
 
-        _ = await m_Context.SaveChangesAsync();
+        _ = await m_Context.SaveChangesAsync(cancellationToken);
 
         var _Response = m_Mapper.Map<CreateInvoiceResponse>(_Invoice);
 

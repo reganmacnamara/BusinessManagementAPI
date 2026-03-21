@@ -49,7 +49,7 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
 
                 _Product.QuantityOnHand -= (long)_InvoiceItem.Quantity;
 
-                _ = await m_Context.SaveChangesAsync();
+                _ = await m_Context.SaveChangesAsync(cancellationToken);
 
                 var _Response = new UpsertInvoiceItemResponse()
                 {
@@ -83,7 +83,7 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
 
                 m_Context.InvoiceItems.Add(_InvoiceItem);
 
-                _ = await m_Context.SaveChangesAsync();
+                _ = await m_Context.SaveChangesAsync(cancellationToken);
 
                 var _Response = new UpsertInvoiceItemResponse()
                 {

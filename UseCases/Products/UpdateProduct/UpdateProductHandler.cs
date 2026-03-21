@@ -18,7 +18,7 @@ public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHand
 
         _Product = UpdateEntityFromRequest(_Product, request, ["ProductID"]);
 
-        await m_Context.SaveChangesAsync();
+        await m_Context.SaveChangesAsync(cancellationToken);
 
         var _Response = new UpdateProductResponse()
         {

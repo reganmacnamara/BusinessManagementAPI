@@ -23,7 +23,7 @@ public class CreateReceiptHandler(IMapper mapper, SQLContext context) : BaseHand
 
         m_Context.Receipts.Add(_Receipt);
 
-        _ = await m_Context.SaveChangesAsync();
+        _ = await m_Context.SaveChangesAsync(cancellationToken);
 
         var _Response = m_Mapper.Map<CreateReceiptResponse>(_Receipt);
 

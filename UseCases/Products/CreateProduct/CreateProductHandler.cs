@@ -14,7 +14,7 @@ public class CreateProductHandler(IMapper mapper, SQLContext context) : BaseHand
 
         m_Context.Products.Add(_Product);
 
-        await m_Context.SaveChangesAsync();
+        await m_Context.SaveChangesAsync(cancellationToken);
 
         return Results.Created(string.Empty, new CreateProductResponse() { ProductID = _Product.ProductID });
     }

@@ -29,7 +29,7 @@ public class UpdateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
 
         _Invoice = UpdateEntityFromRequest(_Invoice, request, ["InvoiceID"]);
 
-        await m_Context.SaveChangesAsync();
+        await m_Context.SaveChangesAsync(cancellationToken);
 
         var _Response = new UpdateInvoiceResponse()
         {

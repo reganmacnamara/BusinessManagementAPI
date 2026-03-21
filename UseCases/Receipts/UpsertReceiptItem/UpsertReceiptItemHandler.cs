@@ -41,7 +41,7 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
 
                 m_Context.ReceiptItems.Add(_ReceiptItem);
 
-                _ = await m_Context.SaveChangesAsync();
+                _ = await m_Context.SaveChangesAsync(cancellationToken);
 
                 var _Response = new UpsertReceiptItemResponse()
                 {
@@ -74,7 +74,7 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
                     return Results.Conflict(ex.Message);
                 }
 
-                _ = await m_Context.SaveChangesAsync();
+                _ = await m_Context.SaveChangesAsync(cancellationToken);
 
                 var _Response = new UpsertReceiptItemResponse()
                 {

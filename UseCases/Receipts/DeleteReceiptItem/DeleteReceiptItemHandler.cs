@@ -23,7 +23,7 @@ public class DeleteReceiptItemHandler(IAllocationService allocationService, IMap
 
         m_Context.ReceiptItems.Remove(_ReceiptItem);
 
-        _ = await m_Context.SaveChangesAsync();
+        _ = await m_Context.SaveChangesAsync(cancellationToken);
 
         return Results.NoContent();
     }

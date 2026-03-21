@@ -31,7 +31,7 @@ public class DeleteInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
         m_Context.RemoveRange(_InvoiceItems);
         m_Context.Remove(_Invoice);
 
-        await m_Context.SaveChangesAsync();
+        await m_Context.SaveChangesAsync(cancellationToken);
 
         return Results.NoContent();
     }

@@ -25,7 +25,7 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.DeleteClient
 
             m_Context.Clients.Remove(_Client);
 
-            await m_Context.SaveChangesAsync();
+            await m_Context.SaveChangesAsync(cancellationToken);
 
             return Results.NoContent();
         }

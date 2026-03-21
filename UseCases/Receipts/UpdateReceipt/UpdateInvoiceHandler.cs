@@ -18,7 +18,7 @@ public class UpdateReceiptHandler(IMapper mapper, SQLContext context) : BaseHand
 
         _Receipt = UpdateEntityFromRequest(_Receipt, request, ["ReceiptID"]);
 
-        await m_Context.SaveChangesAsync();
+        await m_Context.SaveChangesAsync(cancellationToken);
 
         var _Response = new UpdateReceiptResponse()
         {

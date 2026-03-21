@@ -19,7 +19,7 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
 
             _Client = UpdateEntityFromRequest(_Client, request, ["ClientID"]);
 
-            await m_Context.SaveChangesAsync();
+            await m_Context.SaveChangesAsync(cancellationToken);
 
             var _Response = new UpdateClientResponse()
             {

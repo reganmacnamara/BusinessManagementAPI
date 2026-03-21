@@ -9,7 +9,7 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoiceItem;
 
 public class DeleteInvoiceItemHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<DeleteInvoiceItemRequest>
 {
-    public async Task<IResult> HandleAsync(DeleteInvoiceItemRequest request, CancellationToken cancellation)
+    public async Task<IResult> HandleAsync(DeleteInvoiceItemRequest request, CancellationToken cancellationToken)
     {
         var _InvoiceItem = m_Context.GetEntities<InvoiceItem>()
             .Include(ii => ii.Product)
@@ -22,7 +22,7 @@ public class DeleteInvoiceItemHandler(IMapper mapper, SQLContext context) : Base
 
         m_Context.InvoiceItems.Remove(_InvoiceItem);
 
-        _ = await m_Context.SaveChangesAsync();
+        _ = await m_Context.SaveChangesAsync(cancellationToken);
 
         return Results.NoContent();
     }

@@ -24,7 +24,7 @@ public class DeleteReceiptHandler(IMapper mapper, SQLContext context) : BaseHand
         m_Context.RemoveRange(_RecieptItems);
         m_Context.Remove(_Receipt);
 
-        await m_Context.SaveChangesAsync();
+        await m_Context.SaveChangesAsync(cancellationToken);
 
         return Results.NoContent();
     }

@@ -26,7 +26,7 @@ public class DeleteProductHandler(IMapper mapper, SQLContext context) : BaseHand
             return Results.Conflict("Cannot delete a Product that still has history.");
 
         m_Context.Products.Remove(_Product);
-        await m_Context.SaveChangesAsync();
+        await m_Context.SaveChangesAsync(cancellationToken);
         return Results.NoContent();
     }
 }
