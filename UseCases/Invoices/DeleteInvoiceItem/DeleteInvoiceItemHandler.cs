@@ -1,17 +1,15 @@
-﻿using AutoMapper;
-using MacsBusinessManagementAPI.Data;
+﻿using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure;
-using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoiceItem;
 
-public class DeleteInvoiceItemHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<DeleteInvoiceItemRequest>
+public class DeleteInvoiceItemHandler(SQLContext context) : IUseCaseHandler<DeleteInvoiceItemRequest>
 {
     public async Task<IResult> HandleAsync(DeleteInvoiceItemRequest request, CancellationToken cancellationToken)
     {
-        var _InvoiceItem = m_Context.GetEntities<InvoiceItem>()
+        var _InvoiceItem = context.GetEntities<InvoiceItem>()
             .Include(ii => ii.Product)
             .SingleOrDefault(ii => ii.InvoiceItemID == request.InvoiceItemID);
 
@@ -20,9 +18,9 @@ public class DeleteInvoiceItemHandler(IMapper mapper, SQLContext context) : Base
 
         _InvoiceItem.Product.QuantityOnHand += (long)_InvoiceItem.Quantity;
 
-        m_Context.InvoiceItems.Remove(_InvoiceItem);
+        context.InvoiceItems.Remove(_InvoiceItem);
 
-        _ = await m_Context.SaveChangesAsync(cancellationToken);
+        _ = await context.SaveChangesAsync(cancellationToken);
 
         return Results.NoContent();
     }

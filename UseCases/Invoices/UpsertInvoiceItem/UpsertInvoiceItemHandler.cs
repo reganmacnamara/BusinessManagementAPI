@@ -1,19 +1,19 @@
 ﻿using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure;
-using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
 {
-    public class UpsertInvoiceItemHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<UpsertInvoiceItemRequest>
+    public class UpsertInvoiceItemHandler(IMapper mapper, SQLContext context) : IUseCaseHandler<UpsertInvoiceItemRequest>
     {
         public async Task<IResult> HandleAsync(UpsertInvoiceItemRequest request, CancellationToken cancellationToken)
         {
             if (request.InvoiceItemID != 0)
             {
-                var _InvoiceItem = m_Context.GetEntities<InvoiceItem>()
+                var _InvoiceItem = context.GetEntities<InvoiceItem>()
                     .Include(ii => ii.Invoice)
                     .Include(ii => ii.Product)
                     .Where(ii => ii.InvoiceItemID == request.InvoiceItemID)
@@ -26,12 +26,12 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
                 var _OldProductID = _InvoiceItem.ProductID;
                 var _OldProduct = _InvoiceItem.Product;
 
-                _InvoiceItem = UpdateEntityFromRequest(_InvoiceItem, request, ["InvoiceItemID"]);
+                _InvoiceItem.UpdateFromEntity(request, ["InvoiceItemID"]);
 
                 Product? _Product;
                 if (_InvoiceItem.ProductID != _OldProductID)
                 {
-                    _Product = m_Context.GetEntities<Product>()
+                    _Product = context.GetEntities<Product>()
                         .SingleOrDefault(p => p.ProductID == _InvoiceItem.ProductID);
 
                     if (_Product == null)
@@ -49,7 +49,7 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
 
                 _Product.QuantityOnHand -= (long)_InvoiceItem.Quantity;
 
-                _ = await m_Context.SaveChangesAsync(cancellationToken);
+                _ = await context.SaveChangesAsync(cancellationToken);
 
                 var _Response = new UpsertInvoiceItemResponse()
                 {
@@ -60,14 +60,14 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
             }
             else
             {
-                var _InvoiceItem = m_Mapper.Map<InvoiceItem>(request);
-                var _Invoice = m_Context.GetEntities<Invoice>()
+                var _InvoiceItem = mapper.Map<InvoiceItem>(request);
+                var _Invoice = context.GetEntities<Invoice>()
                     .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);
 
                 if (_Invoice == null)
                     return Results.NotFound("Invoice could not be found.");
 
-                var _Product = m_Context.GetEntities<Product>()
+                var _Product = context.GetEntities<Product>()
                     .SingleOrDefault(p => p.ProductID == request.ProductID);
 
                 if (_Product == null)
@@ -81,9 +81,9 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
 
                 _Product.QuantityOnHand -= (long)_InvoiceItem.Quantity;
 
-                m_Context.InvoiceItems.Add(_InvoiceItem);
+                context.InvoiceItems.Add(_InvoiceItem);
 
-                _ = await m_Context.SaveChangesAsync(cancellationToken);
+                _ = await context.SaveChangesAsync(cancellationToken);
 
                 var _Response = new UpsertInvoiceItemResponse()
                 {

@@ -1,25 +1,24 @@
-﻿using AutoMapper;
-using MacsBusinessManagementAPI.Data;
+﻿using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure;
-using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
 {
 
-    public class UpdateClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<UpdateClientRequest>
+    public class UpdateClientHandler(SQLContext context) : IUseCaseHandler<UpdateClientRequest>
     {
         public async Task<IResult> HandleAsync(UpdateClientRequest request, CancellationToken cancellationToken)
         {
-            var _Client = m_Context.GetEntities<Client>()
+            var _Client = context.GetEntities<Client>()
                 .SingleOrDefault(c => c.ClientID == request.ClientId);
 
             if (_Client is null)
                 return Results.NotFound("Client was not found.");
 
-            _Client = UpdateEntityFromRequest(_Client, request, ["ClientID"]);
+            _Client.UpdateFromEntity(request, ["ClientID"]);
 
-            await m_Context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
             var _Response = new UpdateClientResponse()
             {

@@ -21,6 +21,5 @@ namespace MacsBusinessManagementAPI.Data
 
         public IQueryable<T> GetEntities<T>() where T : class
             => Set<T>().AsQueryable();
-
     }
 }

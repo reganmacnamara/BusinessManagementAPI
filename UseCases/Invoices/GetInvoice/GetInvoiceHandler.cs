@@ -1,17 +1,15 @@
-﻿using AutoMapper;
-using MacsBusinessManagementAPI.Data;
+﻿using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure;
-using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.GetInvoice;
 
-public class GetInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<GetInvoiceRequest>
+public class GetInvoiceHandler(SQLContext context) : IUseCaseHandler<GetInvoiceRequest>
 {
     public async Task<IResult> HandleAsync(GetInvoiceRequest request, CancellationToken cancellationToken)
     {
-        var _Invoice = m_Context.GetEntities<Invoice>()
+        var _Invoice = context.GetEntities<Invoice>()
             .AsNoTracking()
             .Include(i => i.Client)
             .Where(i => i.InvoiceID == request.InvoiceID)
@@ -20,7 +18,7 @@ public class GetInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler
         if (_Invoice is null)
             return Results.NotFound($"Invoice {request.InvoiceID} could not be found.");
 
-        var _InvoiceItems = m_Context.GetEntities<InvoiceItem>()
+        var _InvoiceItems = context.GetEntities<InvoiceItem>()
             .AsNoTracking()
             .Include(ii => ii.Product)
             .Where(ii => ii.InvoiceID == request.InvoiceID)

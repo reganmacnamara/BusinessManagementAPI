@@ -1,18 +1,16 @@
-﻿using AutoMapper;
-using MacsBusinessManagementAPI.Data;
+﻿using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.Services.Allocations;
-using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Receipts.DeleteReceiptItem;
 
-public class DeleteReceiptItemHandler(IAllocationService allocationService, IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<DeleteReceiptItemRequest>
+public class DeleteReceiptItemHandler(IAllocationService allocationService, SQLContext context) : IUseCaseHandler<DeleteReceiptItemRequest>
 {
     public async Task<IResult> HandleAsync(DeleteReceiptItemRequest request, CancellationToken cancellationToken)
     {
-        var _ReceiptItem = m_Context.GetEntities<ReceiptItem>()
+        var _ReceiptItem = context.GetEntities<ReceiptItem>()
             .Include(ri => ri.Invoice)
             .SingleOrDefault(ri => ri.ReceiptItemID == request.ReceiptItemID);
 
@@ -21,9 +19,9 @@ public class DeleteReceiptItemHandler(IAllocationService allocationService, IMap
 
         await allocationService.DeallocateFromInvoice(_ReceiptItem, _ReceiptItem.Invoice);
 
-        m_Context.ReceiptItems.Remove(_ReceiptItem);
+        context.ReceiptItems.Remove(_ReceiptItem);
 
-        _ = await m_Context.SaveChangesAsync(cancellationToken);
+        _ = await context.SaveChangesAsync(cancellationToken);
 
         return Results.NoContent();
     }

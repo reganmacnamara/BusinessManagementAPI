@@ -1,16 +1,15 @@
-﻿using AutoMapper;
-using MacsBusinessManagementAPI.Data;
+﻿using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure;
-using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
 
-public class UpdateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<UpdateInvoiceRequest>
+public class UpdateInvoiceHandler(SQLContext context) : IUseCaseHandler<UpdateInvoiceRequest>
 {
     public async Task<IResult> HandleAsync(UpdateInvoiceRequest request, CancellationToken cancellationToken)
     {
-        var _Invoice = m_Context.GetEntities<Invoice>()
+        var _Invoice = context.GetEntities<Invoice>()
             .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);
 
         if (_Invoice == null || request.InvoiceID == 0)
@@ -18,7 +17,7 @@ public class UpdateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
 
         if (request.ClientID != _Invoice.ClientID)
         {
-            var _Client = m_Context.GetEntities<Client>()
+            var _Client = context.GetEntities<Client>()
                 .SingleOrDefault(c => c.ClientID == request.ClientID);
 
             if (_Client == null || request.ClientID == 0)
@@ -27,9 +26,9 @@ public class UpdateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
             _Invoice.Client = _Client;
         }
 
-        _Invoice = UpdateEntityFromRequest(_Invoice, request, ["InvoiceID"]);
+        _Invoice.UpdateFromEntity(request, ["InvoiceID"]);
 
-        await m_Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         var _Response = new UpdateInvoiceResponse()
         {

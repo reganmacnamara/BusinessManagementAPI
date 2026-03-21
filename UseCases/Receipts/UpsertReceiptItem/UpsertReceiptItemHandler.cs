@@ -1,27 +1,27 @@
 ﻿using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.Services.Allocations;
-using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
 {
-    public class UpsertReceiptItemHandler(IAllocationService allocationService, IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<UpsertReceiptItemRequest>
+    public class UpsertReceiptItemHandler(IAllocationService allocationService, IMapper mapper, SQLContext context) : IUseCaseHandler<UpsertReceiptItemRequest>
     {
         public async Task<IResult> HandleAsync(UpsertReceiptItemRequest request, CancellationToken cancellationToken)
         {
             if (request.ReceiptItemID == 0)
             {
-                var _ReceiptItem = m_Mapper.Map<ReceiptItem>(request);
-                var _Receipt = m_Context.GetEntities<Receipt>()
+                var _ReceiptItem = mapper.Map<ReceiptItem>(request);
+                var _Receipt = context.GetEntities<Receipt>()
                     .SingleOrDefault(r => r.ReceiptID == request.ReceiptID);
 
                 if (_Receipt == null)
                     return Results.NotFound("Receipt could not be found.");
 
-                var _Invoice = m_Context.GetEntities<Invoice>()
+                var _Invoice = context.GetEntities<Invoice>()
                     .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);
 
                 if (_Invoice == null)
@@ -39,9 +39,9 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
                     return Results.Conflict(ex.Message);
                 }
 
-                m_Context.ReceiptItems.Add(_ReceiptItem);
+                context.ReceiptItems.Add(_ReceiptItem);
 
-                _ = await m_Context.SaveChangesAsync(cancellationToken);
+                _ = await context.SaveChangesAsync(cancellationToken);
 
                 var _Response = new UpsertReceiptItemResponse()
                 {
@@ -52,7 +52,7 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
             }
             else
             {
-                var _ReceiptItem = m_Context.GetEntities<ReceiptItem>()
+                var _ReceiptItem = context.GetEntities<ReceiptItem>()
                     .Include(ii => ii.Receipt)
                     .Include(ii => ii.Invoice)
                     .Where(ii => ii.ReceiptItemID == request.ReceiptItemID)
@@ -63,7 +63,7 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
 
                 await allocationService.DeallocateFromInvoice(_ReceiptItem, _ReceiptItem.Invoice);
 
-                _ReceiptItem = UpdateEntityFromRequest(_ReceiptItem, request, ["ReceiptItemID"]);
+                _ReceiptItem.UpdateFromEntity(request, ["ReceiptItemID"]);
 
                 try
                 {
@@ -74,7 +74,7 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
                     return Results.Conflict(ex.Message);
                 }
 
-                _ = await m_Context.SaveChangesAsync(cancellationToken);
+                _ = await context.SaveChangesAsync(cancellationToken);
 
                 var _Response = new UpsertReceiptItemResponse()
                 {

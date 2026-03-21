@@ -1,17 +1,15 @@
-﻿using AutoMapper;
-using MacsBusinessManagementAPI.Data;
+﻿using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure;
-using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
 
-public class DeleteInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<DeleteInvoiceRequest>
+public class DeleteInvoiceHandler(SQLContext context) : IUseCaseHandler<DeleteInvoiceRequest>
 {
     public async Task<IResult> HandleAsync(DeleteInvoiceRequest request, CancellationToken cancellationToken)
     {
-        var _Invoice = m_Context.GetEntities<Invoice>()
+        var _Invoice = context.GetEntities<Invoice>()
             .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);
 
         if (_Invoice is null)
@@ -20,7 +18,7 @@ public class DeleteInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
         if (_Invoice.OffsetValue != 0)
             return Results.Conflict("Cannot delete an Invoice with Allocations.");
 
-        var _InvoiceItems = m_Context.InvoiceItems
+        var _InvoiceItems = context.InvoiceItems
             .Include(ii => ii.Product)
             .Where(ii => ii.InvoiceID == request.InvoiceID)
             .ToList();
@@ -28,10 +26,10 @@ public class DeleteInvoiceHandler(IMapper mapper, SQLContext context) : BaseHand
         foreach (var item in _InvoiceItems)
             item.Product.QuantityOnHand += (long)item.Quantity;
 
-        m_Context.RemoveRange(_InvoiceItems);
-        m_Context.Remove(_Invoice);
+        context.RemoveRange(_InvoiceItems);
+        context.Remove(_Invoice);
 
-        await m_Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return Results.NoContent();
     }

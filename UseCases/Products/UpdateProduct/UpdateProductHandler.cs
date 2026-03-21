@@ -1,24 +1,23 @@
-﻿using AutoMapper;
-using MacsBusinessManagementAPI.Data;
+﻿using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure;
-using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Products.UpdateProduct;
 
-public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<UpdateProductRequest>
+public class UpdateProductHandler(SQLContext context) : IUseCaseHandler<UpdateProductRequest>
 {
     public async Task<IResult> HandleAsync(UpdateProductRequest request, CancellationToken cancellationToken)
     {
-        var _Product = m_Context.GetEntities<Product>()
+        var _Product = context.GetEntities<Product>()
             .SingleOrDefault(p => p.ProductID == request.ProductID);
 
         if (_Product is null)
             return Results.NotFound("Product not found.");
 
-        _Product = UpdateEntityFromRequest(_Product, request, ["ProductID"]);
+        _Product.UpdateFromEntity(request, ["ProductID"]);
 
-        await m_Context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         var _Response = new UpdateProductResponse()
         {
