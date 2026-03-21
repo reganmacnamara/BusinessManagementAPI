@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using MacsBusinessManagementAPI.UseCases.Products.CreateProduct;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Products.CreateProduct;
 
-public class CreateProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class CreateProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<CreateProductRequest>
 {
-    public async Task<IResult> CreateProduct(CreateProductRequest request)
+    public async Task<IResult> HandleAsync(CreateProductRequest request, CancellationToken cancellationToken)
     {
         var _Product = m_Mapper.Map<Product>(request);
 

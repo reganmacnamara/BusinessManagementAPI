@@ -1,86 +1,88 @@
 ﻿using AutoMapper;
-using MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
-using MacsBusinessManagementAPI.Services;
+using MacsBusinessManagementAPI.Infrastructure;
+using MacsBusinessManagementAPI.Services.Allocations;
 using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
 {
-    public class UpsertReceiptItemHandler(IAllocationService allocationService, IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+    public class UpsertReceiptItemHandler(IAllocationService allocationService, IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<UpsertReceiptItemRequest>
     {
-        public async Task<IResult> CreateReceiptItem(UpsertReceiptItemRequest request)
+        public async Task<IResult> HandleAsync(UpsertReceiptItemRequest request, CancellationToken cancellationToken)
         {
-            var _ReceiptItem = m_Mapper.Map<ReceiptItem>(request);
-            var _Receipt = m_Context.GetEntities<Receipt>()
-                .SingleOrDefault(r => r.ReceiptID == request.ReceiptID);
-
-            if (_Receipt == null)
-                return Results.NotFound("Receipt could not be found.");
-
-            var _Invoice = m_Context.GetEntities<Invoice>()
-                .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);
-
-            if (_Invoice == null)
-                return Results.NotFound("Invoice could not be found.");
-
-            _ReceiptItem.Receipt = _Receipt;
-            _ReceiptItem.Invoice = _Invoice;
-
-            try
+            if (request.ReceiptItemID == 0)
             {
-                _Invoice = await allocationService.AllocateToInvoice(_ReceiptItem, _Invoice);
+                var _ReceiptItem = m_Mapper.Map<ReceiptItem>(request);
+                var _Receipt = m_Context.GetEntities<Receipt>()
+                    .SingleOrDefault(r => r.ReceiptID == request.ReceiptID);
+
+                if (_Receipt == null)
+                    return Results.NotFound("Receipt could not be found.");
+
+                var _Invoice = m_Context.GetEntities<Invoice>()
+                    .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);
+
+                if (_Invoice == null)
+                    return Results.NotFound("Invoice could not be found.");
+
+                _ReceiptItem.Receipt = _Receipt;
+                _ReceiptItem.Invoice = _Invoice;
+
+                try
+                {
+                    _Invoice = await allocationService.AllocateToInvoice(_ReceiptItem, _Invoice);
+                }
+                catch (Exception ex)
+                {
+                    return Results.Conflict(ex.Message);
+                }
+
+                m_Context.ReceiptItems.Add(_ReceiptItem);
+
+                _ = await m_Context.SaveChangesAsync();
+
+                var _Response = new UpsertReceiptItemResponse()
+                {
+                    ReceiptItemID = _ReceiptItem.ReceiptItemID
+                };
+
+                return Results.Created(string.Empty, _Response);
             }
-            catch (Exception ex)
+            else
             {
-                return Results.Conflict(ex.Message);
+                var _ReceiptItem = m_Context.GetEntities<ReceiptItem>()
+                    .Include(ii => ii.Receipt)
+                    .Include(ii => ii.Invoice)
+                    .Where(ii => ii.ReceiptItemID == request.ReceiptItemID)
+                    .SingleOrDefault();
+
+                if (_ReceiptItem == null)
+                    return Results.NotFound("Receipt Item could not be found.");
+
+                await allocationService.DeallocateFromInvoice(_ReceiptItem, _ReceiptItem.Invoice);
+
+                _ReceiptItem = UpdateEntityFromRequest(_ReceiptItem, request, ["ReceiptItemID"]);
+
+                try
+                {
+                    _ReceiptItem.Invoice = await allocationService.AllocateToInvoice(_ReceiptItem, _ReceiptItem.Invoice);
+                }
+                catch (Exception ex)
+                {
+                    return Results.Conflict(ex.Message);
+                }
+
+                _ = await m_Context.SaveChangesAsync();
+
+                var _Response = new UpsertReceiptItemResponse()
+                {
+                    ReceiptItemID = _ReceiptItem.ReceiptItemID
+                };
+
+                return Results.Ok(_Response);
             }
-
-            m_Context.ReceiptItems.Add(_ReceiptItem);
-
-            _ = await m_Context.SaveChangesAsync();
-
-            var _Response = new UpsertReceiptItemResponse()
-            {
-                ReceiptItemID = _ReceiptItem.ReceiptItemID
-            };
-
-            return Results.Created(string.Empty, _Response);
-        }
-
-        public async Task<IResult> UpdateReceiptItem(UpsertReceiptItemRequest request)
-        {
-            var _ReceiptItem = m_Context.GetEntities<ReceiptItem>()
-                .Include(ii => ii.Receipt)
-                .Include(ii => ii.Invoice)
-                .Where(ii => ii.ReceiptItemID == request.ReceiptItemID)
-                .SingleOrDefault();
-
-            if (_ReceiptItem == null)
-                return Results.NotFound("Receipt Item could not be found.");
-
-            await allocationService.DeallocateFromInvoice(_ReceiptItem, _ReceiptItem.Invoice);
-
-            _ReceiptItem = UpdateEntityFromRequest(_ReceiptItem, request, ["ReceiptItemID"]);
-
-            try
-            {
-                _ReceiptItem.Invoice = await allocationService.AllocateToInvoice(_ReceiptItem, _ReceiptItem.Invoice);
-            }
-            catch (Exception ex)
-            {
-                return Results.Conflict(ex.Message);
-            }
-
-            _ = await m_Context.SaveChangesAsync();
-
-            var _Response = new UpsertReceiptItemResponse()
-            {
-                ReceiptItemID = _ReceiptItem.ReceiptItemID
-            };
-
-            return Results.Ok(_Response);
         }
     }
 }

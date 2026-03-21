@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
 
-public class DeleteInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class DeleteInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<DeleteInvoiceRequest>
 {
-    public async Task<IResult> DeleteInvoice(DeleteInvoiceRequest request)
+    public async Task<IResult> HandleAsync(DeleteInvoiceRequest request, CancellationToken cancellationToken)
     {
         var _Invoice = m_Context.GetEntities<Invoice>()
             .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);

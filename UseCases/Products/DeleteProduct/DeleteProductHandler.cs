@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Products.DeleteProduct;
 
-public class DeleteProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class DeleteProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<DeleteProductRequest>
 {
-    public async Task<IResult> DeleteProduct(DeleteProductRequest request)
+    public async Task<IResult> HandleAsync(DeleteProductRequest request, CancellationToken cancellationToken)
     {
         var _Product = m_Context.GetEntities<Product>()
             .SingleOrDefault(product => product.ProductID == request.ProductID);

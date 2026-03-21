@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using MacsBusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
 
-public class UpdateReceiptHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class UpdateReceiptHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<UpdateReceiptRequest>
 {
-    public async Task<IResult> UpdateReceipt(UpdateReceiptRequest request)
+    public async Task<IResult> HandleAsync(UpdateReceiptRequest request, CancellationToken cancellationToken)
     {
         var _Receipt = m_Context.GetEntities<Receipt>()
             .SingleOrDefault(r => r.ReceiptID == request.ReceiptID);

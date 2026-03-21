@@ -1,137 +1,107 @@
-﻿using AutoMapper;
+﻿using MacsBusinessManagementAPI.Infrastructure;
+using MacsBusinessManagementAPI.UseCases.Receipts.CreateReceipt;
 using MacsBusinessManagementAPI.UseCases.Receipts.DeleteReceipt;
 using MacsBusinessManagementAPI.UseCases.Receipts.DeleteReceiptItem;
-using MacsBusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;
 using MacsBusinessManagementAPI.UseCases.Receipts.GetClientReceipts;
 using MacsBusinessManagementAPI.UseCases.Receipts.GetReceipt;
+using MacsBusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;
 using MacsBusinessManagementAPI.UseCases.Receipts.GetReceipts;
 using MacsBusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
-using Microsoft.AspNetCore.Mvc;
-using MacsBusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
-using MacsBusinessManagementAPI.UseCases.Receipts.CreateReceipt;
-using MacsBusinessManagementAPI.Services;
-using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MacsBusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ReceiptController(IAllocationService allocationService, IPdfService pdfService, IMapper mapper, SQLContext context) : ControllerBase
+public class ReceiptController : ControllerBase
 {
     [HttpPost]
-    public async Task<IResult> CreateReceipt([FromBody] CreateReceiptRequest request)
+    public async Task<IResult> CreateReceipt([FromBody] CreateReceiptRequest request,
+        [FromServices] IUseCaseHandler<CreateReceiptRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var handler = new CreateReceiptHandler(mapper, context);
-
-        var _Response = await handler.CreateReceipt(request);
+        var _Response = await handler.HandleAsync(request, cancellationToken);
 
         return _Response;
     }
 
     [HttpDelete("{receiptID}")]
-    public async Task<IResult> DeleteReceipt([FromRoute] long receiptID)
+    public async Task<IResult> DeleteReceipt([FromRoute] long receiptID,
+        [FromServices] IUseCaseHandler<DeleteReceiptRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var _Request = new DeleteReceiptRequest()
-        {
-            ReceiptID = receiptID
-        };
 
-        var handler = new DeleteReceiptHandler(mapper, context);
-
-        var _Response = await handler.DeleteReceipt(_Request);
+        var _Response = await handler.HandleAsync(new() { ReceiptID = receiptID }, cancellationToken);
 
         return _Response;
     }
 
     [HttpDelete("Item/{receiptItemID}")]
-    public async Task<IResult> DeleteReceiptItem([FromRoute] long receiptItemID)
+    public async Task<IResult> DeleteReceiptItem([FromRoute] long receiptItemID,
+        [FromServices] IUseCaseHandler<DeleteReceiptItemRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var _Request = new DeleteReceiptItemRequest()
-        {
-            ReceiptItemID = receiptItemID
-        };
-
-        var handler = new DeleteReceiptItemHandler(allocationService, mapper, context);
-
-        var _Response = await handler.DeleteReceiptItem(_Request);
+        var _Response = await handler.HandleAsync(new() { ReceiptItemID = receiptItemID }, cancellationToken);
 
         return _Response;
     }
 
     [HttpGet("Client/{clientID}")]
-    public async Task<IResult> GetClientReceipts([FromRoute] long clientID)
+    public async Task<IResult> GetClientReceipts([FromRoute] long clientID,
+        [FromServices] IUseCaseHandler<GetClientReceiptsRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var _Request = new GetClientReceiptsRequest()
-        {
-            ClientID = clientID
-        };
-
-        var handler = new GetClientReceiptsHandler(mapper, context);
-
-        var _Response = await handler.GetClientReceipts(_Request);
+        var _Response = await handler.HandleAsync(new() { ClientID = clientID }, cancellationToken);
 
         return _Response;
     }
 
     [HttpGet("{receiptID}")]
-    public async Task<IResult> GetReceipt([FromRoute] long receiptID)
+    public async Task<IResult> GetReceipt([FromRoute] long receiptID,
+        [FromServices] IUseCaseHandler<GetReceiptRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var _Request = new GetReceiptRequest()
-        {
-            ReceiptID = receiptID
-        };
-
-        var handler = new GetReceiptHandler(mapper, context);
-
-        var _Response = await handler.GetReceipt(_Request);
+        var _Response = await handler.HandleAsync(new() { ReceiptID = receiptID }, cancellationToken);
 
         return _Response;
     }
 
     [HttpGet]
-    public async Task<IResult> GetReceipts()
+    public async Task<IResult> GetReceipts([FromServices] IUseCaseHandler<GetReceiptsRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var handler = new GetReceiptsHandler(mapper, context);
-
-        var _Response = await handler.GetReceipts();
+        var _Response = await handler.HandleAsync(new(), cancellationToken);
 
         return _Response;
     }
 
     [HttpPatch]
-    public async Task<IResult> UpdateReceipt([FromBody] UpdateReceiptRequest request)
+    public async Task<IResult> UpdateReceipt([FromBody] UpdateReceiptRequest request,
+        [FromServices] IUseCaseHandler<UpdateReceiptRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var handler = new UpdateReceiptHandler(mapper, context);
-
-        var _Response = await handler.UpdateReceipt(request);
+        var _Response = await handler.HandleAsync(request, cancellationToken);
 
         return _Response;
     }
 
     [HttpGet("{receiptID}/pdf")]
-    public async Task<IResult> GetReceiptPdf([FromRoute] long receiptID)
+    public async Task<IResult> GetReceiptPdf([FromRoute] long receiptID,
+        [FromServices] IUseCaseHandler<GetReceiptPdfRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var _Request = new GetReceiptPdfRequest()
-        {
-            ReceiptID = receiptID
-        };
-
-        var handler = new GetReceiptPdfHandler(pdfService, mapper, context);
-
-        var _Response = await handler.GetReceiptPdf(_Request);
+        var _Response = await handler.HandleAsync(new() { ReceiptID = receiptID }, cancellationToken);
 
         return _Response;
     }
 
     [HttpPut("Item")]
-    public async Task<IResult> UpsertReceiptItem([FromBody] UpsertReceiptItemRequest request)
+    public async Task<IResult> UpsertReceiptItem([FromBody] UpsertReceiptItemRequest request,
+        [FromServices] IUseCaseHandler<UpsertReceiptItemRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var handler = new UpsertReceiptItemHandler(allocationService, mapper, context);
-
-        var _Response = request.ReceiptItemID != 0
-            ? await handler.UpdateReceiptItem(request)
-            : await handler.CreateReceiptItem(request);
+        var _Response = await handler.HandleAsync(request, cancellationToken);
 
         return _Response;
     }

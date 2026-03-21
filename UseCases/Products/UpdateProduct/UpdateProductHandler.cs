@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using MacsBusinessManagementAPI.UseCases.Products.UpdateProduct;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Products.UpdateProduct;
 
-public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class UpdateProductHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<UpdateProductRequest>
 {
-    public async Task<IResult> UpdateProduct(UpdateProductRequest request)
+    public async Task<IResult> HandleAsync(UpdateProductRequest request, CancellationToken cancellationToken)
     {
         var _Product = m_Context.GetEntities<Product>()
             .SingleOrDefault(p => p.ProductID == request.ProductID);

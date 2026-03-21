@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Clients.CreateClient
 {
 
-    public class CreateClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+    public class CreateClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<CreateClientRequest>
     {
-        public async Task<IResult> CreateClient(CreateClientRequest request)
+        public async Task<IResult> HandleAsync(CreateClientRequest request, CancellationToken cancellationToken)
         {
             var _Client = m_Mapper.Map<Client>(request);
 

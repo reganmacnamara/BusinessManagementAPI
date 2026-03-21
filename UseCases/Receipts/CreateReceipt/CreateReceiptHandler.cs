@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Receipts.CreateReceipt;
 
-public class CreateReceiptHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class CreateReceiptHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<CreateReceiptRequest>
 {
-    public async Task<IResult> CreateReceipt(CreateReceiptRequest request)
+    public async Task<IResult> HandleAsync(CreateReceiptRequest request, CancellationToken cancellationToken)
     {
         var _Client = m_Context.GetEntities<Client>()
             .SingleOrDefault(c => c.ClientID == request.ClientID);

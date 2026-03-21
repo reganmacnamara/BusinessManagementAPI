@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MacsBusinessManagementAPI.Data;
+﻿using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Clients.CreateClient;
 using MacsBusinessManagementAPI.UseCases.Clients.DeleteClient;
 using MacsBusinessManagementAPI.UseCases.Clients.GetClient;
@@ -11,64 +10,53 @@ namespace MacsBusinessManagementAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ClientController(IMapper mapper, SQLContext context) : ControllerBase
+    public class ClientController : ControllerBase
     {
         [HttpPost]
-        public async Task<IResult> CreateClient([FromBody] CreateClientRequest request)
+        public async Task<IResult> CreateClient([FromBody] CreateClientRequest request,
+            [FromServices] IUseCaseHandler<CreateClientRequest> handler,
+            CancellationToken cancellationToken)
         {
-            var handler = new CreateClientHandler(mapper, context);
-
-            var _Response = await handler.CreateClient(request);
+            var _Response = await handler.HandleAsync(request, cancellationToken);
 
             return _Response;
         }
 
         [HttpDelete("{clientID}")]
-        public async Task<IResult> DeleteClient([FromRoute] long clientID)
+        public async Task<IResult> DeleteClient([FromRoute] long clientID,
+            [FromServices] IUseCaseHandler<DeleteClientRequest> handler,
+            CancellationToken cancellationToken)
         {
-            var _Request = new DeleteClientRequest()
-            {
-                ClientID = clientID
-            };
-
-            var handler = new DeleteClientHandler(mapper, context);
-
-            var _Response = await handler.DeleteClient(_Request);
+            var _Response = await handler.HandleAsync(new() { ClientID = clientID }, cancellationToken);
 
             return _Response;
         }
 
         [HttpGet("{clientID}")]
-        public async Task<IResult> GetClient([FromRoute] long clientID)
+        public async Task<IResult> GetClient([FromRoute] long clientID,
+            [FromServices] IUseCaseHandler<GetClientRequest> handler,
+            CancellationToken cancellationToken)
         {
-            var _Request = new GetClientRequest()
-            {
-                ClientId = clientID
-            };
-
-            var handler = new GetClientHandler(mapper, context);
-
-            var _Result = await handler.GetClient(_Request);
+            var _Result = await handler.HandleAsync(new() { ClientId = clientID }, cancellationToken);
 
             return _Result;
         }
 
         [HttpGet]
-        public async Task<IResult> GetClients()
+        public async Task<IResult> GetClients([FromServices] IUseCaseHandler<GetClientsRequest> handler,
+            CancellationToken cancellationToken)
         {
-            var handler = new GetClientsHandler(mapper, context);
-
-            var _Result = await handler.GetClients();
+            var _Result = await handler.HandleAsync(new(), cancellationToken);
 
             return _Result;
         }
 
         [HttpPatch]
-        public async Task<IResult> UpdateClient([FromBody] UpdateClientRequest request)
+        public async Task<IResult> UpdateClient([FromBody] UpdateClientRequest request,
+            [FromServices] IUseCaseHandler<UpdateClientRequest> handler,
+            CancellationToken cancellationToken)
         {
-            var handler = new UpdateClientHandler(mapper, context);
-
-            var _Result = await handler.UpdateClient(request);
+            var _Result = await handler.HandleAsync(request, cancellationToken);
 
             return _Result;
         }

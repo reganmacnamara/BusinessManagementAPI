@@ -1,7 +1,10 @@
 using MacsBusinessManagementAPI.Data;
-using MacsBusinessManagementAPI.Services;
+using MacsBusinessManagementAPI.Services.Allocations;
+using MacsBusinessManagementAPI.Services.IServiceCollection_Extensions;
+using MacsBusinessManagementAPI.Services.Pdf;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Infrastructure;
+using System.Reflection;
 
 QuestPDF.Settings.License = LicenseType.Community;
 
@@ -18,6 +21,8 @@ builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
 
 builder.Services.AddDbContextPool<SQLContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddUseCaseHandlers(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<IAllocationService, AllocationService>();
 builder.Services.AddScoped<IPdfService, PdfService>();

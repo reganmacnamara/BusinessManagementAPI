@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
 
-public class UpdateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class UpdateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<UpdateInvoiceRequest>
 {
-    public async Task<IResult> UpdateInvoice(UpdateInvoiceRequest request)
+    public async Task<IResult> HandleAsync(UpdateInvoiceRequest request, CancellationToken cancellationToken)
     {
         var _Invoice = m_Context.GetEntities<Invoice>()
             .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);

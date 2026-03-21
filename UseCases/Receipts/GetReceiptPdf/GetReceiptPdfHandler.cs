@@ -1,15 +1,16 @@
 using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
-using MacsBusinessManagementAPI.Services;
+using MacsBusinessManagementAPI.Infrastructure;
+using MacsBusinessManagementAPI.Services.Pdf;
 using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;
 
-public class GetReceiptPdfHandler(IPdfService pdfService, IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class GetReceiptPdfHandler(IPdfService pdfService, IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<GetReceiptPdfRequest>
 {
-    public async Task<IResult> GetReceiptPdf(GetReceiptPdfRequest request)
+    public async Task<IResult> HandleAsync(GetReceiptPdfRequest request, CancellationToken cancellationToken)
     {
         var _Receipt = m_Context.GetEntities<Receipt>()
             .AsNoTracking()

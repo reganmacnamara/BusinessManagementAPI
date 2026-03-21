@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 
-public class CreateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class CreateInvoiceHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<CreateInvoiceRequest>
 {
-    public async Task<IResult> CreateInvoice(CreateInvoiceRequest request)
+    public async Task<IResult> HandleAsync(CreateInvoiceRequest request, CancellationToken cancellationToken)
     {
         var _Client = m_Context.GetEntities<Client>()
             .SingleOrDefault(c => c.ClientID == request.ClientID);

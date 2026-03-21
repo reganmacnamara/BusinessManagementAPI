@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
-using MacsBusinessManagementAPI.UseCases.Receipts.GetClientReceipts;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Receipts.GetClientReceipts;
 
-public class GetClientReceiptsHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class GetClientReceiptsHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<GetClientReceiptsRequest>
 {
-    public async Task<IResult> GetClientReceipts(GetClientReceiptsRequest request)
+    public async Task<IResult> HandleAsync(GetClientReceiptsRequest request, CancellationToken cancellationToken)
     {
         var _Receipts = m_Context.GetEntities<Receipt>()
             .AsNoTracking()

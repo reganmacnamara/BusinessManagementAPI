@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
-using MacsBusinessManagementAPI.UseCases.Invoices.GetInvoices;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.GetInvoices;
 
-public class GetInvoicesHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+public class GetInvoicesHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<GetInvoicesRequest>
 {
-    public async Task<IResult> GetInvoices()
+    public async Task<IResult> HandleAsync(GetInvoicesRequest request, CancellationToken cancellationToken)
     {
         var _Response = new GetInvoicesResponse()
         {

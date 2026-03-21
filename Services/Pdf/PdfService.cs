@@ -3,16 +3,16 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-namespace MacsBusinessManagementAPI.Services;
+namespace MacsBusinessManagementAPI.Services.Pdf;
 
 public class PdfService : IPdfService
 {
-    private const string PrimaryColor   = "#1E3A5F";
-    private const string LightGray      = "#F5F7FA";
-    private const string MidGray        = "#E0E0E0";
-    private const string TextGray       = "#666666";
-    private const string AccentBlue     = "#2980B9";
-    private const string PaidColor      = "#27AE60";
+    private const string PrimaryColor = "#1E3A5F";
+    private const string LightGray = "#F5F7FA";
+    private const string MidGray = "#E0E0E0";
+    private const string TextGray = "#666666";
+    private const string AccentBlue = "#2980B9";
+    private const string PaidColor = "#27AE60";
     private const string OutstandingColor = "#C0392B";
 
     public byte[] GenerateInvoicePdf(Invoice invoice, List<InvoiceItem> items)

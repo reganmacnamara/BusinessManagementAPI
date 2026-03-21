@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
 {
 
-    public class UpdateClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+    public class UpdateClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<UpdateClientRequest>
     {
-        public async Task<IResult> UpdateClient(UpdateClientRequest request)
+        public async Task<IResult> HandleAsync(UpdateClientRequest request, CancellationToken cancellationToken)
         {
             var _Client = m_Context.GetEntities<Client>()
                 .SingleOrDefault(c => c.ClientID == request.ClientId);

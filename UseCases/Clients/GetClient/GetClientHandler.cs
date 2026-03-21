@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Clients.GetClient
 {
 
-    public class GetClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+    public class GetClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<GetClientRequest>
     {
-        public async Task<IResult> GetClient(GetClientRequest request)
+        public async Task<IResult> HandleAsync(GetClientRequest request, CancellationToken cancellationToken)
         {
             var _Client = m_Context.GetEntities<Client>()
                 .AsNoTracking()

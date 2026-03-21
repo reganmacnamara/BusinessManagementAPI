@@ -1,137 +1,106 @@
-﻿using AutoMapper;
+﻿using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 using MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
 using MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoiceItem;
-using MacsBusinessManagementAPI.UseCases.Invoices.GetInvoicePdf;
 using MacsBusinessManagementAPI.UseCases.Invoices.GetClientInvoices;
 using MacsBusinessManagementAPI.UseCases.Invoices.GetInvoice;
+using MacsBusinessManagementAPI.UseCases.Invoices.GetInvoicePdf;
 using MacsBusinessManagementAPI.UseCases.Invoices.GetInvoices;
-using Microsoft.AspNetCore.Mvc;
-using MacsBusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 using MacsBusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
-using MacsBusinessManagementAPI.Services;
 using MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
-using MacsBusinessManagementAPI.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MacsBusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class InvoiceController(IPdfService pdfService, IMapper mapper, SQLContext context) : ControllerBase
+public class InvoiceController : ControllerBase
 {
     [HttpPost]
-    public async Task<IResult> CreateInvoice([FromBody] CreateInvoiceRequest request)
+    public async Task<IResult> CreateInvoice([FromBody] CreateInvoiceRequest request,
+        [FromServices] IUseCaseHandler<CreateInvoiceRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var handler = new CreateInvoiceHandler(mapper, context);
-
-        var _Response = await handler.CreateInvoice(request);
+        var _Response = await handler.HandleAsync(request, cancellationToken);
 
         return _Response;
     }
 
     [HttpDelete("{invoiceID}")]
-    public async Task<IResult> DeleteInvoice([FromRoute] long invoiceID)
+    public async Task<IResult> DeleteInvoice([FromRoute] long invoiceID,
+        [FromServices] IUseCaseHandler<DeleteInvoiceRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var _Request = new DeleteInvoiceRequest()
-        {
-            InvoiceID = invoiceID
-        };
-
-        var handler = new DeleteInvoiceHandler(mapper, context);
-
-        var _Response = await handler.DeleteInvoice(_Request);
+        var _Response = await handler.HandleAsync(new() { InvoiceID = invoiceID }, cancellationToken);
 
         return _Response;
     }
 
     [HttpDelete("Item/{invoiceItemID}")]
-    public async Task<IResult> DeleteInvoiceItem([FromRoute] long invoiceItemID)
+    public async Task<IResult> DeleteInvoiceItem([FromRoute] long invoiceItemID,
+        [FromServices] IUseCaseHandler<DeleteInvoiceItemRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var _Request = new DeleteInvoiceItemRequest()
-        {
-            InvoiceItemID = invoiceItemID
-        };
-
-        var handler = new DeleteInvoiceItemHandler(mapper, context);
-
-        var _Response = await handler.DeleteInvoiceItem(_Request);
+        var _Response = await handler.HandleAsync(new() { InvoiceItemID = invoiceItemID }, cancellationToken);
 
         return _Response;
     }
 
     [HttpGet("Client/{clientID}")]
-    public async Task<IResult> GetClientInvoices([FromRoute] long clientID)
+    public async Task<IResult> GetClientInvoices([FromRoute] long clientID,
+        [FromServices] IUseCaseHandler<GetClientInvoicesRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var _Request = new GetClientInvoicesRequest()
-        {
-            ClientID = clientID
-        };
-
-        var handler = new GetClientInvoicesHandler(mapper, context);
-
-        var _Response = await handler.GetClientInvoices(_Request);
+        var _Response = await handler.HandleAsync(new() { ClientID = clientID }, cancellationToken);
 
         return _Response;
     }
 
     [HttpGet("{invoiceID}")]
-    public async Task<IResult> GetInvoice([FromRoute] long invoiceID)
+    public async Task<IResult> GetInvoice([FromRoute] long invoiceID,
+        [FromServices] IUseCaseHandler<GetInvoiceRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var _Request = new GetInvoiceRequest()
-        {
-            InvoiceID = invoiceID
-        };
-
-        var handler = new GetInvoiceHandler(mapper, context);
-
-        var _Response = await handler.GetInvoice(_Request);
+        var _Response = await handler.HandleAsync(new() { InvoiceID = invoiceID }, cancellationToken);
 
         return _Response;
     }
 
     [HttpGet]
-    public async Task<IResult> GetInvoices()
+    public async Task<IResult> GetInvoices([FromServices] IUseCaseHandler<GetInvoicesRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var handler = new GetInvoicesHandler(mapper, context);
-
-        var _Response = await handler.GetInvoices();
+        var _Response = await handler.HandleAsync(new(), cancellationToken);
 
         return _Response;
     }
 
     [HttpPatch]
-    public async Task<IResult> UpdateInvoice([FromBody] UpdateInvoiceRequest request)
+    public async Task<IResult> UpdateInvoice([FromBody] UpdateInvoiceRequest request,
+        [FromServices] IUseCaseHandler<UpdateInvoiceRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var handler = new UpdateInvoiceHandler(mapper, context);
-
-        var _Response = await handler.UpdateInvoice(request);
+        var _Response = await handler.HandleAsync(request, cancellationToken);
 
         return _Response;
     }
 
     [HttpGet("{invoiceID}/pdf")]
-    public async Task<IResult> GetInvoicePdf([FromRoute] long invoiceID)
+    public async Task<IResult> GetInvoicePdf([FromRoute] long invoiceID,
+        [FromServices] IUseCaseHandler<GetInvoicePdfRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var _Request = new GetInvoicePdfRequest()
-        {
-            InvoiceID = invoiceID
-        };
-
-        var handler = new GetInvoicePdfHandler(pdfService, mapper, context);
-
-        var _Response = await handler.GetInvoicePdf(_Request);
+        var _Response = await handler.HandleAsync(new() { InvoiceID = invoiceID }, cancellationToken);
 
         return _Response;
     }
 
     [HttpPut("Item")]
-    public async Task<IResult> UpsertInvoiceItem([FromBody] UpsertInvoiceItemRequest request)
+    public async Task<IResult> UpsertInvoiceItem([FromBody] UpsertInvoiceItemRequest request,
+        [FromServices] IUseCaseHandler<UpsertInvoiceItemRequest> handler,
+        CancellationToken cancellationToken)
     {
-        var handler = new UpsertInvoiceItemHandler(mapper, context);
-
-        var _Response = request.InvoiceItemID != 0
-            ? await handler.UpdateInvoiceItem(request)
-            : await handler.CreateInvoiceItem(request);
+        var _Response = await handler.HandleAsync(request, cancellationToken);
 
         return _Response;
     }

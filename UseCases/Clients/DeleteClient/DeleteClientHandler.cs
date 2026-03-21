@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure;
 using MacsBusinessManagementAPI.UseCases.Base;
 
 namespace MacsBusinessManagementAPI.UseCases.Clients.DeleteClient
 {
 
-    public class DeleteClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context)
+    public class DeleteClientHandler(IMapper mapper, SQLContext context) : BaseHandler(mapper, context), IUseCaseHandler<DeleteClientRequest>
     {
-        public async Task<IResult> DeleteClient(DeleteClientRequest request)
+        public async Task<IResult> HandleAsync(DeleteClientRequest request, CancellationToken cancellationToken)
         {
             var _Client = m_Context.GetEntities<Client>()
                 .SingleOrDefault(c => c.ClientID == request.ClientID);
