@@ -13,11 +13,11 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
         {
             if (request.InvoiceItemID != 0)
             {
-                var _InvoiceItem = context.GetEntities<InvoiceItem>()
+                var _InvoiceItem = await context.GetEntities<InvoiceItem>()
                     .Include(ii => ii.Invoice)
                     .Include(ii => ii.Product)
                     .Where(ii => ii.InvoiceItemID == request.InvoiceItemID)
-                    .SingleOrDefault();
+                    .SingleOrDefaultAsync(cancellationToken);
 
                 if (_InvoiceItem == null)
                     return Results.NotFound("Invoice Item could not be found.");
@@ -31,8 +31,8 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
                 Product? _Product;
                 if (_InvoiceItem.ProductID != _OldProductID)
                 {
-                    _Product = context.GetEntities<Product>()
-                        .SingleOrDefault(p => p.ProductID == _InvoiceItem.ProductID);
+                    _Product = await context.GetEntities<Product>()
+                        .SingleOrDefaultAsync(p => p.ProductID == _InvoiceItem.ProductID, cancellationToken);
 
                     if (_Product == null)
                         return Results.NotFound("Product could not be found.");
@@ -61,14 +61,15 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
             else
             {
                 var _InvoiceItem = mapper.Map<InvoiceItem>(request);
-                var _Invoice = context.GetEntities<Invoice>()
-                    .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);
+
+                var _Invoice = await context.GetEntities<Invoice>()
+                    .SingleOrDefaultAsync(i => i.InvoiceID == request.InvoiceID, cancellationToken);
 
                 if (_Invoice == null)
                     return Results.NotFound("Invoice could not be found.");
 
-                var _Product = context.GetEntities<Product>()
-                    .SingleOrDefault(p => p.ProductID == request.ProductID);
+                var _Product = await context.GetEntities<Product>()
+                    .SingleOrDefaultAsync(p => p.ProductID == request.ProductID, cancellationToken);
 
                 if (_Product == null)
                     return Results.NotFound("Product could not be found.");

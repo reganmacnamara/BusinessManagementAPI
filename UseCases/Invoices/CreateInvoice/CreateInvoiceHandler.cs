@@ -2,6 +2,7 @@
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 
@@ -9,8 +10,8 @@ public class CreateInvoiceHandler(IMapper mapper, SQLContext context) : IUseCase
 {
     public async Task<IResult> HandleAsync(CreateInvoiceRequest request, CancellationToken cancellationToken)
     {
-        var _Client = context.GetEntities<Client>()
-            .SingleOrDefault(c => c.ClientID == request.ClientID);
+        var _Client = await context.GetEntities<Client>()
+            .SingleOrDefaultAsync(c => c.ClientID == request.ClientID, cancellationToken);
 
         if (_Client is null)
             return Results.NotFound("Client not found.");

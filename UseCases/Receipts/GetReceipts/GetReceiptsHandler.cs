@@ -9,9 +9,14 @@ public class GetReceiptsHandler(SQLContext context) : IUseCaseHandler<GetReceipt
 {
     public async Task<IResult> HandleAsync(GetReceiptsRequest request, CancellationToken cancellationToken)
     {
+        var _Receipts = await context.GetEntities<Receipt>()
+            .AsNoTracking()
+            .Include(r => r.Client)
+            .ToListAsync(cancellationToken);
+
         var _Response = new GetReceiptsResponse()
         {
-            Receipts = [.. context.GetEntities<Receipt>().AsNoTracking().Include(r => r.Client)]
+            Receipts = _Receipts
         };
 
         return Results.Ok(_Response);

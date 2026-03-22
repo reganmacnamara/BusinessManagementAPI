@@ -13,7 +13,7 @@ public class CreateProductHandler(IMapper mapper, SQLContext context) : IUseCase
 
         context.Products.Add(_Product);
 
-        await context.SaveChangesAsync(cancellationToken);
+        _ = await context.SaveChangesAsync(cancellationToken);
 
         return Results.Created(string.Empty, new CreateProductResponse() { ProductID = _Product.ProductID });
     }

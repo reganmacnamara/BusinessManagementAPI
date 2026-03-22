@@ -9,8 +9,8 @@ public class DeleteInvoiceHandler(SQLContext context) : IUseCaseHandler<DeleteIn
 {
     public async Task<IResult> HandleAsync(DeleteInvoiceRequest request, CancellationToken cancellationToken)
     {
-        var _Invoice = context.GetEntities<Invoice>()
-            .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);
+        var _Invoice = await context.GetEntities<Invoice>()
+            .SingleOrDefaultAsync(i => i.InvoiceID == request.InvoiceID, cancellationToken);
 
         if (_Invoice is null)
             return Results.NotFound($"Invoice {request.InvoiceID} could not be found.");
@@ -18,10 +18,10 @@ public class DeleteInvoiceHandler(SQLContext context) : IUseCaseHandler<DeleteIn
         if (_Invoice.OffsetValue != 0)
             return Results.Conflict("Cannot delete an Invoice with Allocations.");
 
-        var _InvoiceItems = context.InvoiceItems
+        var _InvoiceItems = await context.InvoiceItems
             .Include(ii => ii.Product)
             .Where(ii => ii.InvoiceID == request.InvoiceID)
-            .ToList();
+            .ToListAsync(cancellationToken);
 
         foreach (var item in _InvoiceItems)
             item.Product.QuantityOnHand += (long)item.Quantity;
@@ -29,7 +29,7 @@ public class DeleteInvoiceHandler(SQLContext context) : IUseCaseHandler<DeleteIn
         context.RemoveRange(_InvoiceItems);
         context.Remove(_Invoice);
 
-        await context.SaveChangesAsync(cancellationToken);
+        _ = await context.SaveChangesAsync(cancellationToken);
 
         return Results.NoContent();
     }

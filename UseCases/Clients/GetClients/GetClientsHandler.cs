@@ -11,9 +11,9 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.GetClients
     {
         public async Task<IResult> HandleAsync(GetClientsRequest request, CancellationToken cancellationToken)
         {
-            var _Clients = context.GetEntities<Client>()
+            var _Clients = await context.GetEntities<Client>()
                 .AsNoTracking()
-                .ToList();
+                .ToListAsync(cancellationToken);
 
             var _Response = _Clients.Count != 0
                 ? mapper.Map<GetClientsResponse>(_Clients)

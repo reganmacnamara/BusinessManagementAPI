@@ -15,14 +15,15 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
             if (request.ReceiptItemID == 0)
             {
                 var _ReceiptItem = mapper.Map<ReceiptItem>(request);
-                var _Receipt = context.GetEntities<Receipt>()
-                    .SingleOrDefault(r => r.ReceiptID == request.ReceiptID);
+
+                var _Receipt = await context.GetEntities<Receipt>()
+                    .SingleOrDefaultAsync(r => r.ReceiptID == request.ReceiptID, cancellationToken);
 
                 if (_Receipt == null)
                     return Results.NotFound("Receipt could not be found.");
 
-                var _Invoice = context.GetEntities<Invoice>()
-                    .SingleOrDefault(i => i.InvoiceID == request.InvoiceID);
+                var _Invoice = await context.GetEntities<Invoice>()
+                    .SingleOrDefaultAsync(i => i.InvoiceID == request.InvoiceID, cancellationToken);
 
                 if (_Invoice == null)
                     return Results.NotFound("Invoice could not be found.");
@@ -52,11 +53,10 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
             }
             else
             {
-                var _ReceiptItem = context.GetEntities<ReceiptItem>()
+                var _ReceiptItem = await context.GetEntities<ReceiptItem>()
                     .Include(ii => ii.Receipt)
                     .Include(ii => ii.Invoice)
-                    .Where(ii => ii.ReceiptItemID == request.ReceiptItemID)
-                    .SingleOrDefault();
+                    .SingleOrDefaultAsync(ii => ii.ReceiptItemID == request.ReceiptItemID, cancellationToken);
 
                 if (_ReceiptItem == null)
                     return Results.NotFound("Receipt Item could not be found.");

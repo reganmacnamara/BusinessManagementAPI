@@ -9,9 +9,9 @@ public class DeleteInvoiceItemHandler(SQLContext context) : IUseCaseHandler<Dele
 {
     public async Task<IResult> HandleAsync(DeleteInvoiceItemRequest request, CancellationToken cancellationToken)
     {
-        var _InvoiceItem = context.GetEntities<InvoiceItem>()
+        var _InvoiceItem = await context.GetEntities<InvoiceItem>()
             .Include(ii => ii.Product)
-            .SingleOrDefault(ii => ii.InvoiceItemID == request.InvoiceItemID);
+            .SingleOrDefaultAsync(ii => ii.InvoiceItemID == request.InvoiceItemID, cancellationToken);
 
         if (_InvoiceItem is null)
             return Results.NotFound("Invoice Item not found.");

@@ -6,9 +6,9 @@ public class Invoice
 
     public string InvoiceRef { get; set; } = string.Empty;
 
-    public DateTime? InvoiceDate { get; set; }
+    public DateTime InvoiceDate { get; set; }
 
-    public DateTime? DueDate { get; set; }
+    public DateTime DueDate { get; set; }
 
     public long ClientID { get; set; }
 

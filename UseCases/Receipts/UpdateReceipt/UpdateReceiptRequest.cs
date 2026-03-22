@@ -6,7 +6,7 @@ public class UpdateReceiptRequest
 
     public string ReceiptRef { get; set; } = string.Empty;
 
-    public DateTime? ReceiptDate { get; set; }
+    public DateTime ReceiptDate { get; set; }
 
     public long ClientID { get; set; }
 

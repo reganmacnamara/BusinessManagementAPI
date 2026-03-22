@@ -10,9 +10,9 @@ public class GetProductHandler(IMapper mapper, SQLContext context) : IUseCaseHan
 {
     public async Task<IResult> HandleAsync(GetProductRequest request, CancellationToken cancellationToken)
     {
-        var _Product = context.GetEntities<Product>()
+        var _Product = await context.GetEntities<Product>()
             .AsNoTracking()
-            .SingleOrDefault(p => p.ProductID == request.ProductID);
+            .SingleOrDefaultAsync(p => p.ProductID == request.ProductID, cancellationToken);
 
         if (_Product is null)
             return Results.NotFound("Product was not found.");

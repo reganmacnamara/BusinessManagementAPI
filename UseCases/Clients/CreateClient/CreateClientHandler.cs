@@ -14,7 +14,7 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.CreateClient
 
             context.Clients.Add(_Client);
 
-            await context.SaveChangesAsync(cancellationToken);
+            _ = await context.SaveChangesAsync(cancellationToken);
 
             var _Response = mapper.Map<CreateClientResponse>(_Client);
 

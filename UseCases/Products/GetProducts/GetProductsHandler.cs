@@ -8,5 +8,16 @@ namespace MacsBusinessManagementAPI.UseCases.Products.GetProducts;
 public class GetProductsHandler(SQLContext context) : IUseCaseHandler<GetProductsRequest>
 {
     public async Task<IResult> HandleAsync(GetProductsRequest request, CancellationToken cancellationToken)
-        => Results.Ok(new GetProductsResponse { Products = [.. context.GetEntities<Product>().AsNoTracking()] });
+    {
+        var _Products = await context.GetEntities<Product>()
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
+        var _Response = new GetProductsResponse
+        {
+            Products = _Products
+        };
+
+        return Results.Ok(_Response);
+    }
 }

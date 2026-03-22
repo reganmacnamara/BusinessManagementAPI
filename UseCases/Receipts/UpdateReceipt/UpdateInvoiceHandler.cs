@@ -2,6 +2,7 @@
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
 
@@ -9,15 +10,15 @@ public class UpdateReceiptHandler(SQLContext context) : IUseCaseHandler<UpdateRe
 {
     public async Task<IResult> HandleAsync(UpdateReceiptRequest request, CancellationToken cancellationToken)
     {
-        var _Receipt = context.GetEntities<Receipt>()
-            .SingleOrDefault(r => r.ReceiptID == request.ReceiptID);
+        var _Receipt = await context.GetEntities<Receipt>()
+            .SingleOrDefaultAsync(r => r.ReceiptID == request.ReceiptID, cancellationToken);
 
         if (_Receipt == null || request.ReceiptID == 0)
             return Results.NotFound("Receipt could not be found.");
 
         _Receipt.UpdateFromEntity(request, ["ReceiptID"]);
 
-        await context.SaveChangesAsync(cancellationToken);
+        _ = await context.SaveChangesAsync(cancellationToken);
 
         var _Response = new UpdateReceiptResponse()
         {

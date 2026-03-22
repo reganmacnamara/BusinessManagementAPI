@@ -9,20 +9,20 @@ public class GetInvoiceHandler(SQLContext context) : IUseCaseHandler<GetInvoiceR
 {
     public async Task<IResult> HandleAsync(GetInvoiceRequest request, CancellationToken cancellationToken)
     {
-        var _Invoice = context.GetEntities<Invoice>()
+        var _Invoice = await context.GetEntities<Invoice>()
             .AsNoTracking()
             .Include(i => i.Client)
             .Where(i => i.InvoiceID == request.InvoiceID)
-            .SingleOrDefault();
+            .SingleOrDefaultAsync(cancellationToken);
 
         if (_Invoice is null)
             return Results.NotFound($"Invoice {request.InvoiceID} could not be found.");
 
-        var _InvoiceItems = context.GetEntities<InvoiceItem>()
+        var _InvoiceItems = await context.GetEntities<InvoiceItem>()
             .AsNoTracking()
             .Include(ii => ii.Product)
             .Where(ii => ii.InvoiceID == request.InvoiceID)
-            .ToList();
+            .ToListAsync(cancellationToken);
 
         var _Response = new GetInvoiceResponse()
         {

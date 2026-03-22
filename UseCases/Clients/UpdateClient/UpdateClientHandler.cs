@@ -2,6 +2,7 @@
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
 {
@@ -10,15 +11,15 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
     {
         public async Task<IResult> HandleAsync(UpdateClientRequest request, CancellationToken cancellationToken)
         {
-            var _Client = context.GetEntities<Client>()
-                .SingleOrDefault(c => c.ClientID == request.ClientId);
+            var _Client = await context.GetEntities<Client>()
+                .SingleOrDefaultAsync(c => c.ClientID == request.ClientId, cancellationToken);
 
             if (_Client is null)
                 return Results.NotFound("Client was not found.");
 
             _Client.UpdateFromEntity(request, ["ClientID"]);
 
-            await context.SaveChangesAsync(cancellationToken);
+            _ = await context.SaveChangesAsync(cancellationToken);
 
             var _Response = new UpdateClientResponse()
             {

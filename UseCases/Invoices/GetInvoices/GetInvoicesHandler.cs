@@ -9,9 +9,14 @@ public class GetInvoicesHandler(SQLContext context) : IUseCaseHandler<GetInvoice
 {
     public async Task<IResult> HandleAsync(GetInvoicesRequest request, CancellationToken cancellationToken)
     {
+        var _Invoices = await context.GetEntities<Invoice>()
+            .AsNoTracking()
+            .Include(i => i.Client)
+            .ToListAsync(cancellationToken);
+
         var _Response = new GetInvoicesResponse()
         {
-            Invoices = [.. context.GetEntities<Invoice>().AsNoTracking().Include(i => i.Client)]
+            Invoices = _Invoices,
         };
 
         return Results.Ok(_Response);

@@ -9,20 +9,19 @@ public class GetReceiptHandler(SQLContext context) : IUseCaseHandler<GetReceiptR
 {
     public async Task<IResult> HandleAsync(GetReceiptRequest request, CancellationToken cancellationToken)
     {
-        var _Receipt = context.GetEntities<Receipt>()
+        var _Receipt = await context.GetEntities<Receipt>()
             .AsNoTracking()
             .Include(r => r.Client)
-            .Where(i => i.ReceiptID == request.ReceiptID)
-            .SingleOrDefault();
+            .SingleOrDefaultAsync(i => i.ReceiptID == request.ReceiptID, cancellationToken);
 
         if (_Receipt is null)
             return Results.NotFound($"Receipt {request.ReceiptID} could not be found.");
 
-        var _ReceiptItems = context.GetEntities<ReceiptItem>()
+        var _ReceiptItems = await context.GetEntities<ReceiptItem>()
             .AsNoTracking()
             .Include(ri => ri.Invoice)
             .Where(ri => ri.ReceiptID == request.ReceiptID)
-            .ToList();
+            .ToListAsync(cancellationToken);
 
         var _Response = new GetReceiptResponse()
         {

@@ -1,5 +1,5 @@
 using MacsBusinessManagementAPI.Data;
-using MacsBusinessManagementAPI.Services.IServiceCollection_Extensions;
+using MacsBusinessManagementAPI.Services.ServiceCollection;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Infrastructure;
 using System.Reflection;

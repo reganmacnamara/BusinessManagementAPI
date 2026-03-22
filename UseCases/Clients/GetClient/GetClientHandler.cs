@@ -11,9 +11,9 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.GetClient
     {
         public async Task<IResult> HandleAsync(GetClientRequest request, CancellationToken cancellationToken)
         {
-            var _Client = context.GetEntities<Client>()
+            var _Client = await context.GetEntities<Client>()
                 .AsNoTracking()
-                .SingleOrDefault(c => c.ClientID == request.ClientId);
+                .SingleOrDefaultAsync(c => c.ClientID == request.ClientId, cancellationToken);
 
             if (_Client is null)
                 return Results.NotFound("Client not found.");

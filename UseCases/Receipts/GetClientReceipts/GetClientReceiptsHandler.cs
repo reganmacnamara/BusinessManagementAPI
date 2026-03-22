@@ -9,11 +9,11 @@ public class GetClientReceiptsHandler(SQLContext context) : IUseCaseHandler<GetC
 {
     public async Task<IResult> HandleAsync(GetClientReceiptsRequest request, CancellationToken cancellationToken)
     {
-        var _Receipts = context.GetEntities<Receipt>()
+        var _Receipts = await context.GetEntities<Receipt>()
             .AsNoTracking()
             .Include(r => r.Client)
             .Where(i => i.ClientID == request.ClientID)
-            .ToList();
+            .ToListAsync(cancellationToken);
 
         var _Response = new GetClientReceiptsResponse()
         {

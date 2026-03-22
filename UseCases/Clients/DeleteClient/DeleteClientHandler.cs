@@ -1,6 +1,7 @@
 ﻿using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Clients.DeleteClient
 {
@@ -9,8 +10,8 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.DeleteClient
     {
         public async Task<IResult> HandleAsync(DeleteClientRequest request, CancellationToken cancellationToken)
         {
-            var _Client = context.GetEntities<Client>()
-                .SingleOrDefault(c => c.ClientID == request.ClientID);
+            var _Client = await context.GetEntities<Client>()
+                .SingleOrDefaultAsync(c => c.ClientID == request.ClientID, cancellationToken);
 
             if (_Client is null)
                 return Results.NotFound("Client not found.");
@@ -23,7 +24,7 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.DeleteClient
 
             context.Clients.Remove(_Client);
 
-            await context.SaveChangesAsync(cancellationToken);
+            _ = await context.SaveChangesAsync(cancellationToken);
 
             return Results.NoContent();
         }

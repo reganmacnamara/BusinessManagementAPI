@@ -10,9 +10,9 @@ public class DeleteReceiptItemHandler(IAllocationService allocationService, SQLC
 {
     public async Task<IResult> HandleAsync(DeleteReceiptItemRequest request, CancellationToken cancellationToken)
     {
-        var _ReceiptItem = context.GetEntities<ReceiptItem>()
+        var _ReceiptItem = await context.GetEntities<ReceiptItem>()
             .Include(ri => ri.Invoice)
-            .SingleOrDefault(ri => ri.ReceiptItemID == request.ReceiptItemID);
+            .SingleOrDefaultAsync(ri => ri.ReceiptItemID == request.ReceiptItemID, cancellationToken);
 
         if (_ReceiptItem is null)
             return Results.NotFound("Receipt Item not found.");

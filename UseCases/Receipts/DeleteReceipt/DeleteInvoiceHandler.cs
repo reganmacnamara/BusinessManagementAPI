@@ -1,6 +1,7 @@
 ﻿using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Receipts.DeleteReceipt;
 
@@ -8,8 +9,8 @@ public class DeleteReceiptHandler(SQLContext context) : IUseCaseHandler<DeleteRe
 {
     public async Task<IResult> HandleAsync(DeleteReceiptRequest request, CancellationToken cancellationToken)
     {
-        var _Receipt = context.GetEntities<Receipt>()
-            .SingleOrDefault(i => i.ReceiptID == request.ReceiptID);
+        var _Receipt = await context.GetEntities<Receipt>()
+            .SingleOrDefaultAsync(i => i.ReceiptID == request.ReceiptID, cancellationToken);
 
         if (_Receipt is null)
             return Results.NotFound($"Receipt {request.ReceiptID} could not be found.");
@@ -17,12 +18,14 @@ public class DeleteReceiptHandler(SQLContext context) : IUseCaseHandler<DeleteRe
         if (_Receipt.OffsetValue != 0)
             return Results.Conflict("Cannot delete an Receipt with Allocations.");
 
-        var _RecieptItems = context.GetEntities<ReceiptItem>().Where(i => i.ReceiptID == request.ReceiptID).ToList();
+        var _RecieptItems = context.GetEntities<ReceiptItem>()
+            .Where(i => i.ReceiptID == request.ReceiptID)
+            .ToListAsync(cancellationToken);
 
         context.RemoveRange(_RecieptItems);
         context.Remove(_Receipt);
 
-        await context.SaveChangesAsync(cancellationToken);
+        _ = await context.SaveChangesAsync(cancellationToken);
 
         return Results.NoContent();
     }

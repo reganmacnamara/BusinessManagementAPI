@@ -10,20 +10,19 @@ public class GetReceiptPdfHandler(IPdfService pdfService, SQLContext context) : 
 {
     public async Task<IResult> HandleAsync(GetReceiptPdfRequest request, CancellationToken cancellationToken)
     {
-        var _Receipt = context.GetEntities<Receipt>()
+        var _Receipt = await context.GetEntities<Receipt>()
             .AsNoTracking()
             .Include(r => r.Client)
-            .Where(r => r.ReceiptID == request.ReceiptID)
-            .SingleOrDefault();
+            .SingleOrDefaultAsync(r => r.ReceiptID == request.ReceiptID, cancellationToken);
 
         if (_Receipt is null)
             return Results.NotFound($"Receipt {request.ReceiptID} could not be found.");
 
-        var _ReceiptItems = context.GetEntities<ReceiptItem>()
+        var _ReceiptItems = await context.GetEntities<ReceiptItem>()
             .AsNoTracking()
             .Include(ri => ri.Invoice)
             .Where(ri => ri.ReceiptID == request.ReceiptID)
-            .ToList();
+            .ToListAsync(cancellationToken);
 
         var _PdfBytes = pdfService.GenerateReceiptPdf(_Receipt, _ReceiptItems);
 

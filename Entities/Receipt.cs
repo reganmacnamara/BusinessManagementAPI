@@ -4,7 +4,7 @@ public class Receipt
 {
     public long ReceiptID { get; set; }
     public string ReceiptRef { get; set; } = string.Empty;
-    public DateTime? ReceiptDate { get; set; }
+    public DateTime ReceiptDate { get; set; }
     public long ClientID { get; set; }
     public bool Outstanding { get; set; }
     public decimal GrossValue { get; set; }

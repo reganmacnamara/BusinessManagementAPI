@@ -3,7 +3,7 @@ using MacsBusinessManagementAPI.Services.Allocations;
 using MacsBusinessManagementAPI.Services.Pdf;
 using System.Reflection;
 
-namespace MacsBusinessManagementAPI.Services.IServiceCollection_Extensions
+namespace MacsBusinessManagementAPI.Services.ServiceCollection
 {
     public static class ServiceCollectionExtensions
     {
