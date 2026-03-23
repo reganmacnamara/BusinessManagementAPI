@@ -3,9 +3,9 @@
 
     public interface IAuthService
     {
-        string GenerateToken(long accountId, string email);
-        string HashPassword(string password);
-        bool VerifyPassword(string password, string hash);
+        public string GenerateToken(long accountId, string email);
+        public string HashPassword(string password);
+        public bool VerifyPassword(string password, string hash);
     }
 
 }
