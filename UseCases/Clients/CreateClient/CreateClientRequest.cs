@@ -1,7 +1,9 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Clients.CreateClient
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+
+namespace MacsBusinessManagementAPI.UseCases.Clients.CreateClient
 {
 
-    public class CreateClientRequest
+    public class CreateClientRequest : IUseCaseRequest
     {
         public string ClientName { get; set; } = string.Empty;
 

@@ -1,6 +1,8 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Invoices.GetClientInvoices;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-public class GetClientInvoicesRequest
+namespace MacsBusinessManagementAPI.UseCases.Invoices.GetClientInvoices;
+
+public class GetClientInvoicesRequest : IUseCaseRequest
 {
     public long ClientID { get; set; }
 }

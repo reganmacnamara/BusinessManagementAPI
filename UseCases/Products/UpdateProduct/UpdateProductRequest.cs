@@ -1,6 +1,8 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Products.UpdateProduct;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-public class UpdateProductRequest
+namespace MacsBusinessManagementAPI.UseCases.Products.UpdateProduct;
+
+public class UpdateProductRequest : IUseCaseRequest
 {
     public long ProductID { get; set; }
 

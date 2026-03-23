@@ -1,7 +1,9 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Clients.DeleteClient
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+
+namespace MacsBusinessManagementAPI.UseCases.Clients.DeleteClient
 {
 
-    public class DeleteClientRequest
+    public class DeleteClientRequest : IUseCaseRequest
     {
         public long ClientID { get; set; }
     }

@@ -1,7 +1,9 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Clients.GetClients
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+
+namespace MacsBusinessManagementAPI.UseCases.Clients.GetClients
 {
 
-    public class GetClientsRequest
+    public class GetClientsRequest : IUseCaseRequest
     {
 
     }

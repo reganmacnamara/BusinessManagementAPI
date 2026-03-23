@@ -1,6 +1,8 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-public class DeleteInvoiceRequest
+namespace MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
+
+public class DeleteInvoiceRequest : IUseCaseRequest
 {
     public long InvoiceID { get; set; }
 }

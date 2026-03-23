@@ -1,6 +1,8 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Products.GetProduct;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-public class GetProductRequest
+namespace MacsBusinessManagementAPI.UseCases.Products.GetProduct;
+
+public class GetProductRequest : IUseCaseRequest
 {
     public long ProductID { get; set; }
 }

@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+using System.ComponentModel.DataAnnotations;
 
 namespace MacsBusinessManagementAPI.UseCases.Auth.Register
 {
 
-    public class RegisterAccountRequest
+    public class RegisterAccountRequest : IUseCaseRequest
     {
         [Required]
         public string Email { get; set; } = string.Empty;

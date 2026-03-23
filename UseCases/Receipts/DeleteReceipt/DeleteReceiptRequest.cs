@@ -1,6 +1,8 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Receipts.DeleteReceipt;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-public class DeleteReceiptRequest
+namespace MacsBusinessManagementAPI.UseCases.Receipts.DeleteReceipt;
+
+public class DeleteReceiptRequest : IUseCaseRequest
 {
     public long ReceiptID { get; set; }
 }

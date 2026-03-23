@@ -1,7 +1,9 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+
+namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
 {
 
-    public class UpdateClientRequest
+    public class UpdateClientRequest : IUseCaseRequest
     {
         public long ClientId { get; set; }
 

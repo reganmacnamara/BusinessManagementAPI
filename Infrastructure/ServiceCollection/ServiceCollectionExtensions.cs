@@ -77,7 +77,7 @@ namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
             return services;
         }
 
-        public static IServiceCollection AddUseCaseHandlers(this IServiceCollection services, Assembly assembly)
+        public static IServiceCollection AddUseCaseInfrastructure(this IServiceCollection services, Assembly assembly)
         {
             var handlerPairs = assembly.GetTypes()
                 .Where(t => t is { IsAbstract: false, IsInterface: false })

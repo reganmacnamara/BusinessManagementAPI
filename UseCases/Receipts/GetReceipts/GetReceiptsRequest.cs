@@ -1,7 +1,9 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Receipts.GetReceipts
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+
+namespace MacsBusinessManagementAPI.UseCases.Receipts.GetReceipts
 {
 
-    public class GetReceiptsRequest
+    public class GetReceiptsRequest : IUseCaseRequest
     {
 
     }

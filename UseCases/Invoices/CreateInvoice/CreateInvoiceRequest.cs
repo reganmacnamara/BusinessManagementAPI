@@ -1,6 +1,8 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Invoices.CreateInvoice;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-public class CreateInvoiceRequest
+namespace MacsBusinessManagementAPI.UseCases.Invoices.CreateInvoice;
+
+public class CreateInvoiceRequest : IUseCaseRequest
 {
     public string InvoiceRef { get; set; } = string.Empty;
 

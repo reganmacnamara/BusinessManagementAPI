@@ -49,7 +49,7 @@ builder.Services.AddBusinessManagementServices();
 builder.Services.AddDbContextPool<SQLContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddRateLimiting();
-builder.Services.AddUseCaseHandlers(Assembly.GetExecutingAssembly());
+builder.Services.AddUseCaseInfrastructure(Assembly.GetExecutingAssembly());
 
 var _JwtConfig = builder.Configuration
     .GetSection("JwtSettings").Get<JwtConfig>()!;

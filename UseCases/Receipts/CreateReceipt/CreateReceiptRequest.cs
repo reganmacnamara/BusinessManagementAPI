@@ -1,6 +1,8 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Receipts.CreateReceipt;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-public class CreateReceiptRequest
+namespace MacsBusinessManagementAPI.UseCases.Receipts.CreateReceipt;
+
+public class CreateReceiptRequest : IUseCaseRequest
 {
     public string ReceiptRef { get; set; } = string.Empty;
 

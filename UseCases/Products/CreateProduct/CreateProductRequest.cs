@@ -1,6 +1,8 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Products.CreateProduct;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-public class CreateProductRequest
+namespace MacsBusinessManagementAPI.UseCases.Products.CreateProduct;
+
+public class CreateProductRequest : IUseCaseRequest
 {
     public required string ProductName { get; set; }
 

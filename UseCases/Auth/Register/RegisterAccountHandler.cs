@@ -32,6 +32,7 @@ namespace MacsBusinessManagementAPI.UseCases.Auth.Register
             return Results.Created(string.Empty, new RegisterAccountResponse()
             {
                 AccountID = account.AccountID,
+                Email = account.Email,
             });
         }
     }

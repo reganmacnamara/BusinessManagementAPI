@@ -38,9 +38,7 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
                         return Results.NotFound("Product could not be found.");
                 }
                 else
-                {
                     _Product = _OldProduct;
-                }
 
                 _OldProduct.QuantityOnHand += (long)_OldQuantity;
 

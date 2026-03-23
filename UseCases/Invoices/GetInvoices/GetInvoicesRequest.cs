@@ -1,7 +1,9 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Invoices.GetInvoices
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+
+namespace MacsBusinessManagementAPI.UseCases.Invoices.GetInvoices
 {
 
-    public class GetInvoicesRequest
+    public class GetInvoicesRequest : IUseCaseRequest
     {
 
     }

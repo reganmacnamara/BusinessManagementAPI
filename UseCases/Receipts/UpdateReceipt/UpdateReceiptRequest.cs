@@ -1,6 +1,8 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-public class UpdateReceiptRequest
+namespace MacsBusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
+
+public class UpdateReceiptRequest : IUseCaseRequest
 {
     public long ReceiptID { get; set; }
 

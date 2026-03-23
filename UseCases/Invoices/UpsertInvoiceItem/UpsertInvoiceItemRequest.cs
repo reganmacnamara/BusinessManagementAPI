@@ -1,6 +1,8 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-public class UpsertInvoiceItemRequest
+namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
+
+public class UpsertInvoiceItemRequest : IUseCaseRequest
 {
     public long InvoiceItemID { get; set; }
     public long InvoiceID { get; set; }

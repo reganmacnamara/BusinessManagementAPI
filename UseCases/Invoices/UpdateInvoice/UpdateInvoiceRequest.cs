@@ -1,6 +1,8 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-public class UpdateInvoiceRequest
+namespace MacsBusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
+
+public class UpdateInvoiceRequest : IUseCaseRequest
 {
     public long InvoiceID { get; set; }
 

@@ -1,6 +1,8 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.Products.DeleteProduct;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-public class DeleteProductRequest
+namespace MacsBusinessManagementAPI.UseCases.Products.DeleteProduct;
+
+public class DeleteProductRequest : IUseCaseRequest
 {
     public long ProductID { get; set; }
 }
