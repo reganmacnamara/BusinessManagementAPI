@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Infrastructure;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.UseCases.Receipts.CreateReceipt;
 using MacsBusinessManagementAPI.UseCases.Receipts.DeleteReceipt;
 using MacsBusinessManagementAPI.UseCases.Receipts.DeleteReceiptItem;
@@ -8,12 +8,14 @@ using MacsBusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;
 using MacsBusinessManagementAPI.UseCases.Receipts.GetReceipts;
 using MacsBusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
 using MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MacsBusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class ReceiptController : ControllerBase
 {
     [HttpPost]

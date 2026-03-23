@@ -1,6 +1,6 @@
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
-using MacsBusinessManagementAPI.Infrastructure;
+using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.Services.Pdf;
 using Microsoft.EntityFrameworkCore;
 

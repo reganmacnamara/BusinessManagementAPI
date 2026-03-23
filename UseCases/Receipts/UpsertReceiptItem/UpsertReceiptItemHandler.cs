@@ -2,7 +2,7 @@
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Extensions;
-using MacsBusinessManagementAPI.Infrastructure;
+using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.Services.Allocations;
 using Microsoft.EntityFrameworkCore;
 

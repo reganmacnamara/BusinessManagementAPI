@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Infrastructure;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 using MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
 using MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoiceItem;
@@ -8,12 +8,14 @@ using MacsBusinessManagementAPI.UseCases.Invoices.GetInvoicePdf;
 using MacsBusinessManagementAPI.UseCases.Invoices.GetInvoices;
 using MacsBusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
 using MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MacsBusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class InvoiceController : ControllerBase
 {
     [HttpPost]

@@ -1,15 +1,17 @@
-﻿using MacsBusinessManagementAPI.Infrastructure;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.UseCases.Products.CreateProduct;
 using MacsBusinessManagementAPI.UseCases.Products.DeleteProduct;
 using MacsBusinessManagementAPI.UseCases.Products.GetProduct;
 using MacsBusinessManagementAPI.UseCases.Products.GetProducts;
 using MacsBusinessManagementAPI.UseCases.Products.UpdateProduct;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MacsBusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class ProductController : ControllerBase
 {
     [HttpPost]

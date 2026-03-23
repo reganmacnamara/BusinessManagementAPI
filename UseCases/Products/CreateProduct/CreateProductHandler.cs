@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
-using MacsBusinessManagementAPI.Infrastructure;
+using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
 namespace MacsBusinessManagementAPI.UseCases.Products.CreateProduct;
 

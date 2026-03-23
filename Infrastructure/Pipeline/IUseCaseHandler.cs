@@ -1,4 +1,4 @@
-﻿namespace MacsBusinessManagementAPI.Infrastructure
+﻿namespace MacsBusinessManagementAPI.Infrastructure.Pipeline
 {
 
     public interface IUseCaseHandler<T> where T : class

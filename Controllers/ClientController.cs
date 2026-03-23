@@ -1,15 +1,17 @@
-﻿using MacsBusinessManagementAPI.Infrastructure;
+﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.UseCases.Clients.CreateClient;
 using MacsBusinessManagementAPI.UseCases.Clients.DeleteClient;
 using MacsBusinessManagementAPI.UseCases.Clients.GetClient;
 using MacsBusinessManagementAPI.UseCases.Clients.GetClients;
 using MacsBusinessManagementAPI.UseCases.Clients.UpdateClient;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MacsBusinessManagementAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class ClientController : ControllerBase
     {
         [HttpPost]
