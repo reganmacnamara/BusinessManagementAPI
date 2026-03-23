@@ -10,12 +10,14 @@ using MacsBusinessManagementAPI.UseCases.Receipts.UpdateReceipt;
 using MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace MacsBusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 [Authorize]
+[EnableRateLimiting("Authenticated")]
 public class ReceiptController : ControllerBase
 {
     [HttpPost]

@@ -4,9 +4,11 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.Services.Allocations;
 using MacsBusinessManagementAPI.Services.Pdf;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
+using System.Threading.RateLimiting;
 
 namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
 {
@@ -38,6 +40,30 @@ namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
                             Encoding.UTF8.GetBytes(jwtConfig.Secret))
                     };
                 });
+
+            return services;
+        }
+
+        public static IServiceCollection AddRateLimiting(this IServiceCollection services)
+        {
+            services.AddRateLimiter(options =>
+            {
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+                options.AddFixedWindowLimiter("Authenticated", opt =>
+                {
+                    opt.PermitLimit = 4;
+                    opt.Window = TimeSpan.FromSeconds(12);
+                    opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+                    opt.QueueLimit = 2; // Optional: queues requests instead of rejecting immediately
+                });
+
+                options.AddFixedWindowLimiter("Unauthenticated", opt =>
+                {
+                    opt.PermitLimit = 3;
+                    opt.Window = TimeSpan.FromSeconds(30);
+                    opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+                });
+            });
 
             return services;
         }

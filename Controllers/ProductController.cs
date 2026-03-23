@@ -6,12 +6,14 @@ using MacsBusinessManagementAPI.UseCases.Products.GetProducts;
 using MacsBusinessManagementAPI.UseCases.Products.UpdateProduct;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace MacsBusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 [Authorize]
+[EnableRateLimiting("Authenticated")]
 public class ProductController : ControllerBase
 {
     [HttpPost]

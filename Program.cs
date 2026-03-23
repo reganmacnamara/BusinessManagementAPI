@@ -48,6 +48,7 @@ builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
 builder.Services.AddBusinessManagementServices();
 builder.Services.AddDbContextPool<SQLContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddRateLimiting();
 builder.Services.AddUseCaseHandlers(Assembly.GetExecutingAssembly());
 
 var _JwtConfig = builder.Configuration

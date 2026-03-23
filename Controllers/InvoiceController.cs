@@ -10,12 +10,14 @@ using MacsBusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
 using MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace MacsBusinessManagementAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 [Authorize]
+[EnableRateLimiting("Authenticated")]
 public class InvoiceController : ControllerBase
 {
     [HttpPost]

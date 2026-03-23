@@ -6,12 +6,14 @@ using MacsBusinessManagementAPI.UseCases.Clients.GetClients;
 using MacsBusinessManagementAPI.UseCases.Clients.UpdateClient;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace MacsBusinessManagementAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     [Authorize]
+    [EnableRateLimiting("Authenticated")]
     public class ClientController : ControllerBase
     {
         [HttpPost]
