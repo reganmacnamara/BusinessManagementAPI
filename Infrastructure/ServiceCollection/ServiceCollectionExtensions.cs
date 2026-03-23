@@ -4,9 +4,9 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.Services.Allocations;
 using MacsBusinessManagementAPI.Services.Pdf;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.RateLimiting;
 
@@ -49,20 +49,29 @@ namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
             services.AddRateLimiter(options =>
             {
                 options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-                options.AddFixedWindowLimiter("Authenticated", opt =>
-                {
-                    opt.PermitLimit = 4;
-                    opt.Window = TimeSpan.FromSeconds(12);
-                    opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-                    opt.QueueLimit = 2; // Optional: queues requests instead of rejecting immediately
-                });
+                // Authenticated: partition by user ID from JWT claims
+                options.AddPolicy("Authenticated", context =>
+                    RateLimitPartition.GetFixedWindowLimiter(
+                        partitionKey: context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                                      ?? context.Connection.RemoteIpAddress?.ToString()
+                                      ?? "unknown",
+                        factory: _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 10,
+                            Window = TimeSpan.FromSeconds(12),
+                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                        }));
 
-                options.AddFixedWindowLimiter("Unauthenticated", opt =>
-                {
-                    opt.PermitLimit = 3;
-                    opt.Window = TimeSpan.FromSeconds(30);
-                    opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-                });
+                // Unauthenticated: partition by IP address
+                options.AddPolicy("Unauthenticated", context =>
+                    RateLimitPartition.GetFixedWindowLimiter(
+                        partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                        factory: _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 3,
+                            Window = TimeSpan.FromSeconds(30),
+                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst
+                        }));
             });
 
             return services;
