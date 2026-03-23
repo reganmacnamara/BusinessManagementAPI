@@ -12,7 +12,7 @@ namespace MacsBusinessManagementAPI.UseCases.Auth.Register
         public async Task<IResult> HandleAsync(RegisterAccountRequest request, CancellationToken cancellationToken)
         {
             var _EmailInUse = await context.GetEntities<Account>()
-                .AnyAsync(a => a.Email.Equals(request.Email, StringComparison.CurrentCultureIgnoreCase), cancellationToken);
+                .AnyAsync(a => a.Email.ToLower() == request.Email.ToLower(), cancellationToken);
 
             if (_EmailInUse)
                 return Results.Conflict("An account with this email already exists.");

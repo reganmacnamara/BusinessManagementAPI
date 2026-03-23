@@ -12,7 +12,7 @@ namespace MacsBusinessManagementAPI.UseCases.Auth.Login
         public async Task<IResult> HandleAsync(LoginAccountRequest request, CancellationToken cancellationToken)
         {
             var _Account = await context.GetEntities<Account>()
-                .FirstOrDefaultAsync(a => a.Email.Equals(request.Email, StringComparison.CurrentCultureIgnoreCase) && a.IsActive, cancellationToken);
+                .FirstOrDefaultAsync(a => a.Email.ToLower() == request.Email.ToLower() && a.IsActive, cancellationToken);
 
             if (_Account is null || !authService.VerifyPassword(request.Password, _Account.Password))
                 return Results.Unauthorized();
