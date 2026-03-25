@@ -1,7 +1,7 @@
 <p align="center">
   <h1 align="center">MacsBusinessManagementAPI</h1>
   <p align="center">
-    A clean, extensible RESTful Web API for managing clients, products, invoices, and receipts — built with ASP.NET Core 8 and Entity Framework Core.
+    A clean, extensible RESTful API for managing clients, products, invoices, and receipts — built with ASP.NET Core 8 and Entity Framework Core.
   </p>
 </p>
 
@@ -9,9 +9,9 @@
   <img src="https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet&logoColor=white" alt=".NET 8" />
   <img src="https://img.shields.io/badge/EF_Core-8.0-512BD4?logo=dotnet&logoColor=white" alt="EF Core 8" />
   <img src="https://img.shields.io/badge/SQL_Server-CC2927?logo=microsoftsqlserver&logoColor=white" alt="SQL Server" />
+  <img src="https://img.shields.io/badge/JWT-Auth-000000?logo=jsonwebtokens&logoColor=white" alt="JWT" />
   <img src="https://img.shields.io/badge/Swagger-85EA2D?logo=swagger&logoColor=black" alt="Swagger" />
   <img src="https://img.shields.io/badge/License-MIT-blue" alt="License" />
-  <img src="https://img.shields.io/badge/C%23-100%25-239120?logo=csharp&logoColor=white" alt="C#" />
 </p>
 
 ---
@@ -28,7 +28,9 @@
   - [Database Setup](#database-setup)
   - [Running the API](#running-the-api)
 - [Authentication](#authentication)
+- [Rate Limiting](#rate-limiting)
 - [API Reference](#api-reference)
+  - [Auth](#auth)
   - [Clients](#clients)
   - [Products](#products)
   - [Invoices](#invoices)
@@ -49,27 +51,29 @@
 
 **MacsBusinessManagementAPI** is a backend API designed for small-to-medium businesses that need to track clients, catalog products and services, issue invoices, and record incoming payments via receipts. It follows a straightforward real-world workflow:
 
-1. **Clients** are registered in the system.
-2. **Products** (goods or services) are defined with pricing.
-3. **Invoices** are issued to clients, each containing line items referencing products.
-4. **Receipts** are recorded as payments arrive — receipt line items are allocated against specific invoices, automatically tracking outstanding balances.
+1. **Register** an account and **authenticate** to receive a JWT token.
+2. **Clients** are registered in the system.
+3. **Products** (goods or services) are defined with pricing.
+4. **Invoices** are issued to clients, each containing line items referencing products.
+5. **Receipts** are recorded as payments arrive — receipt line items are allocated against specific invoices, automatically tracking outstanding balances.
 
-The API is built with clean separation of concerns, uses a CQRS-inspired request/handler/response pattern, and ships with JWT authentication, rate limiting, and PDF generation out of the box.
+The API uses a CQRS-inspired Request/Handler/Response pattern with automatic handler registration, and ships with JWT authentication, per-user rate limiting, and PDF generation out of the box.
 
 ---
 
 ## Key Features
 
-- **Full CRUD operations** for Clients, Products, Invoices, and Receipts
-- **Line item management** with upsert support (create or update in a single endpoint)
-- **Payment allocation** — receipt items link directly to invoices, with automatic outstanding balance tracking
-- **PDF generation** for invoices and receipts powered by QuestPDF
-- **JWT authentication** with Bearer token support via `Microsoft.AspNetCore.Authentication.JwtBearer`
-- **Password hashing** with BCrypt for secure credential storage
-- **Rate limiting** middleware to protect against abuse
-- **Swagger UI** for interactive API exploration and testing
-- **AutoMapper** profiles for clean DTO-to-entity mapping
-- **EF Core code-first migrations** with SQL Server
+| Feature | Description |
+|---------|-------------|
+| **Full CRUD** | Complete operations for Clients, Products, Invoices, and Receipts |
+| **Line Item Management** | Upsert support — create or update line items in a single endpoint |
+| **Payment Allocation** | Receipt items link directly to invoices with automatic outstanding balance tracking |
+| **PDF Generation** | Professional invoice and receipt PDFs via QuestPDF |
+| **JWT Authentication** | Secure Bearer token auth with BCrypt password hashing |
+| **Rate Limiting** | Per-user and per-IP rate limiting policies for authenticated and unauthenticated endpoints |
+| **Auto-Registered Handlers** | Use case handlers are discovered and registered via reflection at startup |
+| **Swagger UI** | Interactive API explorer with JWT authorization support |
+| **Code-First Migrations** | EF Core migrations with Fluent API entity configurations |
 
 ---
 
@@ -82,6 +86,7 @@ The API is built with clean separation of concerns, uses a CQRS-inspired request
 | **ORM**          | Entity Framework Core 8.0                   |
 | **Database**     | SQL Server                                  |
 | **Auth**         | JWT Bearer Tokens + BCrypt password hashing |
+| **Rate Limiting**| ASP.NET Core Rate Limiting middleware        |
 | **Mapping**      | AutoMapper 16                               |
 | **PDF Engine**   | QuestPDF 2024.10 (Community License)        |
 | **API Docs**     | Swashbuckle / Swagger                       |
@@ -90,37 +95,41 @@ The API is built with clean separation of concerns, uses a CQRS-inspired request
 
 ## Architecture
 
-The project follows a **Request → Handler → Response** pattern inspired by CQRS, where each use case is encapsulated in its own folder with dedicated request, handler, and response types.
+The project follows a **Request -> Handler -> Response** pattern inspired by CQRS. Each use case is encapsulated in its own folder with a dedicated request, handler, and response. Handlers implement `IUseCaseHandler<T>` and are automatically discovered and registered in the DI container via reflection at startup.
 
 ```
 HTTP Request
-    │
-    ▼
-┌──────────────┐
-│  Controller   │   Routes & input validation
-└──────┬───────┘
-       │
-       ▼
-┌──────────────┐
-│   Handler     │   Business logic (one per use case)
-│  (UseCase)    │   Inherits from BaseHandler
-└──────┬───────┘
-       │
-       ▼
-┌──────────────┐
-│  SQLContext    │   EF Core DbContext
-│  (Data Layer) │   Entity configurations & migrations
-└──────┬───────┘
-       │
-       ▼
+    |
+    v
++--------------+
+|  Controller   |   Routes, [Authorize], [EnableRateLimiting]
++------+-------+
+       |
+       v
++--------------+
+|   Handler     |   Business logic (one per use case)
+| IUseCaseHandler<T>
++------+-------+
+       |
+       v
++--------------+
+|  SQLContext    |   EF Core DbContext
+|  (Data Layer) |   Fluent API configurations
++------+-------+
+       |
+       v
    SQL Server
 ```
 
 **Supporting layers:**
-- **Services** — Cross-cutting logic like `AllocationService` (payment tracking) and `PdfService` (document generation)
-- **Profiles** — AutoMapper mapping configurations between DTOs and entities
-- **Infrastructure** — Authentication setup, DI registration, and rate limiting configuration
-- **Extensions** — Service collection extension methods for clean `Program.cs` startup
+
+| Layer | Purpose |
+|-------|---------|
+| **Infrastructure/Pipeline** | `IUseCaseHandler<T>`, `IUseCaseRequest`, `ExistenceChecker<T>` |
+| **Infrastructure/Authentication** | JWT config, token generation, password hashing |
+| **Infrastructure/ServiceCollection** | Extension methods for DI registration |
+| **Services** | Cross-cutting logic — `AllocationService`, `PdfService` |
+| **Profiles** | AutoMapper mapping configurations |
 
 ---
 
@@ -134,25 +143,18 @@ HTTP Request
 | [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) | 2019+   |
 | [EF Core CLI Tools](https://learn.microsoft.com/en-us/ef/core/cli/dotnet) | 8.0+    |
 
-> **Note:** The EF Core CLI is required for running migrations. Install it globally with:
+> **Note:** Install the EF Core CLI globally with:
 > ```bash
 > dotnet tool install --global dotnet-ef
 > ```
 
 ### Installation
 
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/reganmacnamara/BusinessManagementAPI.git
-   cd BusinessManagementAPI
-   ```
-
-2. **Restore NuGet packages:**
-
-   ```bash
-   dotnet restore
-   ```
+```bash
+git clone https://github.com/reganmacnamara/InvoiceAutomationAPI.git
+cd InvoiceAutomationAPI
+dotnet restore
+```
 
 ### Database Setup
 
@@ -166,9 +168,9 @@ HTTP Request
    }
    ```
 
-   Replace `YOUR_SERVER` with your SQL Server instance name (e.g., `localhost`, `.\SQLEXPRESS`, etc.).
+   Replace `YOUR_SERVER` with your SQL Server instance (e.g., `localhost`, `.\SQLEXPRESS`).
 
-2. **Apply EF Core migrations** to create the database schema:
+2. **Apply migrations:**
 
    ```bash
    dotnet ef database update
@@ -180,49 +182,73 @@ HTTP Request
 dotnet run
 ```
 
-Once the application starts, open your browser and navigate to:
-
-```
-https://localhost:{port}/swagger
-```
-
-The Swagger UI provides a full interactive reference for every endpoint, including request/response schemas and the ability to execute calls directly.
+Navigate to `https://localhost:{port}/swagger` to access the interactive API documentation.
 
 ---
 
 ## Authentication
 
-The API is secured with **JWT Bearer tokens**. All endpoints require a valid token in the `Authorization` header.
+The API uses **JWT Bearer tokens**. All endpoints except registration and login require a valid token.
 
-### Configuration
+### Workflow
 
-JWT settings are defined in `appsettings.json` under the `JwtSettings` section:
+```
+POST /Auth/Register       ->    Create an account (email + password)
+POST /Auth/Login          ->    Receive a JWT token
+Use token in headers      ->    Access protected endpoints
+```
+
+### JWT Configuration
+
+JWT settings are defined in `appsettings.json`:
 
 ```json
 {
   "JwtSettings": {
     "Issuer": "MacsBusinessManagementAPI",
     "Audience": "MacsBusinessManagementAPI",
-    "SecretKey": "your-secret-key-here-min-32-characters"
+    "Secret": "your-secret-key-here-min-32-characters"
   }
 }
 ```
 
+> **Security:** In production, store the secret in environment variables or user secrets — never commit it to source control.
+
 ### Using Tokens
 
-Include the token in your request headers:
+Include the token in the `Authorization` header:
 
 ```
 Authorization: Bearer <your-jwt-token>
 ```
 
-In Swagger UI, click the **Authorize** button (🔒) at the top of the page, enter your token, and all subsequent requests will include it automatically.
+In Swagger UI, click the **Authorize** button at the top of the page, paste your token, and all subsequent requests will include it automatically.
+
+---
+
+## Rate Limiting
+
+The API enforces per-partition rate limits to protect against abuse. Policies are defined in `ServiceCollectionExtensions.AddRateLimiting()`.
+
+| Policy | Partition Key | Limit | Window | Applied To |
+|--------|--------------|-------|--------|------------|
+| `Authenticated` | User ID (from JWT) | 10 requests | 12 seconds | All protected endpoints |
+| `Unauthenticated` | IP address | 3 requests | 30 seconds | Auth endpoints (login, register) |
+
+Exceeding the limit returns `429 Too Many Requests`. Each user/IP gets their own independent bucket — one client's usage does not affect another's.
 
 ---
 
 ## API Reference
 
-> **Interactive docs:** Run the API and visit `/swagger` for a live, testable reference with full schemas.
+> **Interactive docs:** Run the API and visit `/swagger` for a live, testable reference with full request/response schemas.
+
+### Auth
+
+| Method | Route | Description | Rate Limit |
+|--------|-------|-------------|------------|
+| `POST` | `/Auth/Register` | Create a new account | Unauthenticated |
+| `POST` | `/Auth/Login` | Authenticate and receive a JWT token | Unauthenticated |
 
 ### Clients
 
@@ -251,7 +277,7 @@ In Swagger UI, click the **Authorize** button (🔒) at the top of the page, ent
 | `GET`    | `/Invoice`                    | List all invoices                      |
 | `GET`    | `/Invoice/{id}`               | Get an invoice by ID                   |
 | `GET`    | `/Invoice/Client/{clientId}`  | Get all invoices for a specific client |
-| `GET`    | `/Invoice/{id}/pdf`           | Download invoice as a PDF              |
+| `GET`    | `/Invoice/{id}/pdf`           | Download invoice as PDF                |
 | `POST`   | `/Invoice`                    | Create a new invoice                   |
 | `PATCH`  | `/Invoice`                    | Update an invoice                      |
 | `PUT`    | `/Invoice/Item`               | Upsert an invoice line item            |
@@ -265,7 +291,7 @@ In Swagger UI, click the **Authorize** button (🔒) at the top of the page, ent
 | `GET`    | `/Receipt`                     | List all receipts                                 |
 | `GET`    | `/Receipt/{id}`                | Get a receipt by ID                               |
 | `GET`    | `/Receipt/Client/{clientId}`   | Get all receipts for a specific client            |
-| `GET`    | `/Receipt/{id}/pdf`            | Download receipt as a PDF                         |
+| `GET`    | `/Receipt/{id}/pdf`            | Download receipt as PDF                           |
 | `POST`   | `/Receipt`                     | Create a new receipt                              |
 | `PATCH`  | `/Receipt`                     | Update a receipt                                  |
 | `PUT`    | `/Receipt/Item`                | Upsert a receipt line item (allocates to invoice) |
@@ -281,21 +307,21 @@ In Swagger UI, click the **Authorize** button (🔒) at the top of the page, ent
 The API models a standard accounts-receivable workflow:
 
 ```
-┌─────────┐     issues      ┌──────────┐
-│  Client  │◄───────────────│  Invoice  │
-└─────────┘                 └────┬─────┘
-     │                           │ contains
-     │                      ┌────▼──────────┐
-     │                      │ Invoice Items  │  (product, qty, price)
-     │                      └───────────────┘
-     │
-     │         pays          ┌──────────┐
-     └──────────────────────►│  Receipt  │
-                             └────┬─────┘
-                                  │ contains
-                             ┌────▼──────────┐
-                             │ Receipt Items  │  (amount, allocated to invoice)
-                             └───────────────┘
++---------+     issues      +----------+
+|  Client  |<---------------|  Invoice  |
++---------+                 +----+-----+
+     |                           | contains
+     |                      +----v----------+
+     |                      | Invoice Items  |  (product, qty, price)
+     |                      +---------------+
+     |
+     |         pays          +----------+
+     +---------------------->|  Receipt  |
+                             +----+-----+
+                                  | contains
+                             +----v----------+
+                             | Receipt Items  |  (amount, allocated to invoice)
+                             +---------------+
 ```
 
 1. An **Invoice** is created for a client with one or more line items (each referencing a product, quantity, and price).
@@ -308,7 +334,7 @@ The `AllocationService` handles the relationship between receipts and invoices. 
 
 ### PDF Generation
 
-Both invoices and receipts can be exported as professionally formatted PDF documents via QuestPDF (Community License). The `PdfService` handles document composition and layout. Access the PDF endpoints at:
+Both invoices and receipts can be exported as professionally formatted PDF documents via QuestPDF (Community License). The `PdfService` handles document composition and layout.
 
 - `GET /Invoice/{id}/pdf`
 - `GET /Receipt/{id}/pdf`
@@ -318,65 +344,59 @@ Both invoices and receipts can be exported as professionally formatted PDF docum
 ## Project Structure
 
 ```
-BusinessManagementAPI/
-│
-├── Controllers/              # API controllers — route definitions, delegate to handlers
-│   ├── ClientController.cs
-│   ├── InvoiceController.cs
-│   ├── ProductController.cs
-│   └── ReceiptController.cs
-│
-├── UseCases/                 # Business logic, one folder per domain
-│   ├── Clients/
-│   │   ├── CreateClient/     # Request.cs, Handler.cs, Response.cs
-│   │   ├── GetClient/
-│   │   ├── GetClients/
-│   │   ├── UpdateClient/
-│   │   └── DeleteClient/
-│   ├── Invoices/
-│   │   └── ...               # Same pattern: Create, Get, Update, Delete, PDF, Items
-│   ├── Products/
-│   │   └── ...
-│   └── Receipts/
-│       └── ...
-│
-├── Entities/                 # Domain models (EF Core entities)
-│   ├── Client.cs
-│   ├── Product.cs
-│   ├── Invoice.cs
-│   ├── InvoiceItem.cs
-│   ├── Receipt.cs
-│   └── ReceiptItem.cs
-│
-├── Data/                     # EF Core DbContext and entity configurations
-│   └── SQLContext.cs
-│
-├── Services/                 # Cross-cutting services
-│   ├── AllocationService.cs  # Payment-to-invoice allocation logic
-│   └── PdfService.cs         # Invoice & receipt PDF generation
-│
-├── Profiles/                 # AutoMapper mapping profiles
-│
-├── Infrastructure/           # Framework concerns
-│   ├── Authentication/       # JWT configuration and setup
-│   └── ServiceCollection/    # DI registration extensions
-│
-├── Extensions/               # Additional extension methods
-│
-├── Migrations/               # EF Core code-first migrations
-│
-├── Properties/               # Launch settings
-│
-├── Program.cs                # Application entry point & middleware pipeline
-├── MacsBusinessManagementAPI.csproj
-└── MacsBusinessManagementAPI.slnx
+MacsBusinessManagementAPI/
+|
++-- Controllers/                 # API controllers
+|   +-- AuthController.cs        # Registration & login (AllowAnonymous)
+|   +-- ClientController.cs      # Client CRUD
+|   +-- InvoiceController.cs     # Invoice CRUD, line items, PDF
+|   +-- ProductController.cs     # Product CRUD
+|   +-- ReceiptController.cs     # Receipt CRUD, line items, PDF
+|
++-- UseCases/                    # Business logic (one folder per use case)
+|   +-- Auth/
+|   |   +-- Login/               # LoginAccountRequest, Handler, Response
+|   |   +-- Register/            # RegisterAccountRequest, Handler, Response
+|   +-- Clients/
+|   |   +-- CreateClient/        # Request, Handler, Response
+|   |   +-- GetClient/
+|   |   +-- GetClients/
+|   |   +-- UpdateClient/
+|   |   +-- DeleteClient/
+|   +-- Invoices/                # Same pattern + GetInvoicePdf, UpsertInvoiceItem, etc.
+|   +-- Products/
+|   +-- Receipts/
+|
++-- Entities/                    # EF Core entities
+|   +-- Account.cs
+|   +-- Client.cs
+|   +-- Product.cs
+|   +-- Invoice.cs, InvoiceItem.cs
+|   +-- Receipt.cs, ReceiptItem.cs
+|
++-- Data/
+|   +-- SQLContext.cs            # DbContext with generic GetEntities<T>()
+|   +-- Configurations/         # Fluent API entity configurations
+|
++-- Infrastructure/
+|   +-- Authentication/          # JwtConfig, AuthService, IAuthService
+|   +-- Pipeline/                # IUseCaseHandler<T>, IUseCaseRequest, ExistenceChecker<T>
+|   +-- ServiceCollection/       # DI extensions (services, JWT, rate limiting, handler registration)
+|
++-- Services/
+|   +-- Allocations/             # AllocationService — payment-to-invoice allocation
+|   +-- Pdf/                     # PdfService — invoice & receipt PDF generation
+|
++-- Profiles/                    # AutoMapper mapping profiles
++-- Migrations/                  # EF Core code-first migrations
++-- Program.cs                   # Entry point & middleware pipeline
 ```
 
 ---
 
 ## Configuration
 
-All configuration lives in `appsettings.json`. Key sections:
+All configuration lives in `appsettings.json`:
 
 | Section              | Purpose                                               |
 |----------------------|-------------------------------------------------------|
@@ -405,8 +425,11 @@ Please keep PRs focused on a single concern, follow the existing code convention
 
 > *This project is actively under development. Planned enhancements include:*
 
-- [ ] User registration and login endpoints
+- [x] JWT authentication with registration and login
+- [x] Rate limiting middleware
+- [x] Use case handler auto-registration via reflection
 - [ ] Role-based authorization (admin, accountant, viewer)
+- [ ] Refresh tokens
 - [ ] Pagination, filtering, and sorting on list endpoints
 - [ ] Client statement generation (full payment history as PDF)
 - [ ] Overdue invoice notifications
@@ -423,5 +446,5 @@ This project is open source. See the repository for license details.
 ---
 
 <p align="center">
-  Built with ❤️ using ASP.NET Core 8 &nbsp;·&nbsp; <a href="https://github.com/reganmacnamara/BusinessManagementAPI">View on GitHub</a>
+  Built with ASP.NET Core 8 &nbsp;&middot;&nbsp; <a href="https://github.com/reganmacnamara/InvoiceAutomationAPI">View on GitHub</a>
 </p>
