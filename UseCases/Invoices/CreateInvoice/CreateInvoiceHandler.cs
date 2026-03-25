@@ -19,6 +19,7 @@ public class CreateInvoiceHandler(IMapper mapper, SQLContext context) : IUseCase
         var _Invoice = mapper.Map<Invoice>(request);
 
         _Invoice.Client = _Client;
+        _Invoice.PaymentTerm = _Client.PaymentTerm;
         _Invoice.Outstanding = true;
 
         context.Invoices.Add(_Invoice);

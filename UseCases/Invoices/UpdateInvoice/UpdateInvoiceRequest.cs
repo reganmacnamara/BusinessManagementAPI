@@ -21,4 +21,6 @@ public class UpdateInvoiceRequest : IUseCaseRequest
     public decimal NetValue { get; set; }
 
     public decimal OffsetValue { get; set; }
+
+    public int? PaymentTermID { get; set; }
 }
