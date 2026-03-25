@@ -25,6 +25,10 @@ namespace MacsBusinessManagementAPI.Entities
         public string State { get; set; } = string.Empty;
 
         public string Country { get; set; } = string.Empty;
+
+        //Navigational Properties
+
+        public PaymentTerms PaymentTerm { get; set; }
     }
 
 }
