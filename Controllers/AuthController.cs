@@ -14,9 +14,9 @@ namespace MacsBusinessManagementAPI.Controllers
 
     public class AuthController : ControllerBase
     {
-        [HttpPost("Register")]
-        public async Task<IResult> Register([FromBody] RegisterAccountRequest request,
-            [FromServices] IUseCaseHandler<RegisterAccountRequest> handler,
+        [HttpPost("Login")]
+        public async Task<IResult> Login([FromBody] LoginAccountRequest request,
+            [FromServices] IUseCaseHandler<LoginAccountRequest> handler,
             CancellationToken cancellationToken)
         {
             var _Result = await handler.HandleAsync(request, cancellationToken);
@@ -24,9 +24,9 @@ namespace MacsBusinessManagementAPI.Controllers
             return _Result;
         }
 
-        [HttpPost("Login")]
-        public async Task<IResult> Login([FromBody] LoginAccountRequest request,
-            [FromServices] IUseCaseHandler<LoginAccountRequest> handler,
+        [HttpPost("Register")]
+        public async Task<IResult> Register([FromBody] RegisterAccountRequest request,
+            [FromServices] IUseCaseHandler<RegisterAccountRequest> handler,
             CancellationToken cancellationToken)
         {
             var _Result = await handler.HandleAsync(request, cancellationToken);

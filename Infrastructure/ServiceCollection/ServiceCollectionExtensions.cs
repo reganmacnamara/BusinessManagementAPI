@@ -57,8 +57,8 @@ namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
                                       ?? "unknown",
                         factory: _ => new FixedWindowRateLimiterOptions
                         {
-                            PermitLimit = 10,
-                            Window = TimeSpan.FromSeconds(12),
+                            PermitLimit = 60,
+                            Window = TimeSpan.FromSeconds(60),
                             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                         }));
 
@@ -68,8 +68,8 @@ namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
                         partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
                         factory: _ => new FixedWindowRateLimiterOptions
                         {
-                            PermitLimit = 3,
-                            Window = TimeSpan.FromSeconds(30),
+                            PermitLimit = 5,
+                            Window = TimeSpan.FromSeconds(60),
                             QueueProcessingOrder = QueueProcessingOrder.OldestFirst
                         }));
             });
