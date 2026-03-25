@@ -16,7 +16,7 @@ public class UpdateProductHandler(SQLContext context) : IUseCaseHandler<UpdatePr
         if (_Product is null)
             return Results.NotFound("Product not found.");
 
-        _Product.UpdateFromEntity(request, ["ProductID"]);
+        _Product.UpdateFromEntity(request, [nameof(Product.ProductID)]);
 
         _ = await context.SaveChangesAsync(cancellationToken);
 

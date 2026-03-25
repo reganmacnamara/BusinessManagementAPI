@@ -24,6 +24,8 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
         public string State { get; set; } = string.Empty;
 
         public string Country { get; set; } = string.Empty;
+
+        public int PaymentTermID { get; set; }
     }
 
 }

@@ -26,7 +26,7 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
                 var _OldProductID = _InvoiceItem.ProductID;
                 var _OldProduct = _InvoiceItem.Product;
 
-                _InvoiceItem.UpdateFromEntity(request, ["InvoiceItemID"]);
+                _InvoiceItem.UpdateFromEntity(request, [nameof(InvoiceItem.InvoiceItemID)]);
 
                 Product? _Product;
                 if (_InvoiceItem.ProductID != _OldProductID)

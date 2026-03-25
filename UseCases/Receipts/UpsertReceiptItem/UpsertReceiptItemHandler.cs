@@ -63,7 +63,7 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
 
                 await allocationService.DeallocateFromInvoice(_ReceiptItem, _ReceiptItem.Invoice);
 
-                _ReceiptItem.UpdateFromEntity(request, ["ReceiptItemID"]);
+                _ReceiptItem.UpdateFromEntity(request, [nameof(ReceiptItem.ReceiptItemID)]);
 
                 try
                 {

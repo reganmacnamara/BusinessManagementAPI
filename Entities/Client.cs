@@ -26,9 +26,11 @@ namespace MacsBusinessManagementAPI.Entities
 
         public string Country { get; set; } = string.Empty;
 
+        public long? PaymentTermID { get; set; }
+
         //Navigational Properties
 
-        public PaymentTerms PaymentTerm { get; set; }
+        public PaymentTerm? PaymentTerm { get; set; }
     }
 
 }

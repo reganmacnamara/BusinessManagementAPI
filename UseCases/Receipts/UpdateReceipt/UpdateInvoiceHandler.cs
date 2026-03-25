@@ -16,7 +16,7 @@ public class UpdateReceiptHandler(SQLContext context) : IUseCaseHandler<UpdateRe
         if (_Receipt == null || request.ReceiptID == 0)
             return Results.NotFound("Receipt could not be found.");
 
-        _Receipt.UpdateFromEntity(request, ["ReceiptID"]);
+        _Receipt.UpdateFromEntity(request, [nameof(Receipt.ReceiptID)]);
 
         _ = await context.SaveChangesAsync(cancellationToken);
 

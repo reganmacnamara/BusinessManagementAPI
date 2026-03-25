@@ -17,7 +17,7 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
             if (_Client is null)
                 return Results.NotFound("Client was not found.");
 
-            _Client.UpdateFromEntity(request, ["ClientID"]);
+            _Client.UpdateFromEntity(request, [nameof(Client.ClientID)]);
 
             _ = await context.SaveChangesAsync(cancellationToken);
 

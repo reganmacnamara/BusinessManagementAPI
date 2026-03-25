@@ -27,7 +27,7 @@ public class UpdateInvoiceHandler(SQLContext context) : IUseCaseHandler<UpdateIn
             _Invoice.Client = _Client;
         }
 
-        _Invoice.UpdateFromEntity(request, ["InvoiceID"]);
+        _Invoice.UpdateFromEntity(request, [nameof(Invoice.InvoiceID)]);
 
         _ = await context.SaveChangesAsync(cancellationToken);
 
