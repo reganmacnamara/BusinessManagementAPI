@@ -1,7 +1,11 @@
-﻿using MacsBusinessManagementAPI.Infrastructure.Authentication;
+﻿using Hangfire;
+using Hangfire.SqlServer;
+using MacsBusinessManagementAPI.Infrastructure.Authentication;
 using MacsBusinessManagementAPI.Infrastructure.Authentication.Service;
+using MacsBusinessManagementAPI.Infrastructure.Jobs;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.Infrastructure.Services.Allocations;
+using MacsBusinessManagementAPI.Infrastructure.Services.Email;
 using MacsBusinessManagementAPI.Infrastructure.Services.Pdf;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -19,6 +23,21 @@ namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
             services.AddScoped<IAllocationService, AllocationService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPdfService, PdfService>();
+            services.AddScoped<IEmailService, SmtpEmailService>();
+            services.AddScoped<OverdueInvoiceReminderJob>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddHangfireInfrastructure(this IServiceCollection services, string connectionString)
+        {
+            services.AddHangfire(config => config
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(connectionString));
+
+            services.AddHangfireServer();
 
             return services;
         }

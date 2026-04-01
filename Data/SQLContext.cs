@@ -13,6 +13,7 @@ namespace MacsBusinessManagementAPI.Data
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<Receipt> Receipts { get; set; } = null!;
         public DbSet<ReceiptItem> ReceiptItems { get; set; } = null!;
+        public DbSet<ReminderLog> ReminderLogs { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

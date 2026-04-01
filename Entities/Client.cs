@@ -28,6 +28,8 @@ namespace MacsBusinessManagementAPI.Entities
 
         public long? PaymentTermID { get; set; }
 
+        public int? ReminderIntervalDays { get; set; }
+
         //Navigational Properties
 
         public PaymentTerm? PaymentTerm { get; set; }

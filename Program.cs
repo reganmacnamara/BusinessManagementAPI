@@ -1,6 +1,9 @@
+using Hangfire;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Infrastructure.Authentication;
+using MacsBusinessManagementAPI.Infrastructure.Jobs;
 using MacsBusinessManagementAPI.Infrastructure.ServiceCollection;
+using MacsBusinessManagementAPI.Infrastructure.Services.Email;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using QuestPDF.Infrastructure;
@@ -44,10 +47,15 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.Configure<SmtpSettings>(
+    builder.Configuration.GetSection("SmtpSettings"));
+
 builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
 builder.Services.AddBusinessManagementServices();
 builder.Services.AddDbContextPool<SQLContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddHangfireInfrastructure(
+    builder.Configuration.GetConnectionString("DefaultConnection")!);
 builder.Services.AddRateLimiting();
 builder.Services.AddUseCaseInfrastructure(Assembly.GetExecutingAssembly());
 
@@ -71,5 +79,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHangfireDashboard();
+
+RecurringJob.AddOrUpdate<OverdueInvoiceReminderJob>(
+    "overdue-invoice-reminders",
+    job => job.ExecuteAsync(CancellationToken.None),
+    Cron.Daily(7));
 
 app.Run();
