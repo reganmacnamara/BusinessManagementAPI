@@ -10,6 +10,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
         builder.HasKey(p => p.ProductID);
 
+        builder.Property(p => p.CompanyID)
+            .IsRequired();
+
         builder.Property(p => p.ProductName)
             .IsRequired();
 
@@ -27,5 +30,9 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(p => p.QuantityOnHand)
             .HasDefaultValue(0);
+
+        builder.HasOne(c => c.Company)
+                .WithMany(c => c.Products)
+                .HasForeignKey(c => c.CompanyID);
     }
 }

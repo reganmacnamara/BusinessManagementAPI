@@ -30,7 +30,7 @@ public class Invoice
 
     public Client Client { get; set; } = default!;
 
-    public Company Company { get; set; }
+    public Company Company { get; set; } = default!;
 
-    public PaymentTerm PaymentTerm { get; set; }
+    public PaymentTerm PaymentTerm { get; set; } = default!;
 }

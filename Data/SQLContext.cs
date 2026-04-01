@@ -7,6 +7,7 @@ namespace MacsBusinessManagementAPI.Data
     {
         public DbSet<Account> Accounts { get; set; } = null!;
         public DbSet<Client> Clients { get; set; } = null!;
+        public DbSet<Company> Companies { get; set; } = null!;
         public DbSet<Invoice> Invoices { get; set; } = null!;
         public DbSet<InvoiceItem> InvoiceItems { get; set; } = null!;
         public DbSet<PaymentTerm> PaymentTerms { get; set; } = null!;

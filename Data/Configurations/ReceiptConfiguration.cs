@@ -10,6 +10,9 @@ public class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
     {
         builder.HasKey(c => c.ReceiptID);
 
+        builder.Property(c => c.CompanyID)
+            .IsRequired();
+
         builder.Property(c => c.ReceiptRef)
             .IsRequired();
 
@@ -41,7 +44,11 @@ public class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
             .IsRequired();
 
         builder.HasOne(c => c.Client)
-            .WithMany()
+            .WithMany(c => c.Receipts)
             .HasForeignKey(c => c.ClientID);
+
+        builder.HasOne(c => c.Company)
+                .WithMany(c => c.Receipts)
+                .HasForeignKey(c => c.CompanyID);
     }
 }

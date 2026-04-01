@@ -10,6 +10,9 @@ namespace MacsBusinessManagementAPI.Data.Configurations
         {
             builder.HasKey(c => c.InvoiceID);
 
+            builder.Property(c => c.CompanyID)
+                .IsRequired();
+
             builder.Property(c => c.InvoiceRef)
                 .IsRequired();
 
@@ -44,8 +47,12 @@ namespace MacsBusinessManagementAPI.Data.Configurations
                 .IsRequired();
 
             builder.HasOne(c => c.Client)
-                .WithMany()
+                .WithMany(c => c.Invoices)
                 .HasForeignKey(c => c.ClientID);
+
+            builder.HasOne(c => c.Company)
+                .WithMany(c => c.Invoices)
+                .HasForeignKey(c => c.CompanyID);
         }
     }
 }

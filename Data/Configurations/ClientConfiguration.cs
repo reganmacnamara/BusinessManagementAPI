@@ -10,6 +10,9 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
     {
         builder.HasKey(c => c.ClientID);
 
+        builder.Property(c => c.CompanyID)
+            .IsRequired();
+
         builder.Property(c => c.ClientName)
             .IsRequired();
 
@@ -36,5 +39,20 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
 
         builder.Property(c => c.Country)
             .IsRequired();
+
+        builder.HasOne(c => c.Company)
+                .WithMany(c => c.Clients)
+                .HasForeignKey(c => c.CompanyID);
+
+        builder.HasMany(c => c.Invoices)
+                .WithOne(c => c.Client)
+                .HasForeignKey(c => c.ClientID);
+
+        builder.HasMany(c => c.Receipts)
+                .WithOne(c => c.Client)
+                .HasForeignKey(c => c.ClientID);
+
+        builder.HasOne(c => c.PaymentTerm)
+                .WithOne();
     }
 }

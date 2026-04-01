@@ -11,6 +11,9 @@ namespace MacsBusinessManagementAPI.Data.Configurations
         {
             builder.HasKey(c => c.PaymentTermID);
 
+            builder.Property(c => c.CompanyID)
+                .IsRequired();
+
             builder.Property(c => c.PaymentTermName)
                 .IsRequired();
 
@@ -25,6 +28,10 @@ namespace MacsBusinessManagementAPI.Data.Configurations
 
             builder.Property(c => c.OffsetFirst)
                 .IsRequired();
+
+            builder.HasOne(c => c.Company)
+                .WithMany(c => c.PaymentTerms)
+                .HasForeignKey(c => c.CompanyID);
         }
     }
 

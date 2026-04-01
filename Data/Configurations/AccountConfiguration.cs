@@ -13,6 +13,9 @@ namespace MacsBusinessManagementAPI.Data.Configurations
 
             builder.HasKey(a => a.AccountID);
 
+            builder.Property(a => a.CompanyID)
+                .IsRequired();
+
             builder.Property(a => a.Email)
                 .IsRequired();
 
@@ -27,6 +30,10 @@ namespace MacsBusinessManagementAPI.Data.Configurations
 
             builder.Property(a => a.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
+
+            builder.HasOne(c => c.Company)
+                .WithMany(c => c.Accounts)
+                .HasForeignKey(c => c.CompanyID);
         }
     }
 
