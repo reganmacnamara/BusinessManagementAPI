@@ -3,7 +3,7 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-namespace MacsBusinessManagementAPI.Services.Pdf;
+namespace MacsBusinessManagementAPI.Infrastructure.Services.Pdf;
 
 public class PdfService : IPdfService
 {

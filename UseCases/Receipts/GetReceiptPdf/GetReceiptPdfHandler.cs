@@ -1,7 +1,7 @@
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
-using MacsBusinessManagementAPI.Services.Pdf;
+using MacsBusinessManagementAPI.Infrastructure.Services.Pdf;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;

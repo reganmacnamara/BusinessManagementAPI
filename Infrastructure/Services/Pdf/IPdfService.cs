@@ -1,6 +1,6 @@
 using MacsBusinessManagementAPI.Entities;
 
-namespace MacsBusinessManagementAPI.Services.Pdf;
+namespace MacsBusinessManagementAPI.Infrastructure.Services.Pdf;
 
 public interface IPdfService
 {

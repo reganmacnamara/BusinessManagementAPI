@@ -3,7 +3,7 @@ using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
-using MacsBusinessManagementAPI.Services.Allocations;
+using MacsBusinessManagementAPI.Infrastructure.Services.Allocations;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem

@@ -19,10 +19,11 @@ namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.CreatePaymentTerms
             var _PaymentTerm = new PaymentTerm()
             {
                 PaymentTermName = request.PaymentTermName,
-                Unit = request.Unit,
-                Value = request.Value,
-                IsEndOf = request.IsEndOf,
-                IsStartingNext = request.IsStartingNext
+                Days = request.Days,
+                Months = request.Months,
+                EndOfMonth = request.EndOfMonth,
+                DayOfMonth = request.DayOfMonth,
+                OffsetFirst = request.OffsetFirst
             };
 
             context.PaymentTerms.Add(_PaymentTerm);

@@ -10,7 +10,8 @@ namespace MacsBusinessManagementAPI.Profiles
         {
             _ = CreateMap<CreateInvoiceRequest, Invoice>()
                 .ForMember(d => d.Outstanding, o => o.Ignore())
-                .ForMember(d => d.Client, o => o.Ignore());
+                .ForMember(d => d.Client, o => o.Ignore())
+                .ForMember(d => d.DueDate, o => o.Ignore());
 
             _ = CreateMap<Invoice, CreateInvoiceResponse>();
         }

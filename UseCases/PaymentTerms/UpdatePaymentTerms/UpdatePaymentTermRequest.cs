@@ -9,13 +9,15 @@ namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.UpdatePaymentTerms
 
         public required string PaymentTermName { get; set; }
 
-        public int Value { get; set; }
+        public int Days { get; set; }
 
-        public int Unit { get; set; }
+        public int Months { get; set; }
 
-        public bool IsEndOf { get; set; }
+        public bool EndOfMonth { get; set; }
 
-        public bool IsStartingNext { get; set; }
+        public int? DayOfMonth { get; set; }
+
+        public bool OffsetFirst { get; set; }
     }
 
 }

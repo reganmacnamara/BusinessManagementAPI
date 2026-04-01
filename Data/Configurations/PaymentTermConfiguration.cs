@@ -14,16 +14,16 @@ namespace MacsBusinessManagementAPI.Data.Configurations
             builder.Property(c => c.PaymentTermName)
                 .IsRequired();
 
-            builder.Property(c => c.Value)
+            builder.Property(c => c.Days)
                 .IsRequired();
 
-            builder.Property(c => c.Unit)
+            builder.Property(c => c.Months)
                 .IsRequired();
 
-            builder.Property(c => c.IsEndOf)
+            builder.Property(c => c.EndOfMonth)
                 .IsRequired();
 
-            builder.Property(c => c.IsStartingNext)
+            builder.Property(c => c.OffsetFirst)
                 .IsRequired();
         }
     }

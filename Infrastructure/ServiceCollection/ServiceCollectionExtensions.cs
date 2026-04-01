@@ -1,8 +1,8 @@
 ﻿using MacsBusinessManagementAPI.Infrastructure.Authentication;
 using MacsBusinessManagementAPI.Infrastructure.Authentication.Service;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
-using MacsBusinessManagementAPI.Services.Allocations;
-using MacsBusinessManagementAPI.Services.Pdf;
+using MacsBusinessManagementAPI.Infrastructure.Services.Allocations;
+using MacsBusinessManagementAPI.Infrastructure.Services.Pdf;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;

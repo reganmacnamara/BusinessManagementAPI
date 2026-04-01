@@ -18,18 +18,17 @@ namespace MacsBusinessManagementAPI.Infrastructure.Authentication.Service
 
             var _Claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Sub, accountId.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+                new Claim(JwtRegisteredClaimNames.Sub, accountId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
             var _Token = new JwtSecurityToken(
                 issuer: _JwtSettings.Issuer,
                 audience: _JwtSettings.Audience,
                 claims: _Claims,
                 expires: DateTime.UtcNow.AddMinutes(_JwtSettings.ExpiryMinutes),
-                signingCredentials: new SigningCredentials(
-                    _Key, SecurityAlgorithms.HmacSha256));
+                signingCredentials: new SigningCredentials(_Key, SecurityAlgorithms.HmacSha256));
 
             return new JwtSecurityTokenHandler().WriteToken(_Token);
         }

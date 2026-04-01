@@ -1,6 +1,6 @@
 ﻿using MacsBusinessManagementAPI.Entities;
 
-namespace MacsBusinessManagementAPI.Services.Allocations;
+namespace MacsBusinessManagementAPI.Infrastructure.Services.Allocations;
 
 public interface IAllocationService
 {
