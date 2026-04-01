@@ -34,9 +34,9 @@ namespace MacsBusinessManagementAPI.Entities
 
         //Navigational Properties
 
-        public Company Company { get; set; }
+        public Company Company { get; set; } = default!;
 
-        public PaymentTerm PaymentTerm { get; set; }
+        public PaymentTerm PaymentTerm { get; set; } = default!;
     }
 
 }

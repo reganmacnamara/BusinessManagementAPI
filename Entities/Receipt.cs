@@ -3,6 +3,8 @@
 public class Receipt
 {
     public long ReceiptID { get; set; }
+
+    public long CompanyID { get; set; }
     public string ReceiptRef { get; set; } = string.Empty;
     public DateTime ReceiptDate { get; set; }
     public long ClientID { get; set; }
@@ -16,4 +18,6 @@ public class Receipt
     //Navigation Properties
 
     public Client Client { get; set; } = default!;
+
+    public Company Company { get; set; } = default!;
 }

@@ -4,6 +4,8 @@ public class Invoice
 {
     public long InvoiceID { get; set; }
 
+    public long CompanyID { get; set; }
+
     public string InvoiceRef { get; set; } = string.Empty;
 
     public DateTime InvoiceDate { get; set; }
@@ -27,6 +29,8 @@ public class Invoice
     //Navigation Properties
 
     public Client Client { get; set; } = default!;
+
+    public Company Company { get; set; }
 
     public PaymentTerm PaymentTerm { get; set; }
 }

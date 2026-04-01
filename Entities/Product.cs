@@ -7,6 +7,8 @@ public class Product
     [Key]
     public long ProductID { get; set; }
 
+    public long CompanyID { get; set; }
+
     public required string ProductName { get; set; }
 
     public required string ProductCode { get; set; }
@@ -18,4 +20,8 @@ public class Product
     public decimal UnitPrice { get; set; }
 
     public long QuantityOnHand { get; set; }
+
+    //Navigational Properties
+
+    public Company Company { get; set; } = default!;
 }
