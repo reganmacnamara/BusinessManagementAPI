@@ -8,6 +8,8 @@ namespace MacsBusinessManagementAPI.Entities
         [Key]
         public long ClientID { get; set; }
 
+        public long CompanyID { get; set; }
+
         public string ClientName { get; set; } = string.Empty;
 
         public string ClientEmail { get; set; } = string.Empty;
@@ -26,13 +28,15 @@ namespace MacsBusinessManagementAPI.Entities
 
         public string Country { get; set; } = string.Empty;
 
-        public long? PaymentTermID { get; set; }
+        public long PaymentTermID { get; set; }
 
-        public int? ReminderIntervalDays { get; set; }
+        public int ReminderIntervalDays { get; set; }
 
         //Navigational Properties
 
-        public PaymentTerm? PaymentTerm { get; set; }
+        public Company Company { get; set; }
+
+        public PaymentTerm PaymentTerm { get; set; }
     }
 
 }

@@ -22,11 +22,11 @@ public class Invoice
 
     public decimal OffsetValue { get; set; }
 
-    public int? PaymentTermID { get; set; }
+    public int PaymentTermID { get; set; }
 
     //Navigation Properties
 
     public Client Client { get; set; } = default!;
 
-    public PaymentTerm? PaymentTerm { get; set; }
+    public PaymentTerm PaymentTerm { get; set; }
 }
