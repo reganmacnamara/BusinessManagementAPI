@@ -54,6 +54,10 @@ namespace MacsBusinessManagementAPI.Data.Configurations
                 .WithMany(c => c.Invoices)
                 .HasForeignKey(c => c.CompanyID);
 
+            builder.HasMany(c => c.InvoiceItems)
+                .WithOne(c => c.Invoice)
+                .HasForeignKey(c => c.InvoiceID);
+
             builder.HasOne(c => c.PaymentTerm)
                 .WithOne();
         }

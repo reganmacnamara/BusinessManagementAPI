@@ -20,4 +20,6 @@ public class Receipt
     public Client Client { get; set; } = default!;
 
     public Company Company { get; set; } = default!;
+
+    public ICollection<ReceiptItem> ReceiptItems { get; set; } = [];
 }

@@ -32,5 +32,7 @@ public class Invoice
 
     public Company Company { get; set; } = default!;
 
+    public ICollection<InvoiceItem> InvoiceItems { get; set; } = [];
+
     public PaymentTerm PaymentTerm { get; set; } = default!;
 }

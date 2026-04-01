@@ -27,5 +27,9 @@ public class ReceiptItemConfiguration : IEntityTypeConfiguration<ReceiptItem>
         builder.Property(c => c.NetValue)
             .HasColumnType("decimal(18,2)")
             .HasDefaultValue(0);
+
+        builder.HasOne(c => c.Receipt)
+                .WithMany()
+                .HasForeignKey(c => c.ReceiptID);
     }
 }

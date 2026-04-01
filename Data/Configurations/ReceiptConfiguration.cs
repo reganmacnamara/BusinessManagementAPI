@@ -50,5 +50,9 @@ public class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
         builder.HasOne(c => c.Company)
                 .WithMany(c => c.Receipts)
                 .HasForeignKey(c => c.CompanyID);
+
+        builder.HasMany(c => c.ReceiptItems)
+                .WithOne(c => c.Receipt)
+                .HasForeignKey(c => c.ReceiptID);
     }
 }

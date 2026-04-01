@@ -25,17 +25,17 @@
 
         //Navigational Properties
 
-        public List<Account> Accounts { get; set; } = [];
+        public ICollection<Account> Accounts { get; set; } = [];
 
-        public List<Client> Clients { get; set; } = [];
+        public ICollection<Client> Clients { get; set; } = [];
 
-        public List<Invoice> Invoices { get; set; } = [];
+        public ICollection<Invoice> Invoices { get; set; } = [];
 
-        public List<PaymentTerm> PaymentTerms { get; set; } = [];
+        public ICollection<PaymentTerm> PaymentTerms { get; set; } = [];
 
-        public List<Product> Products { get; set; } = [];
+        public ICollection<Product> Products { get; set; } = [];
 
-        public List<Receipt> Receipts { get; set; } = [];
+        public ICollection<Receipt> Receipts { get; set; } = [];
     }
 
 }
