@@ -36,7 +36,7 @@ namespace MacsBusinessManagementAPI.Entities
 
         public Company Company { get; set; } = default!;
 
-        public List<Invoice> Invoices { get; set; } = [];
+        public ICollection<Invoice> Invoices { get; set; } = [];
 
         public PaymentTerm PaymentTerm { get; set; } = default!;
 
