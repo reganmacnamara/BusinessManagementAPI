@@ -35,27 +35,33 @@ namespace MacsBusinessManagementAPI.Data.Configurations
 
             builder.HasMany(c => c.Accounts)
                 .WithOne(c => c.Company)
-                .HasForeignKey(c => c.CompanyID);
+                .HasForeignKey(c => c.CompanyID)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasMany(c => c.Clients)
                 .WithOne(c => c.Company)
-                .HasForeignKey(c => c.CompanyID);
+                .HasForeignKey(c => c.CompanyID)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasMany(c => c.Invoices)
                 .WithOne(c => c.Company)
-                .HasForeignKey(c => c.CompanyID);
+                .HasForeignKey(c => c.CompanyID)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasMany(c => c.PaymentTerms)
                 .WithOne(c => c.Company)
-                .HasForeignKey(c => c.CompanyID);
+                .HasForeignKey(c => c.CompanyID)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasMany(c => c.Products)
                 .WithOne(c => c.Company)
-                .HasForeignKey(c => c.CompanyID);
+                .HasForeignKey(c => c.CompanyID)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasMany(c => c.Receipts)
                 .WithOne(c => c.Company)
-                .HasForeignKey(c => c.CompanyID);
+                .HasForeignKey(c => c.CompanyID)
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 
