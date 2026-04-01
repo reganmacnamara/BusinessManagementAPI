@@ -11,40 +11,45 @@ public class OverdueInvoiceReminderJob(SQLContext context, IEmailService emailSe
     {
         var _Today = DateTime.UtcNow.Date;
 
-        var _Clients = await context.GetEntities<Client>()
-            .Where(c => c.ReminderIntervalDays != null && c.ClientEmail != "")
+        var _Companies = await context.GetEntities<Company>()
+            .AsNoTracking()
+            .Include(c => c.Clients)
             .ToListAsync(cancellationToken);
 
-        foreach (var _Client in _Clients)
-        {
-            var _LastReminder = await context.GetEntities<ReminderLog>()
-                .Where(r => r.ClientID == _Client.ClientID)
-                .OrderByDescending(r => r.SentAt)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            if (_LastReminder is not null &&
-                (_Today - _LastReminder.SentAt.Date).Days < _Client.ReminderIntervalDays)
-                continue;
-
-            var overdueInvoices = await context.GetEntities<Invoice>()
-                .Where(i => i.ClientID == _Client.ClientID
-                         && i.Outstanding
-                         && i.DueDate < _Today)
-                .ToListAsync(cancellationToken);
-
-            if (overdueInvoices.Count == 0)
-                continue;
-
-            await emailService.SendOverdueReminderAsync(_Client, overdueInvoices, cancellationToken);
-
-            context.ReminderLogs.Add(new ReminderLog
+        foreach (var _Company in _Companies)
+            foreach (var _Client in _Company.Clients.Where(c => c.ReminderIntervalDays != 0 && c.ClientEmail != ""))
             {
-                ClientID = _Client.ClientID,
-                SentAt = DateTime.UtcNow,
-                InvoiceCount = overdueInvoices.Count
-            });
+                var _LastReminder = await context.GetEntities<ReminderLog>()
+                    .AsNoTracking()
+                    .Where(r => r.ClientID == _Client.ClientID)
+                    .OrderByDescending(r => r.SentAt)
+                    .FirstOrDefaultAsync(cancellationToken);
 
-            await context.SaveChangesAsync(cancellationToken);
-        }
+                if (_LastReminder is not null &&
+                    (_Today - _LastReminder.SentAt.Date).Days < _Client.ReminderIntervalDays)
+                    continue;
+
+                var _OverdueInvoices = await context.GetEntities<Invoice>()
+                    .AsNoTracking()
+                    .Where(i => i.ClientID == _Client.ClientID
+                             && i.Outstanding
+                             && i.DueDate < _Today)
+                    .ToListAsync(cancellationToken);
+
+                if (_OverdueInvoices.Count == 0)
+                    continue;
+
+                await emailService.SendOverdueReminderAsync(_Client, _Company, _OverdueInvoices, cancellationToken);
+
+                context.ReminderLogs.Add(new ReminderLog
+                {
+                    ClientID = _Client.ClientID,
+                    SentAt = DateTime.UtcNow,
+                    InvoiceCount = _OverdueInvoices.Count
+                });
+
+            }
+
+        _ = await context.SaveChangesAsync(cancellationToken);
     }
 }

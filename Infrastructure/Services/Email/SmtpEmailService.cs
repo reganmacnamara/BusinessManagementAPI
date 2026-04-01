@@ -9,10 +9,12 @@ public class SmtpEmailService(IOptions<SmtpSettings> smtpSettings) : IEmailServi
 {
     private readonly SmtpSettings _Settings = smtpSettings.Value;
 
-    public async Task SendOverdueReminderAsync(Client client, List<Invoice> overdueInvoices, CancellationToken cancellationToken)
+    public async Task SendOverdueReminderAsync(Client client, Company company, List<Invoice> overdueInvoices, CancellationToken cancellationToken)
     {
         var _Message = new MimeMessage();
-        _Message.From.Add(new MailboxAddress(_Settings.FromName, _Settings.FromEmail));
+        _Message.From.Add(new MailboxAddress(company.CompanyName, string.IsNullOrEmpty(company.Email)
+            ? "overduereminder@macsbusinessmanager.com"
+            : company.Email));
         _Message.To.Add(new MailboxAddress(client.ClientName, client.ClientEmail));
         _Message.Subject = "Overdue Invoice Reminder";
 
