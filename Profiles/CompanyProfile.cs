@@ -6,7 +6,7 @@ namespace MacsBusinessManagementAPI.Profiles
 {
     public class CompanyProfile : Profile
     {
-        CompanyProfile()
+        public CompanyProfile()
         {
             _ = CreateMap<RegisterCompanyRequest, Company>()
                 .ForMember(d => d.Accounts, o => o.Ignore())
