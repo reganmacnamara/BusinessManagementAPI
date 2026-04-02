@@ -1,7 +1,7 @@
 ﻿using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
-using MacsBusinessManagementAPI.Infrastructure.Authentication.Service;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+using MacsBusinessManagementAPI.Infrastructure.Services.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Auth.Register
@@ -12,6 +12,7 @@ namespace MacsBusinessManagementAPI.UseCases.Auth.Register
         public async Task<IResult> HandleAsync(RegisterAccountRequest request, CancellationToken cancellationToken)
         {
             var _EmailInUse = await context.GetEntities<Account>()
+                .IgnoreQueryFilters()
                 .AnyAsync(a => a.Email.ToLower() == request.Email.ToLower(), cancellationToken);
 
             if (_EmailInUse)

@@ -13,6 +13,7 @@ public class OverdueInvoiceReminderJob(SQLContext context, IEmailService emailSe
 
         var _Companies = await context.GetEntities<Company>()
             .AsNoTracking()
+            .IgnoreQueryFilters()
             .Include(c => c.Clients)
             .ToListAsync(cancellationToken);
 
@@ -21,6 +22,7 @@ public class OverdueInvoiceReminderJob(SQLContext context, IEmailService emailSe
             {
                 var _LastReminder = await context.GetEntities<ReminderLog>()
                     .AsNoTracking()
+                    .IgnoreQueryFilters()
                     .Where(r => r.ClientID == _Client.ClientID)
                     .OrderByDescending(r => r.SentAt)
                     .FirstOrDefaultAsync(cancellationToken);
@@ -31,6 +33,7 @@ public class OverdueInvoiceReminderJob(SQLContext context, IEmailService emailSe
 
                 var _OverdueInvoices = await context.GetEntities<Invoice>()
                     .AsNoTracking()
+                    .IgnoreQueryFilters()
                     .Where(i => i.ClientID == _Client.ClientID
                              && i.Outstanding
                              && i.DueDate < _Today)

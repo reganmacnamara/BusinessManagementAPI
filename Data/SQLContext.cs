@@ -1,10 +1,13 @@
 ﻿using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.Data
 {
-    public class SQLContext(DbContextOptions<SQLContext> options) : DbContext(options)
+    public class SQLContext(DbContextOptions<SQLContext> options, ITenantProvider tenantProvider) : DbContext(options)
     {
+        public long m_CompanyID = tenantProvider.CompanyID;
+
         public DbSet<Account> Accounts { get; set; } = null!;
         public DbSet<Client> Clients { get; set; } = null!;
         public DbSet<Company> Companies { get; set; } = null!;
@@ -21,9 +24,30 @@ namespace MacsBusinessManagementAPI.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SQLContext).Assembly);
+
+            modelBuilder.Entity<Account>().HasQueryFilter(e => e.CompanyID == m_CompanyID);
+            modelBuilder.Entity<Client>().HasQueryFilter(e => e.CompanyID == m_CompanyID);
+            modelBuilder.Entity<Invoice>().HasQueryFilter(e => e.CompanyID == m_CompanyID);
+            modelBuilder.Entity<Product>().HasQueryFilter(e => e.CompanyID == m_CompanyID);
+            modelBuilder.Entity<PaymentTerm>().HasQueryFilter(e => e.CompanyID == m_CompanyID);
+            modelBuilder.Entity<Receipt>().HasQueryFilter(e => e.CompanyID == m_CompanyID);
         }
 
         public IQueryable<T> GetEntities<T>() where T : class
             => Set<T>().AsQueryable();
+
+        public override async Task<int> SaveChangesAsync(CancellationToken ct = default)
+        {
+            foreach (var entry in ChangeTracker.Entries().Where(e => e.State == EntityState.Added))
+            {
+                var _CompanyIDProperty = entry.Properties
+                    .FirstOrDefault(p => p.Metadata.Name == "CompanyID");
+
+                if (_CompanyIDProperty is not null && (long)_CompanyIDProperty.CurrentValue! == 0)
+                    _CompanyIDProperty.CurrentValue = m_CompanyID;
+            }
+
+            return await base.SaveChangesAsync(ct);
+        }
     }
 }

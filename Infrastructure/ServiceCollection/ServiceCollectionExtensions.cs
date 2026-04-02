@@ -1,10 +1,9 @@
 ﻿using Hangfire;
-using Hangfire.SqlServer;
 using MacsBusinessManagementAPI.Infrastructure.Authentication;
-using MacsBusinessManagementAPI.Infrastructure.Authentication.Service;
 using MacsBusinessManagementAPI.Infrastructure.Jobs;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.Infrastructure.Services.Allocations;
+using MacsBusinessManagementAPI.Infrastructure.Services.Auth;
 using MacsBusinessManagementAPI.Infrastructure.Services.Email;
 using MacsBusinessManagementAPI.Infrastructure.Services.Pdf;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -25,6 +24,7 @@ namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
             services.AddScoped<IPdfService, PdfService>();
             services.AddScoped<IEmailService, SmtpEmailService>();
             services.AddScoped<OverdueInvoiceReminderJob>();
+            services.AddScoped<ITenantProvider, TenantProvider>();
 
             return services;
         }

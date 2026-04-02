@@ -1,24 +1,26 @@
-﻿using Microsoft.Extensions.Options;
+﻿using MacsBusinessManagementAPI.Infrastructure.Authentication;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace MacsBusinessManagementAPI.Infrastructure.Authentication.Service
+namespace MacsBusinessManagementAPI.Infrastructure.Services.Auth
 {
 
     public class AuthService(IOptions<JwtConfig> jwtSettings) : IAuthService
     {
         private readonly JwtConfig _JwtSettings = jwtSettings.Value;
 
-        public string GenerateToken(long accountId, string email)
+        public string GenerateToken(long accountID, long companyID, string email)
         {
             var _Key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_JwtSettings.Secret));
 
             var _Claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, accountId.ToString()),
+                new Claim("companyID", companyID.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, accountID.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };

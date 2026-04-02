@@ -1,7 +1,7 @@
 ﻿using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
-using MacsBusinessManagementAPI.Infrastructure.Authentication.Service;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+using MacsBusinessManagementAPI.Infrastructure.Services.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace MacsBusinessManagementAPI.UseCases.Auth.Login
@@ -12,6 +12,7 @@ namespace MacsBusinessManagementAPI.UseCases.Auth.Login
         public async Task<IResult> HandleAsync(LoginAccountRequest request, CancellationToken cancellationToken)
         {
             var _Account = await context.GetEntities<Account>()
+                .IgnoreQueryFilters()
                 .FirstOrDefaultAsync(a => a.Email.ToLower() == request.Email.ToLower() && a.IsActive, cancellationToken);
 
             if (_Account is null || !authService.VerifyPassword(request.Password, _Account.Password))
@@ -21,7 +22,7 @@ namespace MacsBusinessManagementAPI.UseCases.Auth.Login
 
             _ = await context.SaveChangesAsync(cancellationToken);
 
-            var token = authService.GenerateToken(_Account.AccountID, _Account.Email);
+            var token = authService.GenerateToken(_Account.AccountID, _Account.CompanyID, _Account.Email);
 
             return Results.Ok(new LoginAccountResponse()
             {

@@ -16,6 +16,15 @@ namespace MacsBusinessManagementAPI.Extensions
 
             return accountNumber;
         }
+
+        public static long GetCompanyID(this ClaimsPrincipal user)
+        {
+            var _Claim = user.FindFirst("companyID");
+
+            return _Claim is not null && long.TryParse(_Claim.Value, out var companyID)
+                ? companyID
+                : 0;
+        }
     }
 
 }

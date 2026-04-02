@@ -52,10 +52,11 @@ builder.Services.Configure<SmtpSettings>(
 
 builder.Services.AddAutoMapper(cfg => { }, typeof(Program));
 builder.Services.AddBusinessManagementServices();
-builder.Services.AddDbContextPool<SQLContext>(options =>
+builder.Services.AddDbContext<SQLContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddHangfireInfrastructure(
     builder.Configuration.GetConnectionString("DefaultConnection")!);
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddRateLimiting();
 builder.Services.AddUseCaseInfrastructure(Assembly.GetExecutingAssembly());
 
