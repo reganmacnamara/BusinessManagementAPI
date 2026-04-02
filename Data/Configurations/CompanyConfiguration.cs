@@ -33,6 +33,8 @@ namespace MacsBusinessManagementAPI.Data.Configurations
 
             builder.Property(c => c.Country);
 
+            builder.Property(c => c.CompanySettingsID);
+
             builder.HasMany(c => c.Accounts)
                 .WithOne(c => c.Company)
                 .HasForeignKey(c => c.CompanyID)
@@ -41,6 +43,10 @@ namespace MacsBusinessManagementAPI.Data.Configurations
             builder.HasMany(c => c.Clients)
                 .WithOne(c => c.Company)
                 .HasForeignKey(c => c.CompanyID)
+                .OnDelete(DeleteBehavior.ClientCascade);
+
+            builder.HasOne(c => c.CompanySettings)
+                .WithOne()
                 .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasMany(c => c.Invoices)

@@ -14,11 +14,10 @@ namespace MacsBusinessManagementAPI.Controllers
     public class CompanyController : ControllerBase
     {
         [HttpGet]
-        public async Task<IResult> GetCompany([FromBody] GetCompanyRequest request,
-            [FromServices] IUseCaseHandler<GetCompanyRequest> handler,
+        public async Task<IResult> GetCompany([FromServices] IUseCaseHandler<GetCompanyRequest> handler,
             CancellationToken cancellationToken)
         {
-            var _Response = await handler.HandleAsync(request, cancellationToken);
+            var _Response = await handler.HandleAsync(new(), cancellationToken);
 
             return _Response;
         }

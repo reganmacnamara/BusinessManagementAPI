@@ -36,6 +36,8 @@ namespace MacsBusinessManagementAPI.UseCases.Companies.RegisterCompany
 
             _Company.Accounts.Add(_Account);
 
+            _Company.CompanySettings = new();
+
             context.Companies.Add(_Company);
 
             _ = await context.SaveChangesAsync(cancellationToken);

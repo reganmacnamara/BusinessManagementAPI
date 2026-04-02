@@ -23,11 +23,15 @@
 
         public string Country { get; set; } = string.Empty;
 
+        public long CompanySettingsID { get; set; }
+
         //Navigational Properties
 
         public ICollection<Account> Accounts { get; set; } = [];
 
         public ICollection<Client> Clients { get; set; } = [];
+
+        public CompanySettings CompanySettings { get; set; }
 
         public ICollection<Invoice> Invoices { get; set; } = [];
 
