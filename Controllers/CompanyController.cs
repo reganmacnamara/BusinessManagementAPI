@@ -12,7 +12,7 @@ namespace MacsBusinessManagementAPI.Controllers
     [EnableRateLimiting("Authenticated")]
     public class CompanyController : ControllerBase
     {
-        [HttpPost]
+        [HttpPost("Register")]
         public async Task<IResult> RegisterCompany([FromBody] RegisterCompanyRequest request,
             [FromServices] IUseCaseHandler<RegisterCompanyRequest> handler,
             CancellationToken cancellationToken)
