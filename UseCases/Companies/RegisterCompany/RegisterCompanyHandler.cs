@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 namespace MacsBusinessManagementAPI.UseCases.Companies.RegisterCompany
 {
 
-    public class RegisterCompanyHandler(IAuthService authService, IMapper mapper, SQLContext context) : IUseCaseHandler<RegisterCompanyRequest>
+    public class RegisterCompanyHandler(IAuthService authService, IMapper mapper, SQLContext context) : IUseCaseHandler<UpdateCompanyRequest>
     {
-        public async Task<IResult> HandleAsync(RegisterCompanyRequest request, CancellationToken cancellationToken)
+        public async Task<IResult> HandleAsync(UpdateCompanyRequest request, CancellationToken cancellationToken)
         {
             var _ABNIsValid = ABNValidator.IsValidABN(request.CompanyABN);
 

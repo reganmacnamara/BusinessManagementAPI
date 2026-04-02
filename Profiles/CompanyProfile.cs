@@ -8,7 +8,7 @@ namespace MacsBusinessManagementAPI.Profiles
     {
         public CompanyProfile()
         {
-            _ = CreateMap<RegisterCompanyRequest, Company>()
+            _ = CreateMap<UpdateCompanyRequest, Company>()
                 .ForMember(d => d.Accounts, o => o.Ignore())
                 .ForMember(d => d.Clients, o => o.Ignore())
                 .ForMember(d => d.Invoices, o => o.Ignore())

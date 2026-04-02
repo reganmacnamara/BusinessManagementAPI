@@ -1,10 +1,12 @@
 ﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-namespace MacsBusinessManagementAPI.UseCases.Companies.RegisterCompany
+namespace MacsBusinessManagementAPI.UseCases.Companies.UpdateCompanyDetails
 {
 
-    public class UpdateCompanyRequest : IUseCaseRequest
+    public class UpdateCompanyDetailsRequest : IUseCaseRequest
     {
+        public long CompanyID { get; set; }
+
         public string CompanyName { get; set; } = string.Empty;
 
         public string CompanyABN { get; set; } = string.Empty;
