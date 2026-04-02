@@ -13,8 +13,7 @@ namespace MacsBusinessManagementAPI.Data.Configurations
 
             builder.HasKey(a => a.AccountID);
 
-            builder.Property(a => a.CompanyID)
-                .IsRequired();
+            builder.Property(a => a.CompanyID);
 
             builder.Property(a => a.Email)
                 .IsRequired();

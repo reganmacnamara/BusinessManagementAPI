@@ -5,7 +5,7 @@
     {
         public long AccountID { get; set; }
 
-        public long CompanyID { get; set; }
+        public long? CompanyID { get; set; }
 
         public required string Email { get; set; }
 

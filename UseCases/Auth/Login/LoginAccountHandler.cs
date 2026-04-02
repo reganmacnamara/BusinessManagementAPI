@@ -22,7 +22,7 @@ namespace MacsBusinessManagementAPI.UseCases.Auth.Login
 
             _ = await context.SaveChangesAsync(cancellationToken);
 
-            var token = authService.GenerateToken(_Account.AccountID, _Account.CompanyID, _Account.Email);
+            var token = authService.GenerateToken(_Account.AccountID, _Account.CompanyID ?? 0, _Account.Email);
 
             return Results.Ok(new LoginAccountResponse()
             {

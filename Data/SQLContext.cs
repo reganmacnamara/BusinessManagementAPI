@@ -39,14 +39,19 @@ namespace MacsBusinessManagementAPI.Data
 
         public override async Task<int> SaveChangesAsync(CancellationToken ct = default)
         {
-            foreach (var entry in ChangeTracker.Entries().Where(e => e.State == EntityState.Added))
-            {
-                var _CompanyIDProperty = entry.Properties
-                    .FirstOrDefault(p => p.Metadata.Name == "CompanyID");
+            if (CompanyID != 0)
+                foreach (var entry in ChangeTracker.Entries().Where(e => e.State == EntityState.Added))
+                {
+                    var _CompanyIDProperty = entry.Properties
+                        .FirstOrDefault(p => p.Metadata.Name == "CompanyID");
 
-                if (_CompanyIDProperty is not null && (long)_CompanyIDProperty.CurrentValue! == 0)
-                    _CompanyIDProperty.CurrentValue = CompanyID;
-            }
+                    if (_CompanyIDProperty is null)
+                        continue;
+
+                    var _Value = _CompanyIDProperty.CurrentValue;
+                    if (_Value is null || _Value is 0L)
+                        _CompanyIDProperty.CurrentValue = CompanyID;
+                }
 
             return await base.SaveChangesAsync(ct);
         }
