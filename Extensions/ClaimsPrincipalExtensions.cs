@@ -8,13 +8,11 @@ namespace MacsBusinessManagementAPI.Extensions
     {
         public static long GetAccountID(this ClaimsPrincipal user)
         {
-            var _Claim = user.FindFirst(JwtRegisteredClaimNames.Sub)
-                      ?? user.FindFirst(ClaimTypes.NameIdentifier);
+            var _Claim = user.FindFirst(JwtRegisteredClaimNames.Sub);
 
-            if (_Claim is null || !long.TryParse(_Claim.Value, out var accountNumber))
-                throw new UnauthorizedAccessException("AccountID claim is missing or invalid.");
-
-            return accountNumber;
+            return _Claim is not null && long.TryParse(_Claim.Value, out var accountID)
+                ? accountID
+                : 0;
         }
 
         public static long GetCompanyID(this ClaimsPrincipal user)

@@ -6,7 +6,8 @@ namespace MacsBusinessManagementAPI.Data
 {
     public class SQLContext(DbContextOptions<SQLContext> options, ITenantProvider tenantProvider) : DbContext(options)
     {
-        public long m_CompanyID = tenantProvider.CompanyID;
+        public long AccountID = tenantProvider.AccountID;
+        public long CompanyID = tenantProvider.CompanyID;
 
         public DbSet<Account> Accounts { get; set; } = null!;
         public DbSet<Client> Clients { get; set; } = null!;
@@ -25,12 +26,12 @@ namespace MacsBusinessManagementAPI.Data
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SQLContext).Assembly);
 
-            modelBuilder.Entity<Account>().HasQueryFilter(e => e.CompanyID == m_CompanyID);
-            modelBuilder.Entity<Client>().HasQueryFilter(e => e.CompanyID == m_CompanyID);
-            modelBuilder.Entity<Invoice>().HasQueryFilter(e => e.CompanyID == m_CompanyID);
-            modelBuilder.Entity<Product>().HasQueryFilter(e => e.CompanyID == m_CompanyID);
-            modelBuilder.Entity<PaymentTerm>().HasQueryFilter(e => e.CompanyID == m_CompanyID);
-            modelBuilder.Entity<Receipt>().HasQueryFilter(e => e.CompanyID == m_CompanyID);
+            modelBuilder.Entity<Account>().HasQueryFilter(e => e.CompanyID == CompanyID);
+            modelBuilder.Entity<Client>().HasQueryFilter(e => e.CompanyID == CompanyID);
+            modelBuilder.Entity<Invoice>().HasQueryFilter(e => e.CompanyID == CompanyID);
+            modelBuilder.Entity<Product>().HasQueryFilter(e => e.CompanyID == CompanyID);
+            modelBuilder.Entity<PaymentTerm>().HasQueryFilter(e => e.CompanyID == CompanyID);
+            modelBuilder.Entity<Receipt>().HasQueryFilter(e => e.CompanyID == CompanyID);
         }
 
         public IQueryable<T> GetEntities<T>() where T : class
@@ -44,7 +45,7 @@ namespace MacsBusinessManagementAPI.Data
                     .FirstOrDefault(p => p.Metadata.Name == "CompanyID");
 
                 if (_CompanyIDProperty is not null && (long)_CompanyIDProperty.CurrentValue! == 0)
-                    _CompanyIDProperty.CurrentValue = m_CompanyID;
+                    _CompanyIDProperty.CurrentValue = CompanyID;
             }
 
             return await base.SaveChangesAsync(ct);

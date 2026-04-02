@@ -3,7 +3,7 @@
 
     public interface IUseCaseHandler<T> where T : IUseCaseRequest
     {
-        public Task<IResult> HandleAsync(T Request, CancellationToken cancellationToken);
+        public Task<IResult> HandleAsync(T request, CancellationToken cancellationToken);
     }
 
 }
