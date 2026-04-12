@@ -59,7 +59,7 @@ namespace MacsBusinessManagementAPI.Data.Configurations
                 .HasForeignKey(c => c.InvoiceID);
 
             builder.HasOne(c => c.PaymentTerm)
-                .WithOne()
+                .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

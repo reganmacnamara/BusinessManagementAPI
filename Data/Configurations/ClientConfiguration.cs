@@ -53,6 +53,6 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
                 .HasForeignKey(c => c.ClientID);
 
         builder.HasOne(c => c.PaymentTerm)
-                .WithOne();
+                .WithMany();
     }
 }
