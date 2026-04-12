@@ -10,6 +10,15 @@ using QuestPDF.Infrastructure;
 using System.Reflection;
 QuestPDF.Settings.License = LicenseType.Community;
 
+var envPath = Path.Combine(Directory.GetCurrentDirectory(), ".env");
+if (File.Exists(envPath))
+    foreach (var line in File.ReadAllLines(envPath))
+    {
+        var index = line.IndexOf('=');
+        if (index > 0)
+            Environment.SetEnvironmentVariable(line[..index].Trim(), line[(index + 1)..].Trim());
+    }
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<JwtConfig>(

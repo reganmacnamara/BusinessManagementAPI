@@ -11,7 +11,6 @@ public class GetReceiptsHandler(SQLContext context) : IUseCaseHandler<GetReceipt
     {
         var _Receipts = await context.GetEntities<Receipt>()
             .AsNoTracking()
-            .Include(r => r.Client)
             .ToListAsync(cancellationToken);
 
         var _Response = new GetReceiptsResponse()

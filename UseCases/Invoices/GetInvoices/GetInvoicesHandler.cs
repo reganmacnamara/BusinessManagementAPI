@@ -11,7 +11,6 @@ public class GetInvoicesHandler(SQLContext context) : IUseCaseHandler<GetInvoice
     {
         var _Invoices = await context.GetEntities<Invoice>()
             .AsNoTracking()
-            .Include(i => i.Client)
             .ToListAsync(cancellationToken);
 
         var _Response = new GetInvoicesResponse()
