@@ -4,7 +4,7 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.UpdateInvoice;
 
-public class UpdateInvoiceEntityValidator(ExistenceChecker existenceChecker) : IUseCaseEntityValidator<UpdateInvoiceRequest>
+public class UpdateInvoiceEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<UpdateInvoiceRequest>
 {
     public async Task<(bool result, string errorMessage)> ValidateAsync(UpdateInvoiceRequest request, CancellationToken cancellationToken)
     {

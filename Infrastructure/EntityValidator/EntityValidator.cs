@@ -2,7 +2,7 @@
 
 namespace MacsBusinessManagementAPI.Infrastructure.ExistenceChecker
 {
-    public class ExistenceChecker(SQLContext context)
+    public class EntityValidator(SQLContext context)
     {
         public List<long> ValidateEntitiesExist<T>(List<long> entityIDs) where T : class
         {

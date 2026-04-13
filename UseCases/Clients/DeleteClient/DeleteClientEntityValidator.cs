@@ -5,7 +5,7 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 namespace MacsBusinessManagementAPI.UseCases.Clients.DeleteClient
 {
 
-    public class DeleteClientEntityValidator(ExistenceChecker existenceChecker) : IUseCaseEntityValidator<DeleteClientRequest>
+    public class DeleteClientEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<DeleteClientRequest>
     {
         public async Task<(bool result, string errorMessage)> ValidateAsync(DeleteClientRequest request, CancellationToken cancellationToken)
         {

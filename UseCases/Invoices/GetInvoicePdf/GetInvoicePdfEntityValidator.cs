@@ -4,7 +4,7 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.GetInvoicePdf;
 
-public class GetInvoicePdfEntityValidator(ExistenceChecker existenceChecker) : IUseCaseEntityValidator<GetInvoicePdfRequest>
+public class GetInvoicePdfEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<GetInvoicePdfRequest>
 {
     public async Task<(bool result, string errorMessage)> ValidateAsync(GetInvoicePdfRequest request, CancellationToken cancellationToken)
     {

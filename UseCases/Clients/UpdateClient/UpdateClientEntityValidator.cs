@@ -5,7 +5,7 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
 {
 
-    public class UpdateClientEntityValidator(ExistenceChecker existenceChecker) : IUseCaseEntityValidator<UpdateClientRequest>
+    public class UpdateClientEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<UpdateClientRequest>
     {
         public async Task<(bool result, string errorMessage)> ValidateAsync(UpdateClientRequest request, CancellationToken cancellationToken)
         {
