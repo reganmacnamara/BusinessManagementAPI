@@ -1,6 +1,6 @@
 ﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.DeletePaymentTerms
+namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.DeletePaymentTerm
 {
 
     public class DeletePaymentTermRequest : IUseCaseRequest

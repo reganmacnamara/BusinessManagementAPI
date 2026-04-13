@@ -3,7 +3,7 @@ using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using Microsoft.EntityFrameworkCore;
 
-namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.DeletePaymentTerms
+namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.DeletePaymentTerm
 {
 
     public class DeletePaymentTermHandler(SQLContext context) : IUseCaseHandler<DeletePaymentTermRequest>

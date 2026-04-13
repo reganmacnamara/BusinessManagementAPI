@@ -1,4 +1,4 @@
-﻿namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.CreatePaymentTerms
+﻿namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.CreatePaymentTerm
 {
 
     public class CreatePaymentTermResponse

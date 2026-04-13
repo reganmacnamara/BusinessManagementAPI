@@ -1,6 +1,6 @@
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
-using MacsBusinessManagementAPI.UseCases.PaymentTerms.CreatePaymentTerms;
-using MacsBusinessManagementAPI.UseCases.PaymentTerms.DeletePaymentTerms;
+using MacsBusinessManagementAPI.UseCases.PaymentTerms.CreatePaymentTerm;
+using MacsBusinessManagementAPI.UseCases.PaymentTerms.DeletePaymentTerm;
 using MacsBusinessManagementAPI.UseCases.PaymentTerms.GetPaymentTerm;
 using MacsBusinessManagementAPI.UseCases.PaymentTerms.GetPaymentTerms;
 using MacsBusinessManagementAPI.UseCases.PaymentTerms.UpdatePaymentTerms;

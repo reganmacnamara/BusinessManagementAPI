@@ -1,6 +1,6 @@
 ﻿using MacsBusinessManagementAPI.Data;
 
-namespace MacsBusinessManagementAPI.Infrastructure.ExistenceChecker
+namespace MacsBusinessManagementAPI.Infrastructure.EntityValidator
 {
     public class EntityValidator(SQLContext context)
     {

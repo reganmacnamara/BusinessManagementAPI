@@ -1,8 +1,8 @@
 using MacsBusinessManagementAPI.Entities;
-using MacsBusinessManagementAPI.Infrastructure.ExistenceChecker;
+using MacsBusinessManagementAPI.Infrastructure.EntityValidator;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.DeletePaymentTerms
+namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.DeletePaymentTerm
 {
 
     public class DeletePaymentTermEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<DeletePaymentTermRequest>

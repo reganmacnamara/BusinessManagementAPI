@@ -1,6 +1,6 @@
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
-using MacsBusinessManagementAPI.Infrastructure.ExistenceChecker;
+using MacsBusinessManagementAPI.Infrastructure.EntityValidator;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
 namespace MacsBusinessManagementAPI.UseCases.Companies.RegisterCompany

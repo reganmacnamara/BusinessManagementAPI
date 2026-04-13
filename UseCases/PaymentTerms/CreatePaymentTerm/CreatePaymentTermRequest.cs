@@ -1,6 +1,6 @@
 ﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
-namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.CreatePaymentTerms
+namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.CreatePaymentTerm
 {
 
     public class CreatePaymentTermRequest : IUseCaseRequest

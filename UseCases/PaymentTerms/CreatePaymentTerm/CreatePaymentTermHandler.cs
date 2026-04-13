@@ -3,7 +3,7 @@ using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using Microsoft.EntityFrameworkCore;
 
-namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.CreatePaymentTerms
+namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.CreatePaymentTerm
 {
 
     public class CreatePaymentTermHandler(SQLContext context) : IUseCaseHandler<CreatePaymentTermRequest>
