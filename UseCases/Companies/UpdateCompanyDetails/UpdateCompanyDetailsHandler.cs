@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure.ABNValidator;
@@ -16,10 +16,7 @@ namespace MacsBusinessManagementAPI.UseCases.Companies.UpdateCompanyDetails
                 return Results.BadRequest("ABN is not valid.");
 
             var _Company = await context.GetEntities<Company>()
-                .SingleOrDefaultAsync(c => c.CompanyID == context.CompanyID, cancellationToken);
-
-            if (_Company is null)
-                return Results.NotFound("Company could not be found.");
+                .SingleAsync(c => c.CompanyID == context.CompanyID, cancellationToken);
 
             _Company.UpdateFromEntity(request, [nameof(Company.CompanyID)]);
 

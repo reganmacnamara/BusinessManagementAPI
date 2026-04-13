@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +10,7 @@ public class DeleteInvoiceHandler(SQLContext context) : IUseCaseHandler<DeleteIn
     public async Task<IResult> HandleAsync(DeleteInvoiceRequest request, CancellationToken cancellationToken)
     {
         var _Invoice = await context.GetEntities<Invoice>()
-            .SingleOrDefaultAsync(i => i.InvoiceID == request.InvoiceID, cancellationToken);
-
-        if (_Invoice is null)
-            return Results.NotFound($"Invoice {request.InvoiceID} could not be found.");
+            .SingleAsync(i => i.InvoiceID == request.InvoiceID, cancellationToken);
 
         if (_Invoice.OffsetValue != 0)
             return Results.Conflict("Cannot delete an Invoice with Allocations.");

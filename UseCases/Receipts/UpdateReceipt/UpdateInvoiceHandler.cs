@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
@@ -11,10 +11,7 @@ public class UpdateReceiptHandler(SQLContext context) : IUseCaseHandler<UpdateRe
     public async Task<IResult> HandleAsync(UpdateReceiptRequest request, CancellationToken cancellationToken)
     {
         var _Receipt = await context.GetEntities<Receipt>()
-            .SingleOrDefaultAsync(r => r.ReceiptID == request.ReceiptID, cancellationToken);
-
-        if (_Receipt == null || request.ReceiptID == 0)
-            return Results.NotFound("Receipt could not be found.");
+            .SingleAsync(r => r.ReceiptID == request.ReceiptID, cancellationToken);
 
         _Receipt.UpdateFromEntity(request, [nameof(Receipt.ReceiptID)]);
 

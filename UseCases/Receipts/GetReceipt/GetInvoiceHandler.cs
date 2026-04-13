@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +12,7 @@ public class GetReceiptHandler(SQLContext context) : IUseCaseHandler<GetReceiptR
         var _Receipt = await context.GetEntities<Receipt>()
             .AsNoTracking()
             .Include(r => r.Client)
-            .SingleOrDefaultAsync(i => i.ReceiptID == request.ReceiptID, cancellationToken);
-
-        if (_Receipt is null)
-            return Results.NotFound($"Receipt {request.ReceiptID} could not be found.");
+            .SingleAsync(i => i.ReceiptID == request.ReceiptID, cancellationToken);
 
         var _ReceiptItems = await context.GetEntities<ReceiptItem>()
             .AsNoTracking()

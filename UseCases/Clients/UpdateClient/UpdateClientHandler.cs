@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
@@ -12,10 +12,7 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
         public async Task<IResult> HandleAsync(UpdateClientRequest request, CancellationToken cancellationToken)
         {
             var _Client = await context.GetEntities<Client>()
-                .SingleOrDefaultAsync(c => c.ClientID == request.ClientId, cancellationToken);
-
-            if (_Client is null)
-                return Results.NotFound("Client was not found.");
+                .SingleAsync(c => c.ClientID == request.ClientId, cancellationToken);
 
             _Client.UpdateFromEntity(request, [nameof(Client.ClientID)]);
 

@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +13,7 @@ public class GetInvoiceHandler(SQLContext context) : IUseCaseHandler<GetInvoiceR
             .AsNoTracking()
             .Include(i => i.Client)
             .Where(i => i.InvoiceID == request.InvoiceID)
-            .SingleOrDefaultAsync(cancellationToken);
-
-        if (_Invoice is null)
-            return Results.NotFound($"Invoice {request.InvoiceID} could not be found.");
+            .SingleAsync(cancellationToken);
 
         var _InvoiceItems = await context.GetEntities<InvoiceItem>()
             .AsNoTracking()

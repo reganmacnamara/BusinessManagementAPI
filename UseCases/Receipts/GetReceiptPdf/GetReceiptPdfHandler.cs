@@ -13,10 +13,7 @@ public class GetReceiptPdfHandler(IPdfService pdfService, SQLContext context) : 
         var _Receipt = await context.GetEntities<Receipt>()
             .AsNoTracking()
             .Include(r => r.Client)
-            .SingleOrDefaultAsync(r => r.ReceiptID == request.ReceiptID, cancellationToken);
-
-        if (_Receipt is null)
-            return Results.NotFound($"Receipt {request.ReceiptID} could not be found.");
+            .SingleAsync(r => r.ReceiptID == request.ReceiptID, cancellationToken);
 
         var _ReceiptItems = await context.GetEntities<ReceiptItem>()
             .AsNoTracking()

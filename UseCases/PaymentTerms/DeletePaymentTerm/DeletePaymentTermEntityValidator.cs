@@ -1,0 +1,18 @@
+using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+
+namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.DeletePaymentTerms
+{
+
+    public class DeletePaymentTermEntityValidator(ExistenceChecker existenceChecker) : IEntityValidator<DeletePaymentTermRequest>
+    {
+        public async Task<(bool result, string errorMessage)> ValidateAsync(DeletePaymentTermRequest request, CancellationToken cancellationToken)
+        {
+            if (!existenceChecker.ValidateEntityExists<PaymentTerm>(request.PaymentTermID))
+                return (false, $"Payment Term {request.PaymentTermID} could not be found.");
+
+            return (true, string.Empty);
+        }
+    }
+
+}

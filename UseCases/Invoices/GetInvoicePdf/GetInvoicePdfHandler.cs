@@ -14,10 +14,7 @@ public class GetInvoicePdfHandler(IPdfService pdfService, SQLContext context) : 
             .AsNoTracking()
             .Include(i => i.Client)
             .Where(i => i.InvoiceID == request.InvoiceID)
-            .SingleOrDefaultAsync(cancellationToken);
-
-        if (_Invoice is null)
-            return Results.NotFound($"Invoice {request.InvoiceID} could not be found.");
+            .SingleAsync(cancellationToken);
 
         var _InvoiceItems = await context.GetEntities<InvoiceItem>()
             .AsNoTracking()

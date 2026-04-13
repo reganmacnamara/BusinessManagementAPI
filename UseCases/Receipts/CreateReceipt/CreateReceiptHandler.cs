@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
@@ -11,10 +11,7 @@ public class CreateReceiptHandler(IMapper mapper, SQLContext context) : IUseCase
     public async Task<IResult> HandleAsync(CreateReceiptRequest request, CancellationToken cancellationToken)
     {
         var _Client = await context.GetEntities<Client>()
-            .SingleOrDefaultAsync(c => c.ClientID == request.ClientID, cancellationToken);
-
-        if (_Client is null)
-            return Results.NotFound("Client not found.");
+            .SingleAsync(c => c.ClientID == request.ClientID, cancellationToken);
 
         var _Receipt = mapper.Map<Receipt>(request);
 

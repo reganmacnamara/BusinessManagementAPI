@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
@@ -18,10 +18,7 @@ namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.UpdatePaymentTerms
                 return Results.Conflict("Payment Term name already in use.");
 
             var _PaymentTerm = await context.GetEntities<PaymentTerm>()
-                .SingleOrDefaultAsync(pt => pt.PaymentTermID == request.PaymentTermID, cancellationToken);
-
-            if (_PaymentTerm is null)
-                return Results.NotFound("Payment Term could not be found.");
+                .SingleAsync(pt => pt.PaymentTermID == request.PaymentTermID, cancellationToken);
 
             _PaymentTerm.UpdateFromEntity(request, [nameof(PaymentTerm.PaymentTermID)]);
 
@@ -31,4 +28,3 @@ namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.UpdatePaymentTerms
         }
     }
 }
-

@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +11,7 @@ public class DeleteInvoiceItemHandler(SQLContext context) : IUseCaseHandler<Dele
     {
         var _InvoiceItem = await context.GetEntities<InvoiceItem>()
             .Include(ii => ii.Product)
-            .SingleOrDefaultAsync(ii => ii.InvoiceItemID == request.InvoiceItemID, cancellationToken);
-
-        if (_InvoiceItem is null)
-            return Results.NotFound("Invoice Item not found.");
+            .SingleAsync(ii => ii.InvoiceItemID == request.InvoiceItemID, cancellationToken);
 
         _InvoiceItem.Product.QuantityOnHand += (long)_InvoiceItem.Quantity;
 

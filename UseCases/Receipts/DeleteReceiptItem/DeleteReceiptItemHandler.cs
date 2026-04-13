@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.Infrastructure.Services.Allocations;
@@ -12,10 +12,7 @@ public class DeleteReceiptItemHandler(IAllocationService allocationService, SQLC
     {
         var _ReceiptItem = await context.GetEntities<ReceiptItem>()
             .Include(ri => ri.Invoice)
-            .SingleOrDefaultAsync(ri => ri.ReceiptItemID == request.ReceiptItemID, cancellationToken);
-
-        if (_ReceiptItem is null)
-            return Results.NotFound("Receipt Item not found.");
+            .SingleAsync(ri => ri.ReceiptItemID == request.ReceiptItemID, cancellationToken);
 
         await allocationService.DeallocateFromInvoice(_ReceiptItem, _ReceiptItem.Invoice);
 

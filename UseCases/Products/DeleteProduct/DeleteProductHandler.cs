@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +10,7 @@ public class DeleteProductHandler(SQLContext context) : IUseCaseHandler<DeletePr
     public async Task<IResult> HandleAsync(DeleteProductRequest request, CancellationToken cancellationToken)
     {
         var _Product = await context.GetEntities<Product>()
-            .SingleOrDefaultAsync(product => product.ProductID == request.ProductID, cancellationToken);
-
-        if (_Product is null)
-            return Results.NotFound("Product not found.");
-
+            .SingleAsync(product => product.ProductID == request.ProductID, cancellationToken);
 
         var _ProductLines = await context.GetEntities<InvoiceItem>()
                 .Where(p => p.ProductID == request.ProductID)

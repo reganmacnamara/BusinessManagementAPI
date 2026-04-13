@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using Microsoft.EntityFrameworkCore;
@@ -12,10 +12,7 @@ namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.GetPaymentTerm
         {
             var _PaymentTerm = await context.GetEntities<PaymentTerm>()
                 .AsNoTracking()
-                .SingleOrDefaultAsync(pt => pt.PaymentTermID == request.PaymentTermID, cancellationToken);
-
-            if (_PaymentTerm is null)
-                return Results.NotFound("Payment Term could not be found.");
+                .SingleAsync(pt => pt.PaymentTermID == request.PaymentTermID, cancellationToken);
 
             var _Response = new GetPaymentTermResponse()
             {

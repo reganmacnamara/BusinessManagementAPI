@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.ABNValidator;
@@ -27,10 +27,7 @@ namespace MacsBusinessManagementAPI.UseCases.Companies.RegisterCompany
 
             var _Account = await context.GetEntities<Account>()
                 .IgnoreQueryFilters()
-                .SingleOrDefaultAsync(a => a.AccountID == context.AccountID, cancellationToken);
-
-            if (_Account is null)
-                return Results.NotFound("Account was not found.");
+                .SingleAsync(a => a.AccountID == context.AccountID, cancellationToken);
 
             var _Company = mapper.Map<Company>(request);
 

@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +10,7 @@ public class DeleteReceiptHandler(SQLContext context) : IUseCaseHandler<DeleteRe
     public async Task<IResult> HandleAsync(DeleteReceiptRequest request, CancellationToken cancellationToken)
     {
         var _Receipt = await context.GetEntities<Receipt>()
-            .SingleOrDefaultAsync(i => i.ReceiptID == request.ReceiptID, cancellationToken);
-
-        if (_Receipt is null)
-            return Results.NotFound($"Receipt {request.ReceiptID} could not be found.");
+            .SingleAsync(i => i.ReceiptID == request.ReceiptID, cancellationToken);
 
         if (_Receipt.OffsetValue != 0)
             return Results.Conflict("Cannot delete an Receipt with Allocations.");

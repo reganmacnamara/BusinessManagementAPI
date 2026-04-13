@@ -13,10 +13,7 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.GetClient
         {
             var _Client = await context.GetEntities<Client>()
                 .AsNoTracking()
-                .SingleOrDefaultAsync(c => c.ClientID == request.ClientId, cancellationToken);
-
-            if (_Client is null)
-                return Results.NotFound("Client not found.");
+                .SingleAsync(c => c.ClientID == request.ClientId, cancellationToken);
 
             var _Response = mapper.Map<GetClientResponse>(_Client);
 

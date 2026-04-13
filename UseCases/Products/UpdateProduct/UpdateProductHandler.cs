@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
@@ -11,10 +11,7 @@ public class UpdateProductHandler(SQLContext context) : IUseCaseHandler<UpdatePr
     public async Task<IResult> HandleAsync(UpdateProductRequest request, CancellationToken cancellationToken)
     {
         var _Product = await context.GetEntities<Product>()
-            .SingleOrDefaultAsync(p => p.ProductID == request.ProductID, cancellationToken);
-
-        if (_Product is null)
-            return Results.NotFound("Product not found.");
+            .SingleAsync(p => p.ProductID == request.ProductID, cancellationToken);
 
         _Product.UpdateFromEntity(request, [nameof(Product.ProductID)]);
 

@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Data;
+using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Extensions;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
@@ -13,10 +13,7 @@ namespace MacsBusinessManagementAPI.UseCases.CompanySettings.UpsertCompanySettin
         {
             var _Company = await context.GetEntities<Company>()
                 .Include(c => c.CompanySettings)
-                .SingleOrDefaultAsync(c => c.CompanyID == context.CompanyID, cancellationToken);
-
-            if (_Company is null)
-                return Results.NotFound("Company could not be found.");
+                .SingleAsync(c => c.CompanyID == context.CompanyID, cancellationToken);
 
             //Update
             if (_Company.CompanySettingsID != 0 && _Company.CompanySettings is not null)

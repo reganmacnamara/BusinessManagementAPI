@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using MacsBusinessManagementAPI.Data;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.Infrastructure.Pipeline;
@@ -12,10 +12,7 @@ public class GetProductHandler(IMapper mapper, SQLContext context) : IUseCaseHan
     {
         var _Product = await context.GetEntities<Product>()
             .AsNoTracking()
-            .SingleOrDefaultAsync(p => p.ProductID == request.ProductID, cancellationToken);
-
-        if (_Product is null)
-            return Results.NotFound("Product was not found.");
+            .SingleAsync(p => p.ProductID == request.ProductID, cancellationToken);
 
         var _Response = mapper.Map<GetProductResponse>(_Product);
 
