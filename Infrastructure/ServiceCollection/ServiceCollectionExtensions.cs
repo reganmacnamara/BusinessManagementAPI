@@ -117,7 +117,7 @@ namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
             foreach (var (service, impl) in handlerEntityValidatorPairs)
                 services.AddScoped(service, impl);
 
-            services.AddScoped<ExistenceChecker>();
+            services.AddScoped<ExistenceChecker.ExistenceChecker>();
 
             return services;
         }

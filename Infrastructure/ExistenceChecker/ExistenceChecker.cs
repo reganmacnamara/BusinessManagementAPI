@@ -1,6 +1,6 @@
 ﻿using MacsBusinessManagementAPI.Data;
 
-namespace MacsBusinessManagementAPI.Infrastructure.Pipeline
+namespace MacsBusinessManagementAPI.Infrastructure.ExistenceChecker
 {
     public class ExistenceChecker(SQLContext context)
     {
