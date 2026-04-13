@@ -98,15 +98,56 @@ namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
 
         public static IServiceCollection AddUseCaseInfrastructure(this IServiceCollection services, Assembly assembly)
         {
-            var handlerPairs = assembly.GetTypes()
+            services.AddUseCaseEntityValidation(assembly);
+            services.AddUseCaseHandling(assembly);
+            services.AddUseCaseMediation(assembly);
+
+            return services;
+        }
+
+        public static IServiceCollection AddUseCaseEntityValidation(this IServiceCollection services, Assembly assembly)
+        {
+            var handlerEntityValidatorPairs = assembly.GetTypes()
+                .Where(t => t is { IsAbstract: false, IsInterface: false })
+                .SelectMany(t => t.GetInterfaces()
+                    .Where(i => i.IsGenericType
+                             && i.GetGenericTypeDefinition() == typeof(IEntityValidator<>))
+                    .Select(i => (Service: i, Impl: t)));
+
+            foreach (var (service, impl) in handlerEntityValidatorPairs)
+                services.AddScoped(service, impl);
+
+            services.AddScoped<ExistenceChecker>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddUseCaseHandling(this IServiceCollection services, Assembly assembly)
+        {
+            var handlerUseCasePairs = assembly.GetTypes()
                 .Where(t => t is { IsAbstract: false, IsInterface: false })
                 .SelectMany(t => t.GetInterfaces()
                     .Where(i => i.IsGenericType
                              && i.GetGenericTypeDefinition() == typeof(IUseCaseHandler<>))
                     .Select(i => (Service: i, Impl: t)));
 
-            foreach (var (service, impl) in handlerPairs)
+            foreach (var (service, impl) in handlerUseCasePairs)
                 services.AddScoped(service, impl);
+
+            return services;
+        }
+
+        public static IServiceCollection AddUseCaseMediation(this IServiceCollection services, Assembly assembly)
+        {
+            var _UseCaseRequests = assembly.GetTypes()
+                .Where(t => t is { IsAbstract: false, IsInterface: false }
+                         && t.GetInterfaces().Contains(typeof(IUseCaseRequest)));
+
+            foreach (var _Request in _UseCaseRequests)
+            {
+                var _MediatorType = typeof(PipelineMediator<>).MakeGenericType(_Request);
+                services.AddScoped(_MediatorType);
+            }
 
             return services;
         }

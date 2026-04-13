@@ -28,13 +28,9 @@ namespace MacsBusinessManagementAPI.Controllers
 
         [HttpDelete("{clientID}")]
         public async Task<IResult> DeleteClient([FromRoute] long clientID,
-            [FromServices] IUseCaseHandler<DeleteClientRequest> handler,
+            [FromServices] PipelineMediator<DeleteClientRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Response = await handler.HandleAsync(new() { ClientID = clientID }, cancellationToken);
-
-            return _Response;
-        }
+            => await mediator.InvokeUseCaseAsync(new() { ClientID = clientID }, cancellationToken);
 
         [HttpGet("{clientID}")]
         public async Task<IResult> GetClient([FromRoute] long clientID,

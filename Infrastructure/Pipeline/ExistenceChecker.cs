@@ -4,13 +4,15 @@ namespace MacsBusinessManagementAPI.Infrastructure.Pipeline
 {
     public class ExistenceChecker(SQLContext context)
     {
-        public bool ValidateEntitiesExist<T>(List<long> entityIDs) where T : class
+        public List<long> ValidateEntitiesExist<T>(List<long> entityIDs) where T : class
         {
+            var _InvalidIDs = new List<long>();
+
             foreach (var _ID in entityIDs)
                 if (context.Find<T>(_ID) is null)
-                    return false;
+                    _InvalidIDs.Add(_ID);
 
-            return true;
+            return _InvalidIDs;
         }
 
         public bool ValidateEntityExists<T>(long entityID) where T : class

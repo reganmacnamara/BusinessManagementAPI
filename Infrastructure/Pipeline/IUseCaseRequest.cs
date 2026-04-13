@@ -3,8 +3,5 @@
     /// <summary>
     /// Marks this class as a request for a UseCase
     /// </summary>
-    public interface IUseCaseRequest
-    {
-
-    }
+    public interface IUseCaseRequest { }
 }

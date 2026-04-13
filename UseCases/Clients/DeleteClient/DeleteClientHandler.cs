@@ -11,10 +11,7 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.DeleteClient
         public async Task<IResult> HandleAsync(DeleteClientRequest request, CancellationToken cancellationToken)
         {
             var _Client = await context.GetEntities<Client>()
-                .SingleOrDefaultAsync(c => c.ClientID == request.ClientID, cancellationToken);
-
-            if (_Client is null)
-                return Results.NotFound("Client not found.");
+                .SingleAsync(c => c.ClientID == request.ClientID, cancellationToken);
 
             var _Invoices = context.Invoices.Where(i => i.ClientID == request.ClientID).ToList();
             var _Receipts = context.Receipts.Where(i => i.ClientID == request.ClientID).ToList();

@@ -1,9 +1,9 @@
 ﻿namespace MacsBusinessManagementAPI.Infrastructure.Pipeline
 {
 
-    public interface IUseCaseHandler<T> where T : IUseCaseRequest
+    public interface IUseCaseHandler<TRequest> where TRequest : IUseCaseRequest
     {
-        public Task<IResult> HandleAsync(T request, CancellationToken cancellationToken);
+        public Task<IResult> HandleAsync(TRequest request, CancellationToken cancellationToken);
     }
 
 }
