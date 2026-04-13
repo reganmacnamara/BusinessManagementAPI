@@ -7,7 +7,7 @@
         {
             var _Services = contextAccessor.HttpContext!.RequestServices;
 
-            var _EntityValidator = _Services.GetRequiredService<IEntityValidator<TRequest>>();
+            var _EntityValidator = _Services.GetService<IEntityValidator<TRequest>>();
             var _Handler = _Services.GetRequiredService<IUseCaseHandler<TRequest>>();
 
             // Entity Validation

@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.UseCases.PaymentTerms.CreatePaymentTerms;
 using MacsBusinessManagementAPI.UseCases.PaymentTerms.DeletePaymentTerms;
 using MacsBusinessManagementAPI.UseCases.PaymentTerms.GetPaymentTerm;
@@ -19,52 +19,33 @@ namespace MacsBusinessManagementAPI.Controllers
     {
         [HttpPost]
         public async Task<IResult> CreatePaymentTerm([FromBody] CreatePaymentTermRequest request,
-            [FromServices] IUseCaseHandler<CreatePaymentTermRequest> handler,
+            [FromServices] PipelineMediator<CreatePaymentTermRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Response = await handler.HandleAsync(request, cancellationToken);
-
-            return _Response;
-        }
+            => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
         [HttpDelete("{paymentTermID}")]
         public async Task<IResult> DeletePaymentTerm([FromRoute] long paymentTermID,
-            [FromServices] IUseCaseHandler<DeletePaymentTermRequest> handler,
+            [FromServices] PipelineMediator<DeletePaymentTermRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Response = await handler.HandleAsync(new() { PaymentTermID = paymentTermID }, cancellationToken);
-
-            return _Response;
-        }
+            => await mediator.InvokeUseCaseAsync(new() { PaymentTermID = paymentTermID }, cancellationToken);
 
         [HttpGet("{paymentTermID}")]
         public async Task<IResult> GetPaymentTerm([FromRoute] long paymentTermID,
-            [FromServices] IUseCaseHandler<GetPaymentTermRequest> handler,
+            [FromServices] PipelineMediator<GetPaymentTermRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Result = await handler.HandleAsync(new() { PaymentTermID = paymentTermID }, cancellationToken);
-
-            return _Result;
-        }
+            => await mediator.InvokeUseCaseAsync(new() { PaymentTermID = paymentTermID }, cancellationToken);
 
         [HttpGet]
-        public async Task<IResult> GetPaymentTerms([FromServices] IUseCaseHandler<GetPaymentTermsRequest> handler,
+        public async Task<IResult> GetPaymentTerms(
+            [FromServices] PipelineMediator<GetPaymentTermsRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Result = await handler.HandleAsync(new(), cancellationToken);
-
-            return _Result;
-        }
+            => await mediator.InvokeUseCaseAsync(new(), cancellationToken);
 
         [HttpPatch]
         public async Task<IResult> UpdatePaymentTerm([FromBody] UpdatePaymentTermRequest request,
-            [FromServices] IUseCaseHandler<UpdatePaymentTermRequest> handler,
+            [FromServices] PipelineMediator<UpdatePaymentTermRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Result = await handler.HandleAsync(request, cancellationToken);
-
-            return _Result;
-        }
+            => await mediator.InvokeUseCaseAsync(request, cancellationToken);
     }
 
 }

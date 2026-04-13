@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.UseCases.Auth.Login;
 using MacsBusinessManagementAPI.UseCases.Auth.Register;
 using Microsoft.AspNetCore.Authorization;
@@ -16,22 +16,14 @@ namespace MacsBusinessManagementAPI.Controllers
     {
         [HttpPost("Login")]
         public async Task<IResult> Login([FromBody] LoginAccountRequest request,
-            [FromServices] IUseCaseHandler<LoginAccountRequest> handler,
+            [FromServices] PipelineMediator<LoginAccountRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Result = await handler.HandleAsync(request, cancellationToken);
-
-            return _Result;
-        }
+            => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
         [HttpPost("Register")]
         public async Task<IResult> Register([FromBody] RegisterAccountRequest request,
-            [FromServices] IUseCaseHandler<RegisterAccountRequest> handler,
+            [FromServices] PipelineMediator<RegisterAccountRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Result = await handler.HandleAsync(request, cancellationToken);
-
-            return _Result;
-        }
+            => await mediator.InvokeUseCaseAsync(request, cancellationToken);
     }
 }

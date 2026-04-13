@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.UseCases.Clients.CreateClient;
 using MacsBusinessManagementAPI.UseCases.Clients.DeleteClient;
 using MacsBusinessManagementAPI.UseCases.Clients.GetClient;
@@ -18,13 +18,9 @@ namespace MacsBusinessManagementAPI.Controllers
     {
         [HttpPost]
         public async Task<IResult> CreateClient([FromBody] CreateClientRequest request,
-            [FromServices] IUseCaseHandler<CreateClientRequest> handler,
+            [FromServices] PipelineMediator<CreateClientRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Response = await handler.HandleAsync(request, cancellationToken);
-
-            return _Response;
-        }
+            => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
         [HttpDelete("{clientID}")]
         public async Task<IResult> DeleteClient([FromRoute] long clientID,
@@ -34,31 +30,20 @@ namespace MacsBusinessManagementAPI.Controllers
 
         [HttpGet("{clientID}")]
         public async Task<IResult> GetClient([FromRoute] long clientID,
-            [FromServices] IUseCaseHandler<GetClientRequest> handler,
+            [FromServices] PipelineMediator<GetClientRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Result = await handler.HandleAsync(new() { ClientId = clientID }, cancellationToken);
-
-            return _Result;
-        }
+            => await mediator.InvokeUseCaseAsync(new() { ClientId = clientID }, cancellationToken);
 
         [HttpGet]
-        public async Task<IResult> GetClients([FromServices] IUseCaseHandler<GetClientsRequest> handler,
+        public async Task<IResult> GetClients(
+            [FromServices] PipelineMediator<GetClientsRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Result = await handler.HandleAsync(new(), cancellationToken);
-
-            return _Result;
-        }
+            => await mediator.InvokeUseCaseAsync(new(), cancellationToken);
 
         [HttpPatch]
         public async Task<IResult> UpdateClient([FromBody] UpdateClientRequest request,
-            [FromServices] IUseCaseHandler<UpdateClientRequest> handler,
+            [FromServices] PipelineMediator<UpdateClientRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Result = await handler.HandleAsync(request, cancellationToken);
-
-            return _Result;
-        }
+            => await mediator.InvokeUseCaseAsync(request, cancellationToken);
     }
 }

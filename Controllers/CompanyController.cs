@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.UseCases.Companies.GetCompany;
 using MacsBusinessManagementAPI.UseCases.Companies.RegisterCompany;
 using Microsoft.AspNetCore.Authorization;
@@ -14,33 +14,22 @@ namespace MacsBusinessManagementAPI.Controllers
     public class CompanyController : ControllerBase
     {
         [HttpGet]
-        public async Task<IResult> GetCompany([FromServices] IUseCaseHandler<GetCompanyRequest> handler,
+        public async Task<IResult> GetCompany(
+            [FromServices] PipelineMediator<GetCompanyRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Response = await handler.HandleAsync(new(), cancellationToken);
-
-            return _Response;
-        }
+            => await mediator.InvokeUseCaseAsync(new(), cancellationToken);
 
         [HttpPost]
         public async Task<IResult> UpdateCompany([FromBody] UpdateCompanyRequest request,
-            [FromServices] IUseCaseHandler<UpdateCompanyRequest> handler,
+            [FromServices] PipelineMediator<UpdateCompanyRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Response = await handler.HandleAsync(request, cancellationToken);
-
-            return _Response;
-        }
+            => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
         [HttpPost("Register")]
         public async Task<IResult> RegisterCompany([FromBody] UpdateCompanyRequest request,
-            [FromServices] IUseCaseHandler<UpdateCompanyRequest> handler,
+            [FromServices] PipelineMediator<UpdateCompanyRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Response = await handler.HandleAsync(request, cancellationToken);
-
-            return _Response;
-        }
+            => await mediator.InvokeUseCaseAsync(request, cancellationToken);
     }
 
 }

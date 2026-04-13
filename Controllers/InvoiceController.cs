@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 using MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
 using MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoiceItem;
@@ -22,90 +22,55 @@ public class InvoiceController : ControllerBase
 {
     [HttpPost]
     public async Task<IResult> CreateInvoice([FromBody] CreateInvoiceRequest request,
-        [FromServices] IUseCaseHandler<CreateInvoiceRequest> handler,
+        [FromServices] PipelineMediator<CreateInvoiceRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Response = await handler.HandleAsync(request, cancellationToken);
-
-        return _Response;
-    }
+        => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
     [HttpDelete("{invoiceID}")]
     public async Task<IResult> DeleteInvoice([FromRoute] long invoiceID,
-        [FromServices] IUseCaseHandler<DeleteInvoiceRequest> handler,
+        [FromServices] PipelineMediator<DeleteInvoiceRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Response = await handler.HandleAsync(new() { InvoiceID = invoiceID }, cancellationToken);
-
-        return _Response;
-    }
+        => await mediator.InvokeUseCaseAsync(new() { InvoiceID = invoiceID }, cancellationToken);
 
     [HttpDelete("Item/{invoiceItemID}")]
     public async Task<IResult> DeleteInvoiceItem([FromRoute] long invoiceItemID,
-        [FromServices] IUseCaseHandler<DeleteInvoiceItemRequest> handler,
+        [FromServices] PipelineMediator<DeleteInvoiceItemRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Response = await handler.HandleAsync(new() { InvoiceItemID = invoiceItemID }, cancellationToken);
-
-        return _Response;
-    }
+        => await mediator.InvokeUseCaseAsync(new() { InvoiceItemID = invoiceItemID }, cancellationToken);
 
     [HttpGet("Client/{clientID}")]
     public async Task<IResult> GetClientInvoices([FromRoute] long clientID,
-        [FromServices] IUseCaseHandler<GetClientInvoicesRequest> handler,
+        [FromServices] PipelineMediator<GetClientInvoicesRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Response = await handler.HandleAsync(new() { ClientID = clientID }, cancellationToken);
-
-        return _Response;
-    }
+        => await mediator.InvokeUseCaseAsync(new() { ClientID = clientID }, cancellationToken);
 
     [HttpGet("{invoiceID}")]
     public async Task<IResult> GetInvoice([FromRoute] long invoiceID,
-        [FromServices] IUseCaseHandler<GetInvoiceRequest> handler,
+        [FromServices] PipelineMediator<GetInvoiceRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Response = await handler.HandleAsync(new() { InvoiceID = invoiceID }, cancellationToken);
-
-        return _Response;
-    }
+        => await mediator.InvokeUseCaseAsync(new() { InvoiceID = invoiceID }, cancellationToken);
 
     [HttpGet]
-    public async Task<IResult> GetInvoices([FromServices] IUseCaseHandler<GetInvoicesRequest> handler,
+    public async Task<IResult> GetInvoices(
+        [FromServices] PipelineMediator<GetInvoicesRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Response = await handler.HandleAsync(new(), cancellationToken);
-
-        return _Response;
-    }
+        => await mediator.InvokeUseCaseAsync(new(), cancellationToken);
 
     [HttpPatch]
     public async Task<IResult> UpdateInvoice([FromBody] UpdateInvoiceRequest request,
-        [FromServices] IUseCaseHandler<UpdateInvoiceRequest> handler,
+        [FromServices] PipelineMediator<UpdateInvoiceRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Response = await handler.HandleAsync(request, cancellationToken);
-
-        return _Response;
-    }
+        => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
     [HttpGet("{invoiceID}/pdf")]
     public async Task<IResult> GetInvoicePdf([FromRoute] long invoiceID,
-        [FromServices] IUseCaseHandler<GetInvoicePdfRequest> handler,
+        [FromServices] PipelineMediator<GetInvoicePdfRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Response = await handler.HandleAsync(new() { InvoiceID = invoiceID }, cancellationToken);
-
-        return _Response;
-    }
+        => await mediator.InvokeUseCaseAsync(new() { InvoiceID = invoiceID }, cancellationToken);
 
     [HttpPut("Item")]
     public async Task<IResult> UpsertInvoiceItem([FromBody] UpsertInvoiceItemRequest request,
-        [FromServices] IUseCaseHandler<UpsertInvoiceItemRequest> handler,
+        [FromServices] PipelineMediator<UpsertInvoiceItemRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Response = await handler.HandleAsync(request, cancellationToken);
-
-        return _Response;
-    }
+        => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 }

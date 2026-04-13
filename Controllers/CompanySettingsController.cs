@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.UseCases.CompanySettings.GetCompanySettings;
 using MacsBusinessManagementAPI.UseCases.CompanySettings.UpsertCompanySettings;
 using Microsoft.AspNetCore.Authorization;
@@ -15,23 +15,16 @@ namespace MacsBusinessManagementAPI.Controllers
     public class CompanySettingsController
     {
         [HttpGet]
-        public async Task<IResult> GetCompanySettings([FromServices] IUseCaseHandler<GetCompanySettingsRequest> handler,
+        public async Task<IResult> GetCompanySettings(
+            [FromServices] PipelineMediator<GetCompanySettingsRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Response = await handler.HandleAsync(new(), cancellationToken);
-
-            return _Response;
-        }
+            => await mediator.InvokeUseCaseAsync(new(), cancellationToken);
 
         [HttpPost]
         public async Task<IResult> UpsertCompanySettings([FromBody] UpsertCompanySettingsRequest request,
-            [FromServices] IUseCaseHandler<UpsertCompanySettingsRequest> handler,
+            [FromServices] PipelineMediator<UpsertCompanySettingsRequest> mediator,
             CancellationToken cancellationToken)
-        {
-            var _Response = await handler.HandleAsync(request, cancellationToken);
-
-            return _Response;
-        }
+            => await mediator.InvokeUseCaseAsync(request, cancellationToken);
     }
 
 }

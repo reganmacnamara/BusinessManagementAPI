@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 using MacsBusinessManagementAPI.UseCases.Products.CreateProduct;
 using MacsBusinessManagementAPI.UseCases.Products.DeleteProduct;
 using MacsBusinessManagementAPI.UseCases.Products.GetProduct;
@@ -18,50 +18,31 @@ public class ProductController : ControllerBase
 {
     [HttpPost]
     public async Task<IResult> CreateProduct([FromBody] CreateProductRequest request,
-        [FromServices] IUseCaseHandler<CreateProductRequest> handler,
+        [FromServices] PipelineMediator<CreateProductRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Response = await handler.HandleAsync(request, cancellationToken);
-
-        return _Response;
-    }
+        => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
     [HttpDelete("{productID}")]
     public async Task<IResult> DeleteProduct([FromRoute] long productID,
-        [FromServices] IUseCaseHandler<DeleteProductRequest> handler,
+        [FromServices] PipelineMediator<DeleteProductRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Response = await handler.HandleAsync(new() { ProductID = productID }, cancellationToken);
-
-        return _Response;
-    }
+        => await mediator.InvokeUseCaseAsync(new() { ProductID = productID }, cancellationToken);
 
     [HttpGet("{productID}")]
     public async Task<IResult> GetProduct([FromRoute] long productID,
-        [FromServices] IUseCaseHandler<GetProductRequest> handler,
+        [FromServices] PipelineMediator<GetProductRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Result = await handler.HandleAsync(new() { ProductID = productID }, cancellationToken);
-
-        return _Result;
-    }
+        => await mediator.InvokeUseCaseAsync(new() { ProductID = productID }, cancellationToken);
 
     [HttpGet]
-    public async Task<IResult> GetProducts([FromServices] IUseCaseHandler<GetProductsRequest> handler,
+    public async Task<IResult> GetProducts(
+        [FromServices] PipelineMediator<GetProductsRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Result = await handler.HandleAsync(new(), cancellationToken);
-
-        return _Result;
-    }
+        => await mediator.InvokeUseCaseAsync(new(), cancellationToken);
 
     [HttpPatch]
     public async Task<IResult> UpdateProduct([FromBody] UpdateProductRequest request,
-        [FromServices] IUseCaseHandler<UpdateProductRequest> handler,
+        [FromServices] PipelineMediator<UpdateProductRequest> mediator,
         CancellationToken cancellationToken)
-    {
-        var _Result = await handler.HandleAsync(request, cancellationToken);
-
-        return _Result;
-    }
+        => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 }
