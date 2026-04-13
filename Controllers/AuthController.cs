@@ -16,13 +16,13 @@ namespace MacsBusinessManagementAPI.Controllers
     {
         [HttpPost("Login")]
         public async Task<IResult> Login([FromBody] LoginAccountRequest request,
-            [FromServices] PipelineMediator<LoginAccountRequest> mediator,
+            [FromServices] UseCaseMediator<LoginAccountRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
         [HttpPost("Register")]
         public async Task<IResult> Register([FromBody] RegisterAccountRequest request,
-            [FromServices] PipelineMediator<RegisterAccountRequest> mediator,
+            [FromServices] UseCaseMediator<RegisterAccountRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(request, cancellationToken);
     }

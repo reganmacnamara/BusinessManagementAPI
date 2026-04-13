@@ -4,7 +4,7 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoice;
 
-public class DeleteInvoiceEntityValidator(ExistenceChecker existenceChecker) : IEntityValidator<DeleteInvoiceRequest>
+public class DeleteInvoiceEntityValidator(ExistenceChecker existenceChecker) : IUseCaseEntityValidator<DeleteInvoiceRequest>
 {
     public async Task<(bool result, string errorMessage)> ValidateAsync(DeleteInvoiceRequest request, CancellationToken cancellationToken)
     {

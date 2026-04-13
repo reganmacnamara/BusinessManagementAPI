@@ -6,7 +6,7 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 namespace MacsBusinessManagementAPI.UseCases.Companies.RegisterCompany
 {
 
-    public class RegisterCompanyEntityValidator(ExistenceChecker existenceChecker, SQLContext context) : IEntityValidator<UpdateCompanyRequest>
+    public class RegisterCompanyEntityValidator(ExistenceChecker existenceChecker, SQLContext context) : IUseCaseEntityValidator<UpdateCompanyRequest>
     {
         public async Task<(bool result, string errorMessage)> ValidateAsync(UpdateCompanyRequest request, CancellationToken cancellationToken)
         {

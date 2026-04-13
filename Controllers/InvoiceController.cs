@@ -22,55 +22,55 @@ public class InvoiceController : ControllerBase
 {
     [HttpPost]
     public async Task<IResult> CreateInvoice([FromBody] CreateInvoiceRequest request,
-        [FromServices] PipelineMediator<CreateInvoiceRequest> mediator,
+        [FromServices] UseCaseMediator<CreateInvoiceRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
     [HttpDelete("{invoiceID}")]
     public async Task<IResult> DeleteInvoice([FromRoute] long invoiceID,
-        [FromServices] PipelineMediator<DeleteInvoiceRequest> mediator,
+        [FromServices] UseCaseMediator<DeleteInvoiceRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(new() { InvoiceID = invoiceID }, cancellationToken);
 
     [HttpDelete("Item/{invoiceItemID}")]
     public async Task<IResult> DeleteInvoiceItem([FromRoute] long invoiceItemID,
-        [FromServices] PipelineMediator<DeleteInvoiceItemRequest> mediator,
+        [FromServices] UseCaseMediator<DeleteInvoiceItemRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(new() { InvoiceItemID = invoiceItemID }, cancellationToken);
 
     [HttpGet("Client/{clientID}")]
     public async Task<IResult> GetClientInvoices([FromRoute] long clientID,
-        [FromServices] PipelineMediator<GetClientInvoicesRequest> mediator,
+        [FromServices] UseCaseMediator<GetClientInvoicesRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(new() { ClientID = clientID }, cancellationToken);
 
     [HttpGet("{invoiceID}")]
     public async Task<IResult> GetInvoice([FromRoute] long invoiceID,
-        [FromServices] PipelineMediator<GetInvoiceRequest> mediator,
+        [FromServices] UseCaseMediator<GetInvoiceRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(new() { InvoiceID = invoiceID }, cancellationToken);
 
     [HttpGet]
     public async Task<IResult> GetInvoices(
-        [FromServices] PipelineMediator<GetInvoicesRequest> mediator,
+        [FromServices] UseCaseMediator<GetInvoicesRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(new(), cancellationToken);
 
     [HttpPatch]
     public async Task<IResult> UpdateInvoice([FromBody] UpdateInvoiceRequest request,
-        [FromServices] PipelineMediator<UpdateInvoiceRequest> mediator,
+        [FromServices] UseCaseMediator<UpdateInvoiceRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
     [HttpGet("{invoiceID}/pdf")]
     public async Task<IResult> GetInvoicePdf([FromRoute] long invoiceID,
-        [FromServices] PipelineMediator<GetInvoicePdfRequest> mediator,
+        [FromServices] UseCaseMediator<GetInvoicePdfRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(new() { InvoiceID = invoiceID }, cancellationToken);
 
     [HttpPut("Item")]
     public async Task<IResult> UpsertInvoiceItem([FromBody] UpsertInvoiceItemRequest request,
-        [FromServices] PipelineMediator<UpsertInvoiceItemRequest> mediator,
+        [FromServices] UseCaseMediator<UpsertInvoiceItemRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 }

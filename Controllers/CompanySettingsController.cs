@@ -16,13 +16,13 @@ namespace MacsBusinessManagementAPI.Controllers
     {
         [HttpGet]
         public async Task<IResult> GetCompanySettings(
-            [FromServices] PipelineMediator<GetCompanySettingsRequest> mediator,
+            [FromServices] UseCaseMediator<GetCompanySettingsRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(new(), cancellationToken);
 
         [HttpPost]
         public async Task<IResult> UpsertCompanySettings([FromBody] UpsertCompanySettingsRequest request,
-            [FromServices] PipelineMediator<UpsertCompanySettingsRequest> mediator,
+            [FromServices] UseCaseMediator<UpsertCompanySettingsRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(request, cancellationToken);
     }

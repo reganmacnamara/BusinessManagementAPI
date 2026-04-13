@@ -18,31 +18,31 @@ namespace MacsBusinessManagementAPI.Controllers
     {
         [HttpPost]
         public async Task<IResult> CreateClient([FromBody] CreateClientRequest request,
-            [FromServices] PipelineMediator<CreateClientRequest> mediator,
+            [FromServices] UseCaseMediator<CreateClientRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
         [HttpDelete("{clientID}")]
         public async Task<IResult> DeleteClient([FromRoute] long clientID,
-            [FromServices] PipelineMediator<DeleteClientRequest> mediator,
+            [FromServices] UseCaseMediator<DeleteClientRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(new() { ClientID = clientID }, cancellationToken);
 
         [HttpGet("{clientID}")]
         public async Task<IResult> GetClient([FromRoute] long clientID,
-            [FromServices] PipelineMediator<GetClientRequest> mediator,
+            [FromServices] UseCaseMediator<GetClientRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(new() { ClientId = clientID }, cancellationToken);
 
         [HttpGet]
         public async Task<IResult> GetClients(
-            [FromServices] PipelineMediator<GetClientsRequest> mediator,
+            [FromServices] UseCaseMediator<GetClientsRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(new(), cancellationToken);
 
         [HttpPatch]
         public async Task<IResult> UpdateClient([FromBody] UpdateClientRequest request,
-            [FromServices] PipelineMediator<UpdateClientRequest> mediator,
+            [FromServices] UseCaseMediator<UpdateClientRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(request, cancellationToken);
     }

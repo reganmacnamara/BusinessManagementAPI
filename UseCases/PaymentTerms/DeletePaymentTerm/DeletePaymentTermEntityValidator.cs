@@ -5,7 +5,7 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.DeletePaymentTerms
 {
 
-    public class DeletePaymentTermEntityValidator(ExistenceChecker existenceChecker) : IEntityValidator<DeletePaymentTermRequest>
+    public class DeletePaymentTermEntityValidator(ExistenceChecker existenceChecker) : IUseCaseEntityValidator<DeletePaymentTermRequest>
     {
         public async Task<(bool result, string errorMessage)> ValidateAsync(DeletePaymentTermRequest request, CancellationToken cancellationToken)
         {

@@ -4,7 +4,7 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
 namespace MacsBusinessManagementAPI.UseCases.Products.DeleteProduct;
 
-public class DeleteProductEntityValidator(ExistenceChecker existenceChecker) : IEntityValidator<DeleteProductRequest>
+public class DeleteProductEntityValidator(ExistenceChecker existenceChecker) : IUseCaseEntityValidator<DeleteProductRequest>
 {
     public async Task<(bool result, string errorMessage)> ValidateAsync(DeleteProductRequest request, CancellationToken cancellationToken)
     {

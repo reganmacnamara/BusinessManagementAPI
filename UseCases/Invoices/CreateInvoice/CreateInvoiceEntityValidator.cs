@@ -4,7 +4,7 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.CreateInvoice;
 
-public class CreateInvoiceEntityValidator(ExistenceChecker existenceChecker) : IEntityValidator<CreateInvoiceRequest>
+public class CreateInvoiceEntityValidator(ExistenceChecker existenceChecker) : IUseCaseEntityValidator<CreateInvoiceRequest>
 {
     public async Task<(bool result, string errorMessage)> ValidateAsync(CreateInvoiceRequest request, CancellationToken cancellationToken)
     {

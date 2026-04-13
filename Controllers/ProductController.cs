@@ -18,31 +18,31 @@ public class ProductController : ControllerBase
 {
     [HttpPost]
     public async Task<IResult> CreateProduct([FromBody] CreateProductRequest request,
-        [FromServices] PipelineMediator<CreateProductRequest> mediator,
+        [FromServices] UseCaseMediator<CreateProductRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
     [HttpDelete("{productID}")]
     public async Task<IResult> DeleteProduct([FromRoute] long productID,
-        [FromServices] PipelineMediator<DeleteProductRequest> mediator,
+        [FromServices] UseCaseMediator<DeleteProductRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(new() { ProductID = productID }, cancellationToken);
 
     [HttpGet("{productID}")]
     public async Task<IResult> GetProduct([FromRoute] long productID,
-        [FromServices] PipelineMediator<GetProductRequest> mediator,
+        [FromServices] UseCaseMediator<GetProductRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(new() { ProductID = productID }, cancellationToken);
 
     [HttpGet]
     public async Task<IResult> GetProducts(
-        [FromServices] PipelineMediator<GetProductsRequest> mediator,
+        [FromServices] UseCaseMediator<GetProductsRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(new(), cancellationToken);
 
     [HttpPatch]
     public async Task<IResult> UpdateProduct([FromBody] UpdateProductRequest request,
-        [FromServices] PipelineMediator<UpdateProductRequest> mediator,
+        [FromServices] UseCaseMediator<UpdateProductRequest> mediator,
         CancellationToken cancellationToken)
         => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 }

@@ -19,31 +19,31 @@ namespace MacsBusinessManagementAPI.Controllers
     {
         [HttpPost]
         public async Task<IResult> CreatePaymentTerm([FromBody] CreatePaymentTermRequest request,
-            [FromServices] PipelineMediator<CreatePaymentTermRequest> mediator,
+            [FromServices] UseCaseMediator<CreatePaymentTermRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(request, cancellationToken);
 
         [HttpDelete("{paymentTermID}")]
         public async Task<IResult> DeletePaymentTerm([FromRoute] long paymentTermID,
-            [FromServices] PipelineMediator<DeletePaymentTermRequest> mediator,
+            [FromServices] UseCaseMediator<DeletePaymentTermRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(new() { PaymentTermID = paymentTermID }, cancellationToken);
 
         [HttpGet("{paymentTermID}")]
         public async Task<IResult> GetPaymentTerm([FromRoute] long paymentTermID,
-            [FromServices] PipelineMediator<GetPaymentTermRequest> mediator,
+            [FromServices] UseCaseMediator<GetPaymentTermRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(new() { PaymentTermID = paymentTermID }, cancellationToken);
 
         [HttpGet]
         public async Task<IResult> GetPaymentTerms(
-            [FromServices] PipelineMediator<GetPaymentTermsRequest> mediator,
+            [FromServices] UseCaseMediator<GetPaymentTermsRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(new(), cancellationToken);
 
         [HttpPatch]
         public async Task<IResult> UpdatePaymentTerm([FromBody] UpdatePaymentTermRequest request,
-            [FromServices] PipelineMediator<UpdatePaymentTermRequest> mediator,
+            [FromServices] UseCaseMediator<UpdatePaymentTermRequest> mediator,
             CancellationToken cancellationToken)
             => await mediator.InvokeUseCaseAsync(request, cancellationToken);
     }

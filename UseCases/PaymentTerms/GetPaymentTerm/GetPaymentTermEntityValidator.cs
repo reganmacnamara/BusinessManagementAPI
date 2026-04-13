@@ -5,7 +5,7 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.GetPaymentTerm
 {
 
-    public class GetPaymentTermEntityValidator(ExistenceChecker existenceChecker) : IEntityValidator<GetPaymentTermRequest>
+    public class GetPaymentTermEntityValidator(ExistenceChecker existenceChecker) : IUseCaseEntityValidator<GetPaymentTermRequest>
     {
         public async Task<(bool result, string errorMessage)> ValidateAsync(GetPaymentTermRequest request, CancellationToken cancellationToken)
         {

@@ -1,13 +1,13 @@
 ﻿namespace MacsBusinessManagementAPI.Infrastructure.Pipeline
 {
 
-    public class PipelineMediator<TRequest>(IHttpContextAccessor contextAccessor) where TRequest : IUseCaseRequest
+    public class UseCaseMediator<TRequest>(IHttpContextAccessor contextAccessor) where TRequest : IUseCaseRequest
     {
         public async Task<IResult> InvokeUseCaseAsync(TRequest request, CancellationToken cancellationToken)
         {
             var _Services = contextAccessor.HttpContext!.RequestServices;
 
-            var _EntityValidator = _Services.GetService<IEntityValidator<TRequest>>();
+            var _EntityValidator = _Services.GetService<IUseCaseEntityValidator<TRequest>>();
             var _Handler = _Services.GetRequiredService<IUseCaseHandler<TRequest>>();
 
             // Entity Validation

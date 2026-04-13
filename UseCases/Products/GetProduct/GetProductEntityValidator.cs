@@ -4,7 +4,7 @@ using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
 namespace MacsBusinessManagementAPI.UseCases.Products.GetProduct;
 
-public class GetProductEntityValidator(ExistenceChecker existenceChecker) : IEntityValidator<GetProductRequest>
+public class GetProductEntityValidator(ExistenceChecker existenceChecker) : IUseCaseEntityValidator<GetProductRequest>
 {
     public async Task<(bool result, string errorMessage)> ValidateAsync(GetProductRequest request, CancellationToken cancellationToken)
     {

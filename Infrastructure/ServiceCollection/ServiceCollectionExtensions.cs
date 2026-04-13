@@ -111,7 +111,7 @@ namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
                 .Where(t => t is { IsAbstract: false, IsInterface: false })
                 .SelectMany(t => t.GetInterfaces()
                     .Where(i => i.IsGenericType
-                             && i.GetGenericTypeDefinition() == typeof(IEntityValidator<>))
+                             && i.GetGenericTypeDefinition() == typeof(IUseCaseEntityValidator<>))
                     .Select(i => (Service: i, Impl: t)));
 
             foreach (var (service, impl) in handlerEntityValidatorPairs)
@@ -145,7 +145,7 @@ namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
 
             foreach (var _Request in _UseCaseRequests)
             {
-                var _MediatorType = typeof(PipelineMediator<>).MakeGenericType(_Request);
+                var _MediatorType = typeof(UseCaseMediator<>).MakeGenericType(_Request);
                 services.AddScoped(_MediatorType);
             }
 
