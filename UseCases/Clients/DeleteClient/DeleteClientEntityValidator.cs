@@ -7,12 +7,12 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.DeleteClient
 
     public class DeleteClientEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<DeleteClientRequest>
     {
-        public async Task<(bool result, string errorMessage)> ValidateAsync(DeleteClientRequest request, CancellationToken cancellationToken)
+        public async Task<EntityValidationResult> ValidateAsync(DeleteClientRequest request, CancellationToken cancellationToken)
         {
             if (!existenceChecker.ValidateEntityExists<Client>(request.ClientID))
-                return (false, $"Client {request.ClientID} could not be found.");
+                return EntityValidationResult.Failure(nameof(Client), request.ClientID);
 
-            return (true, string.Empty);
+            return EntityValidationResult.Success();
         }
     }
 

@@ -13,10 +13,10 @@
             // Entity Validation
             if (_EntityValidator is not null)
             {
-                (bool _Result, string _ErrorMessage) = await _EntityValidator.ValidateAsync(request, cancellationToken);
+                var _Result = await _EntityValidator.ValidateAsync(request, cancellationToken);
 
-                if (!_Result)
-                    return Results.NotFound(_ErrorMessage);
+                if (!_Result.IsSuccess)
+                    return Results.NotFound(_Result.ValidationMessage);
             }
 
             return await _Handler.HandleAsync(request, cancellationToken);

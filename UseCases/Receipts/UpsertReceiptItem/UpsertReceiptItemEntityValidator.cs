@@ -6,22 +6,22 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem;
 
 public class UpsertReceiptItemEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<UpsertReceiptItemRequest>
 {
-    public async Task<(bool result, string errorMessage)> ValidateAsync(UpsertReceiptItemRequest request, CancellationToken cancellationToken)
+    public async Task<EntityValidationResult> ValidateAsync(UpsertReceiptItemRequest request, CancellationToken cancellationToken)
     {
         if (request.ReceiptItemID != 0)
         {
             if (!existenceChecker.ValidateEntityExists<ReceiptItem>(request.ReceiptItemID))
-                return (false, $"Receipt Item {request.ReceiptItemID} could not be found.");
+                return EntityValidationResult.Failure(nameof(ReceiptItem), request.ReceiptItemID);
         }
         else
         {
             if (!existenceChecker.ValidateEntityExists<Receipt>(request.ReceiptID))
-                return (false, $"Receipt {request.ReceiptID} could not be found.");
+                return EntityValidationResult.Failure(nameof(Receipt), request.ReceiptID);
 
             if (!existenceChecker.ValidateEntityExists<Invoice>(request.InvoiceID))
-                return (false, $"Invoice {request.InvoiceID} could not be found.");
+                return EntityValidationResult.Failure(nameof(Invoice), request.InvoiceID);
         }
 
-        return (true, string.Empty);
+        return EntityValidationResult.Success();
     }
 }

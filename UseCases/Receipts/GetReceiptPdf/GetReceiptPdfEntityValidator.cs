@@ -6,11 +6,11 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.GetReceiptPdf;
 
 public class GetReceiptPdfEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<GetReceiptPdfRequest>
 {
-    public async Task<(bool result, string errorMessage)> ValidateAsync(GetReceiptPdfRequest request, CancellationToken cancellationToken)
+    public async Task<EntityValidationResult> ValidateAsync(GetReceiptPdfRequest request, CancellationToken cancellationToken)
     {
         if (!existenceChecker.ValidateEntityExists<Receipt>(request.ReceiptID))
-            return (false, $"Receipt {request.ReceiptID} could not be found.");
+            return EntityValidationResult.Failure(nameof(Receipt), request.ReceiptID);
 
-        return (true, string.Empty);
+        return EntityValidationResult.Success();
     }
 }

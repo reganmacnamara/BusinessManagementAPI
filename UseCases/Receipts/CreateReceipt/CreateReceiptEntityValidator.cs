@@ -6,11 +6,11 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.CreateReceipt;
 
 public class CreateReceiptEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<CreateReceiptRequest>
 {
-    public async Task<(bool result, string errorMessage)> ValidateAsync(CreateReceiptRequest request, CancellationToken cancellationToken)
+    public async Task<EntityValidationResult> ValidateAsync(CreateReceiptRequest request, CancellationToken cancellationToken)
     {
         if (!existenceChecker.ValidateEntityExists<Client>(request.ClientID))
-            return (false, $"Client {request.ClientID} could not be found.");
+            return EntityValidationResult.Failure(nameof(Client), request.ClientID);
 
-        return (true, string.Empty);
+        return EntityValidationResult.Success();
     }
 }

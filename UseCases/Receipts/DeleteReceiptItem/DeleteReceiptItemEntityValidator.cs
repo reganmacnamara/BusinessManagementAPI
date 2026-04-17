@@ -6,11 +6,11 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.DeleteReceiptItem;
 
 public class DeleteReceiptItemEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<DeleteReceiptItemRequest>
 {
-    public async Task<(bool result, string errorMessage)> ValidateAsync(DeleteReceiptItemRequest request, CancellationToken cancellationToken)
+    public async Task<EntityValidationResult> ValidateAsync(DeleteReceiptItemRequest request, CancellationToken cancellationToken)
     {
         if (!existenceChecker.ValidateEntityExists<ReceiptItem>(request.ReceiptItemID))
-            return (false, $"Receipt Item {request.ReceiptItemID} could not be found.");
+            return EntityValidationResult.Failure(nameof(ReceiptItem), request.ReceiptItemID);
 
-        return (true, string.Empty);
+        return EntityValidationResult.Success();
     }
 }

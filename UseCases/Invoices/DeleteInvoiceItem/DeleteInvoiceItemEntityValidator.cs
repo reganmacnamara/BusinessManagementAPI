@@ -6,11 +6,11 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.DeleteInvoiceItem;
 
 public class DeleteInvoiceItemEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<DeleteInvoiceItemRequest>
 {
-    public async Task<(bool result, string errorMessage)> ValidateAsync(DeleteInvoiceItemRequest request, CancellationToken cancellationToken)
+    public async Task<EntityValidationResult> ValidateAsync(DeleteInvoiceItemRequest request, CancellationToken cancellationToken)
     {
         if (!existenceChecker.ValidateEntityExists<InvoiceItem>(request.InvoiceItemID))
-            return (false, $"Invoice Item {request.InvoiceItemID} could not be found.");
+            return EntityValidationResult.Failure(nameof(InvoiceItem), request.InvoiceItemID);
 
-        return (true, string.Empty);
+        return EntityValidationResult.Success();
     }
 }

@@ -6,11 +6,11 @@ namespace MacsBusinessManagementAPI.UseCases.Products.DeleteProduct;
 
 public class DeleteProductEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<DeleteProductRequest>
 {
-    public async Task<(bool result, string errorMessage)> ValidateAsync(DeleteProductRequest request, CancellationToken cancellationToken)
+    public async Task<EntityValidationResult> ValidateAsync(DeleteProductRequest request, CancellationToken cancellationToken)
     {
         if (!existenceChecker.ValidateEntityExists<Product>(request.ProductID))
-            return (false, $"Product {request.ProductID} could not be found.");
+            return EntityValidationResult.Failure(nameof(Product), request.ProductID);
 
-        return (true, string.Empty);
+        return EntityValidationResult.Success();
     }
 }

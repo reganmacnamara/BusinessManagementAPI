@@ -7,12 +7,12 @@ namespace MacsBusinessManagementAPI.UseCases.Clients.UpdateClient
 
     public class UpdateClientEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<UpdateClientRequest>
     {
-        public async Task<(bool result, string errorMessage)> ValidateAsync(UpdateClientRequest request, CancellationToken cancellationToken)
+        public async Task<EntityValidationResult> ValidateAsync(UpdateClientRequest request, CancellationToken cancellationToken)
         {
             if (!existenceChecker.ValidateEntityExists<Client>(request.ClientId))
-                return (false, $"Client {request.ClientId} could not be found.");
+                return EntityValidationResult.Failure(nameof(Client), request.ClientId);
 
-            return (true, string.Empty);
+            return EntityValidationResult.Success();
         }
     }
 

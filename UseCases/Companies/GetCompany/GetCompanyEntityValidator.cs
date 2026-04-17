@@ -8,12 +8,12 @@ namespace MacsBusinessManagementAPI.UseCases.Companies.GetCompany
 
     public class GetCompanyEntityValidator(EntityValidator existenceChecker, SQLContext context) : IUseCaseEntityValidator<GetCompanyRequest>
     {
-        public async Task<(bool result, string errorMessage)> ValidateAsync(GetCompanyRequest request, CancellationToken cancellationToken)
+        public async Task<EntityValidationResult> ValidateAsync(GetCompanyRequest request, CancellationToken cancellationToken)
         {
             if (!existenceChecker.ValidateEntityExists<Company>(context.CompanyID))
-                return (false, "Company could not be found.");
+                return EntityValidationResult.Failure(nameof(Company), context.CompanyID);
 
-            return (true, string.Empty);
+            return EntityValidationResult.Success();
         }
     }
 

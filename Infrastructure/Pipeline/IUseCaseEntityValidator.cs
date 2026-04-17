@@ -1,9 +1,11 @@
-﻿namespace MacsBusinessManagementAPI.Infrastructure.Pipeline
+﻿using MacsBusinessManagementAPI.Infrastructure.EntityValidator;
+
+namespace MacsBusinessManagementAPI.Infrastructure.Pipeline
 {
 
     public interface IUseCaseEntityValidator<TRequest> where TRequest : IUseCaseRequest
     {
-        public Task<(bool result, string errorMessage)> ValidateAsync(TRequest request, CancellationToken cancellationToken);
+        public Task<EntityValidationResult> ValidateAsync(TRequest request, CancellationToken cancellationToken);
     }
 
 }

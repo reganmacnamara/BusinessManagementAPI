@@ -6,11 +6,11 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.GetInvoice;
 
 public class GetInvoiceEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<GetInvoiceRequest>
 {
-    public async Task<(bool result, string errorMessage)> ValidateAsync(GetInvoiceRequest request, CancellationToken cancellationToken)
+    public async Task<EntityValidationResult> ValidateAsync(GetInvoiceRequest request, CancellationToken cancellationToken)
     {
         if (!existenceChecker.ValidateEntityExists<Invoice>(request.InvoiceID))
-            return (false, $"Invoice {request.InvoiceID} could not be found.");
+            return EntityValidationResult.Failure(nameof(Invoice), request.InvoiceID);
 
-        return (true, string.Empty);
+        return EntityValidationResult.Success();
     }
 }

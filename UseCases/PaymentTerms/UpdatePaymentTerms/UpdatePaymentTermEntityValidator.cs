@@ -7,12 +7,12 @@ namespace MacsBusinessManagementAPI.UseCases.PaymentTerms.UpdatePaymentTerms
 
     public class UpdatePaymentTermEntityValidator(EntityValidator existenceChecker) : IUseCaseEntityValidator<UpdatePaymentTermRequest>
     {
-        public async Task<(bool result, string errorMessage)> ValidateAsync(UpdatePaymentTermRequest request, CancellationToken cancellationToken)
+        public async Task<EntityValidationResult> ValidateAsync(UpdatePaymentTermRequest request, CancellationToken cancellationToken)
         {
             if (!existenceChecker.ValidateEntityExists<PaymentTerm>(request.PaymentTermID))
-                return (false, $"Payment Term {request.PaymentTermID} could not be found.");
+                return EntityValidationResult.Failure(nameof(PaymentTerm), request.PaymentTermID);
 
-            return (true, string.Empty);
+            return EntityValidationResult.Success();
         }
     }
 
