@@ -40,6 +40,8 @@
         public ICollection<Product> Products { get; set; } = [];
 
         public ICollection<Receipt> Receipts { get; set; } = [];
+
+        public ICollection<Service> Services { get; set; } = [];
     }
 
 }

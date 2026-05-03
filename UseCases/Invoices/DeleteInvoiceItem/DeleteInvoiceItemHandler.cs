@@ -13,7 +13,8 @@ public class DeleteInvoiceItemHandler(SQLContext context) : IUseCaseHandler<Dele
             .Include(ii => ii.Product)
             .SingleAsync(ii => ii.InvoiceItemID == request.InvoiceItemID, cancellationToken);
 
-        _InvoiceItem.Product.QuantityOnHand += (long)_InvoiceItem.Quantity;
+        if (_InvoiceItem.Product is not null)
+            _InvoiceItem.Product.QuantityOnHand += (long)_InvoiceItem.Quantity;
 
         context.InvoiceItems.Remove(_InvoiceItem);
 

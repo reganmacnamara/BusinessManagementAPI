@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using MacsBusinessManagementAPI.Entities;
 using MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
 
@@ -10,6 +10,7 @@ public class InvoiceItemProfile : Profile
     {
         CreateMap<UpsertInvoiceItemRequest, InvoiceItem>()
             .ForMember(d => d.Invoice, o => o.Ignore())
-            .ForMember(d => d.Product, o => o.Ignore());
+            .ForMember(d => d.Product, o => o.Ignore())
+            .ForMember(d => d.Service, o => o.Ignore());
     }
 }

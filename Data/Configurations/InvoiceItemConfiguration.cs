@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Entities;
+using MacsBusinessManagementAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,7 +14,10 @@ public class InvoiceItemConfiguration : IEntityTypeConfiguration<InvoiceItem>
             .IsRequired();
 
         builder.Property(c => c.ProductID)
-            .IsRequired();
+            .IsRequired(false);
+
+        builder.Property(c => c.ServiceID)
+            .IsRequired(false);
 
         builder.Property(c => c.Description)
             .HasMaxLength(500);
@@ -45,5 +48,9 @@ public class InvoiceItemConfiguration : IEntityTypeConfiguration<InvoiceItem>
         builder.HasOne(c => c.Product)
                 .WithMany()
                 .HasForeignKey(c => c.ProductID);
+
+        builder.HasOne(c => c.Service)
+                .WithMany()
+                .HasForeignKey(c => c.ServiceID);
     }
 }

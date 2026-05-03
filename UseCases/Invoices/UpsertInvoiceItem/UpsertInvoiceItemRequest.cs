@@ -1,4 +1,4 @@
-﻿using MacsBusinessManagementAPI.Infrastructure.Pipeline;
+using MacsBusinessManagementAPI.Infrastructure.Pipeline;
 
 namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem;
 
@@ -6,7 +6,8 @@ public class UpsertInvoiceItemRequest : IUseCaseRequest
 {
     public long InvoiceItemID { get; set; }
     public long InvoiceID { get; set; }
-    public long ProductID { get; set; }
+    public long? ProductID { get; set; }
+    public long? ServiceID { get; set; }
     public string Description { get; set; } = string.Empty;
     public decimal Quantity { get; set; }
     public decimal PricePerUnit { get; set; }

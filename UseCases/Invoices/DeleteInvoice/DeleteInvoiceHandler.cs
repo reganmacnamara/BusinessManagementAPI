@@ -21,7 +21,8 @@ public class DeleteInvoiceHandler(SQLContext context) : IUseCaseHandler<DeleteIn
             .ToListAsync(cancellationToken);
 
         foreach (var item in _InvoiceItems)
-            item.Product.QuantityOnHand += (long)item.Quantity;
+            if (item.Product is not null)
+                item.Product.QuantityOnHand += (long)item.Quantity;
 
         context.RemoveRange(_InvoiceItems);
         context.Remove(_Invoice);

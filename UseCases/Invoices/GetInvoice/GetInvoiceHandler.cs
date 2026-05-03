@@ -18,6 +18,7 @@ public class GetInvoiceHandler(SQLContext context) : IUseCaseHandler<GetInvoiceR
         var _InvoiceItems = await context.GetEntities<InvoiceItem>()
             .AsNoTracking()
             .Include(ii => ii.Product)
+            .Include(ii => ii.Service)
             .Where(ii => ii.InvoiceID == request.InvoiceID)
             .ToListAsync(cancellationToken);
 

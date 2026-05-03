@@ -1,10 +1,11 @@
-﻿namespace MacsBusinessManagementAPI.Entities;
+namespace MacsBusinessManagementAPI.Entities;
 
 public class InvoiceItem
 {
     public long InvoiceItemID { get; set; }
     public long InvoiceID { get; set; }
-    public long ProductID { get; set; }
+    public long? ProductID { get; set; }
+    public long? ServiceID { get; set; }
     public string Description { get; set; } = string.Empty;
     public decimal Quantity { get; set; }
     public decimal PricePerUnit { get; set; }
@@ -15,5 +16,6 @@ public class InvoiceItem
     //Navigation Properties
 
     public Invoice Invoice { get; set; } = default!;
-    public Product Product { get; set; } = default!;
+    public Product? Product { get; set; }
+    public Service? Service { get; set; }
 }

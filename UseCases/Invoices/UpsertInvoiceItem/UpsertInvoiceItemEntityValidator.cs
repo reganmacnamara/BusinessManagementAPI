@@ -8,8 +8,11 @@ public class UpsertInvoiceItemEntityValidator(EntityValidator existenceChecker) 
 {
     public async Task<EntityValidationResult> ValidateAsync(UpsertInvoiceItemRequest request, CancellationToken cancellationToken)
     {
-        if (!existenceChecker.ValidateEntityExists<Product>(request.ProductID))
-            return EntityValidationResult.Failure(nameof(Product), request.ProductID);
+        if (request.ProductID.HasValue && !existenceChecker.ValidateEntityExists<Product>(request.ProductID.Value))
+            return EntityValidationResult.Failure(nameof(Product), request.ProductID.Value);
+
+        if (request.ServiceID.HasValue && !existenceChecker.ValidateEntityExists<Service>(request.ServiceID.Value))
+            return EntityValidationResult.Failure(nameof(Service), request.ServiceID.Value);
 
         if (request.InvoiceItemID != 0)
         {

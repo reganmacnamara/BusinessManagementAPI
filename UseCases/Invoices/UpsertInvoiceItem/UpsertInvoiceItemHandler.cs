@@ -16,6 +16,7 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
                 var _InvoiceItem = await context.GetEntities<InvoiceItem>()
                     .Include(ii => ii.Invoice)
                     .Include(ii => ii.Product)
+                    .Include(ii => ii.Service)
                     .Where(ii => ii.InvoiceItemID == request.InvoiceItemID)
                     .SingleAsync(cancellationToken);
 
@@ -25,21 +26,38 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
 
                 _InvoiceItem.UpdateFromEntity(request, [nameof(InvoiceItem.InvoiceItemID)]);
 
-                Product? _Product;
-                if (_InvoiceItem.ProductID != _OldProductID)
+                // Product stock handling (only for product-backed items)
+                if (_OldProduct is not null)
+                    _OldProduct.QuantityOnHand += (long)_OldQuantity;
+
+                if (_InvoiceItem.ProductID.HasValue)
                 {
-                    _Product = await context.GetEntities<Product>()
-                        .SingleAsync(p => p.ProductID == _InvoiceItem.ProductID, cancellationToken);
+                    Product? _Product;
+                    if (_InvoiceItem.ProductID != _OldProductID)
+                    {
+                        _Product = await context.GetEntities<Product>()
+                            .SingleAsync(p => p.ProductID == _InvoiceItem.ProductID, cancellationToken);
+                    }
+                    else
+                        _Product = _OldProduct;
+
+                    if (_Product is not null)
+                    {
+                        if ((decimal)_Product.QuantityOnHand < _InvoiceItem.Quantity)
+                            return Results.Conflict($"Insufficient stock for '{_Product.ProductName}'. Available: {_Product.QuantityOnHand}.");
+
+                        _Product.QuantityOnHand -= (long)_InvoiceItem.Quantity;
+                    }
                 }
-                else
-                    _Product = _OldProduct;
 
-                _OldProduct.QuantityOnHand += (long)_OldQuantity;
+                // Service handling
+                if (_InvoiceItem.ServiceID.HasValue)
+                {
+                    var _Service = await context.GetEntities<Service>()
+                        .SingleAsync(s => s.ServiceID == _InvoiceItem.ServiceID, cancellationToken);
 
-                if ((decimal)_Product.QuantityOnHand < _InvoiceItem.Quantity)
-                    return Results.Conflict($"Insufficient stock for '{_Product.ProductName}'. Available: {_Product.QuantityOnHand}.");
-
-                _Product.QuantityOnHand -= (long)_InvoiceItem.Quantity;
+                    _InvoiceItem.Service = _Service;
+                }
 
                 _ = await context.SaveChangesAsync(cancellationToken);
 
@@ -57,16 +75,29 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
                 var _Invoice = await context.GetEntities<Invoice>()
                     .SingleAsync(i => i.InvoiceID == request.InvoiceID, cancellationToken);
 
-                var _Product = await context.GetEntities<Product>()
-                    .SingleAsync(p => p.ProductID == request.ProductID, cancellationToken);
-
-                if ((decimal)_Product.QuantityOnHand < _InvoiceItem.Quantity)
-                    return Results.Conflict($"Insufficient stock for '{_Product.ProductName}'. Available: {_Product.QuantityOnHand}.");
-
                 _InvoiceItem.Invoice = _Invoice;
-                _InvoiceItem.Product = _Product;
 
-                _Product.QuantityOnHand -= (long)_InvoiceItem.Quantity;
+                // Product-backed line item
+                if (request.ProductID.HasValue)
+                {
+                    var _Product = await context.GetEntities<Product>()
+                        .SingleAsync(p => p.ProductID == request.ProductID, cancellationToken);
+
+                    if ((decimal)_Product.QuantityOnHand < _InvoiceItem.Quantity)
+                        return Results.Conflict($"Insufficient stock for '{_Product.ProductName}'. Available: {_Product.QuantityOnHand}.");
+
+                    _InvoiceItem.Product = _Product;
+                    _Product.QuantityOnHand -= (long)_InvoiceItem.Quantity;
+                }
+
+                // Service-backed line item
+                if (request.ServiceID.HasValue)
+                {
+                    var _Service = await context.GetEntities<Service>()
+                        .SingleAsync(s => s.ServiceID == request.ServiceID, cancellationToken);
+
+                    _InvoiceItem.Service = _Service;
+                }
 
                 context.InvoiceItems.Add(_InvoiceItem);
 

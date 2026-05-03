@@ -19,6 +19,8 @@ namespace MacsBusinessManagementAPI.Data
         public DbSet<Receipt> Receipts { get; set; } = null!;
         public DbSet<ReceiptItem> ReceiptItems { get; set; } = null!;
         public DbSet<ReminderLog> ReminderLogs { get; set; } = null!;
+        public DbSet<Service> Services { get; set; } = null!;
+        public DbSet<ServiceActivity> ServiceActivities { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +34,7 @@ namespace MacsBusinessManagementAPI.Data
             modelBuilder.Entity<Product>().HasQueryFilter(e => e.CompanyID == CompanyID);
             modelBuilder.Entity<PaymentTerm>().HasQueryFilter(e => e.CompanyID == CompanyID);
             modelBuilder.Entity<Receipt>().HasQueryFilter(e => e.CompanyID == CompanyID);
+            modelBuilder.Entity<Service>().HasQueryFilter(e => e.CompanyID == CompanyID);
         }
 
         public IQueryable<T> GetEntities<T>() where T : class
