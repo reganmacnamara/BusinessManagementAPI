@@ -76,8 +76,8 @@ namespace MacsBusinessManagementAPI.Infrastructure.ServiceCollection
                                       ?? "unknown",
                         factory: _ => new FixedWindowRateLimiterOptions
                         {
-                            PermitLimit = 60,
-                            Window = TimeSpan.FromSeconds(60),
+                            PermitLimit = 100,
+                            Window = TimeSpan.FromSeconds(30),
                             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                         }));
 
