@@ -9,7 +9,6 @@ public class RecieptItemProfile : Profile
     public RecieptItemProfile()
     {
         CreateMap<UpsertReceiptItemRequest, ReceiptItem>()
-            .ForMember(d => d.Invoice, o => o.Ignore())
-            .ForMember(d => d.Receipt, o => o.Ignore());
+            .ForMember(d => d.Invoice, o => o.Ignore());
     }
 }

@@ -52,7 +52,7 @@ public class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
                 .HasForeignKey(c => c.CompanyID);
 
         builder.HasMany(c => c.ReceiptItems)
-                .WithOne(c => c.Receipt)
+                .WithOne()
                 .HasForeignKey(c => c.ReceiptID);
     }
 }

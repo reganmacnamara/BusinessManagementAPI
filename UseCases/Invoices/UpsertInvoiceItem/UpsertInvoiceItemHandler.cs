@@ -14,7 +14,6 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
             if (request.InvoiceItemID != 0)
             {
                 var _InvoiceItem = await context.GetEntities<InvoiceItem>()
-                    .Include(ii => ii.Invoice)
                     .Include(ii => ii.Product)
                     .Include(ii => ii.Service)
                     .Where(ii => ii.InvoiceItemID == request.InvoiceItemID)
@@ -71,11 +70,6 @@ namespace MacsBusinessManagementAPI.UseCases.Invoices.UpsertInvoiceItem
             else
             {
                 var _InvoiceItem = mapper.Map<InvoiceItem>(request);
-
-                var _Invoice = await context.GetEntities<Invoice>()
-                    .SingleAsync(i => i.InvoiceID == request.InvoiceID, cancellationToken);
-
-                _InvoiceItem.Invoice = _Invoice;
 
                 // Product-backed line item
                 if (request.ProductID.HasValue)

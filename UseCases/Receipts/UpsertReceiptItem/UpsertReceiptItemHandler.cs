@@ -16,18 +16,12 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
             {
                 var _ReceiptItem = mapper.Map<ReceiptItem>(request);
 
-                var _Receipt = await context.GetEntities<Receipt>()
-                    .SingleAsync(r => r.ReceiptID == request.ReceiptID, cancellationToken);
-
                 var _Invoice = await context.GetEntities<Invoice>()
                     .SingleAsync(i => i.InvoiceID == request.InvoiceID, cancellationToken);
 
-                _ReceiptItem.Receipt = _Receipt;
-                _ReceiptItem.Invoice = _Invoice;
-
                 try
                 {
-                    _Invoice = await allocationService.AllocateToInvoice(_ReceiptItem, _Invoice);
+                    await allocationService.AllocateToInvoice(_ReceiptItem, _Invoice);
                 }
                 catch (Exception ex)
                 {
@@ -48,17 +42,23 @@ namespace MacsBusinessManagementAPI.UseCases.Receipts.UpsertReceiptItem
             else
             {
                 var _ReceiptItem = await context.GetEntities<ReceiptItem>()
-                    .Include(ii => ii.Receipt)
-                    .Include(ii => ii.Invoice)
+                    .Include(ri => ri.Invoice)
                     .SingleAsync(ii => ii.ReceiptItemID == request.ReceiptItemID, cancellationToken);
 
-                await allocationService.DeallocateFromInvoice(_ReceiptItem, _ReceiptItem.Invoice);
+                var _OldInvoice = _ReceiptItem.Invoice;
+
+                await allocationService.DeallocateFromInvoice(_ReceiptItem, _OldInvoice);
 
                 _ReceiptItem.UpdateFromEntity(request, [nameof(ReceiptItem.ReceiptItemID)]);
 
+                var _Invoice = _ReceiptItem.InvoiceID == _OldInvoice.InvoiceID
+                    ? _OldInvoice
+                    : await context.GetEntities<Invoice>()
+                        .SingleAsync(i => i.InvoiceID == _ReceiptItem.InvoiceID, cancellationToken);
+
                 try
                 {
-                    _ReceiptItem.Invoice = await allocationService.AllocateToInvoice(_ReceiptItem, _ReceiptItem.Invoice);
+                    await allocationService.AllocateToInvoice(_ReceiptItem, _Invoice);
                 }
                 catch (Exception ex)
                 {

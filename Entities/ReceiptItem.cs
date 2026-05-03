@@ -12,5 +12,4 @@ public class ReceiptItem
     //Navigation Properties
 
     public Invoice Invoice { get; set; } = default!;
-    public Receipt Receipt { get; set; } = default!;
 }

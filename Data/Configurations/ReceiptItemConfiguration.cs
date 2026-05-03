@@ -28,8 +28,9 @@ public class ReceiptItemConfiguration : IEntityTypeConfiguration<ReceiptItem>
             .HasColumnType("decimal(18,2)")
             .HasDefaultValue(0);
 
-        builder.HasOne(c => c.Receipt)
+        builder.HasOne(c => c.Invoice)
                 .WithMany()
-                .HasForeignKey(c => c.ReceiptID);
+                .HasForeignKey(c => c.InvoiceID)
+                .OnDelete(DeleteBehavior.NoAction);
     }
 }

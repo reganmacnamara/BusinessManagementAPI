@@ -41,10 +41,6 @@ public class InvoiceItemConfiguration : IEntityTypeConfiguration<InvoiceItem>
             .HasColumnType("decimal(18,2)")
             .HasDefaultValue(0);
 
-        builder.HasOne(c => c.Invoice)
-                .WithMany()
-                .HasForeignKey(c => c.InvoiceID);
-
         builder.HasOne(c => c.Product)
                 .WithMany()
                 .HasForeignKey(c => c.ProductID);

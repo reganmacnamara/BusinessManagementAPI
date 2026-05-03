@@ -9,7 +9,6 @@ public class InvoiceItemProfile : Profile
     public InvoiceItemProfile()
     {
         CreateMap<UpsertInvoiceItemRequest, InvoiceItem>()
-            .ForMember(d => d.Invoice, o => o.Ignore())
             .ForMember(d => d.Product, o => o.Ignore())
             .ForMember(d => d.Service, o => o.Ignore());
     }
