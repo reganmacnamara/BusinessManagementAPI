@@ -1,7 +1,7 @@
 <p align="center">
   <h1 align="center">MacsBusinessManagementAPI</h1>
   <p align="center">
-    A clean, extensible, multi-tenant RESTful API for managing companies, clients, products, invoices, and receipts — built with ASP.NET Core 8 and Entity Framework Core.
+    A clean, extensible, multi-tenant RESTful API for managing companies, clients, products, services, invoices, and receipts — built with ASP.NET Core 8 and Entity Framework Core.
   </p>
 </p>
 
@@ -41,6 +41,7 @@
   - [Company Settings](#company-settings)
   - [Clients](#clients)
   - [Products](#products)
+  - [Services](#services)
   - [Payment Terms](#payment-terms)
   - [Invoices](#invoices)
   - [Receipts](#receipts)
@@ -65,10 +66,11 @@
 2. **Register a Company** — every subsequent entity is tenant-scoped to this company automatically.
 3. **Configure Company Settings** (address, ABN, branding, invoice defaults, etc.).
 4. **Clients** are registered in the system with optional payment terms and reminder intervals.
-5. **Products** (goods or services) are defined with pricing.
-6. **Invoices** are issued to clients, each containing line items referencing products.
-7. **Receipts** are recorded as payments arrive — receipt line items are allocated against specific invoices, automatically tracking outstanding balances.
-8. **Overdue invoice reminders** are dispatched daily by a Hangfire recurring job, respecting each client's configured reminder interval.
+5. **Products** (physical goods) are defined with pricing and stock quantity tracking.
+6. **Services** are defined with pricing, an estimated duration, and a set of activities that describe the work involved.
+7. **Invoices** are issued to clients, each containing line items that reference either a product or a service.
+8. **Receipts** are recorded as payments arrive — receipt line items are allocated against specific invoices, automatically tracking outstanding balances.
+9. **Overdue invoice reminders** are dispatched daily by a Hangfire recurring job, respecting each client's configured reminder interval.
 
 The API uses a CQRS-inspired Request / Handler / Response pattern with automatic handler registration, EF Core global query filters for tenant isolation, JWT authentication, per-user rate limiting, PDF generation, and Hangfire-powered scheduled jobs — all out of the box.
 
@@ -80,8 +82,9 @@ The API uses a CQRS-inspired Request / Handler / Response pattern with automatic
 |---------|-------------|
 | **Multi-Tenancy** | Automatic tenant isolation via EF Core global query filters — every query is scoped to the authenticated user's company with zero handler code |
 | **Auto-Stamped CompanyID** | `SaveChangesAsync` automatically stamps `CompanyID` on new entities, so Create handlers never need to set it manually |
-| **Full CRUD** | Complete operations for Companies, Clients, Products, Invoices, Receipts, and Payment Terms |
-| **Line Item Management** | Upsert support — create or update invoice and receipt line items in a single endpoint |
+| **Full CRUD** | Complete operations for Companies, Clients, Products, Services, Invoices, Receipts, and Payment Terms |
+| **Products & Services** | Products track stock (quantity on hand). Services carry an estimated duration, a `DurationUnit` enum, and an ordered list of activities that describe the work |
+| **Line Item Management** | Upsert support — create or update invoice line items in a single endpoint; each item references either a product (with stock tracking) or a service (no stock) |
 | **Payment Allocation** | Receipt items link directly to invoices with automatic outstanding balance tracking |
 | **PDF Generation** | Professional invoice and receipt PDFs via QuestPDF |
 | **JWT Authentication** | Secure Bearer token auth with BCrypt password hashing; `companyID` claim embedded in every token |
@@ -106,7 +109,7 @@ The API uses a CQRS-inspired Request / Handler / Response pattern with automatic
 | **ORM**          | Entity Framework Core 8.0                   |
 | **Database**     | SQL Server                                  |
 | **Auth**         | JWT Bearer Tokens + BCrypt password hashing |
-| **Rate Limiting**| ASP.NET Core Rate Limiting middleware       |
+| **Rate Limiting**| ASP.NET Core Rate Limiting middleware        |
 | **Mapping**      | AutoMapper                                  |
 | **PDF Engine**   | QuestPDF (Community License)                |
 | **Jobs**         | Hangfire (SQL Server storage)               |
@@ -130,15 +133,15 @@ HTTP Request
 +-------+--------+
         |
         v
-+----------------+
-|  Mediator<T>   |   UseCaseMediator<TRequest>
-+-------+--------+
++----------------------+
+|  UseCaseMediator<T>  |   Resolves validator and handler from DI
++-------+--------------+
         |
         v
-+----------------+
-| EntityValidator|   Confirms referenced entities exist (tenant-scoped)
-|   <TRequest>   |   Returns EntityValidationResult
-+-------+--------+
++--------------------+
+|  EntityValidator   |   Confirms referenced entities exist (tenant-scoped)
+|  <TRequest>        |   Returns EntityValidationResult — handler not called on failure
++-------+------------+
         |
         v
 +----------------+
@@ -158,24 +161,24 @@ HTTP Request
 
 ### Entity Validation
 
-Every use case has a dedicated validator implementing `IUseCaseEntityValidator<TRequest>`. Validators run **before** handlers via `UseCaseMediator<T>` and produce a uniform `EntityValidationResult`:
+Every use case that operates on an existing entity has a dedicated validator implementing `IUseCaseEntityValidator<TRequest>`. Validators run **before** handlers via `UseCaseMediator<T>` and produce a uniform `EntityValidationResult`. A validator is optional — use cases that only create new entities (e.g. `CreateClient`) do not require one.
 
 ```csharp
 public async Task<EntityValidationResult> ValidateAsync(
     UpdateClientRequest request, CancellationToken cancellationToken)
 {
-    if (!existenceChecker.ValidateEntityExists<Client>(request.ClientID))
-        return EntityValidationResult.Failure(nameof(Client), request.ClientID);
+    if (!existenceChecker.ValidateEntityExists<Client>(request.ClientId))
+        return EntityValidationResult.Failure(nameof(Client), request.ClientId);
 
     return EntityValidationResult.Success();
 }
 ```
 
-Failures return a structured error response; the handler is never invoked if validation fails.
+Failures return `404 Not Found` with a structured message; the handler is never invoked.
 
 ### Multi-Tenancy
 
-All tenant-scoped entities (`Account`, `Client`, `Invoice`, `Product`, `PaymentTerm`, `Receipt`) carry a `CompanyID` foreign key. Tenant isolation is enforced at the data layer — handlers never need to filter by `CompanyID` themselves:
+All tenant-scoped entities (`Account`, `Client`, `Invoice`, `Product`, `Service`, `PaymentTerm`, `Receipt`) carry a `CompanyID` foreign key. Tenant isolation is enforced at the data layer — handlers never need to filter by `CompanyID` themselves:
 
 | Mechanism | Where | Purpose |
 |-----------|-------|---------|
@@ -213,7 +216,7 @@ dotnet restore
 
 ### Secrets & Environment
 
-On startup, `Program.cs` loads a `.env` file from the working directory (if present) and copies each `KEY=VALUE` line into the process environment **before** the configuration system builds. This means you can reference any of these values in `appsettings.json` via the normal `${ENV_VAR}` / environment variable override pattern.
+On startup, `Program.cs` loads a `.env` file from the working directory (if present) and copies each `KEY=VALUE` line into the process environment **before** the configuration system builds. This means you can reference any of these values in `appsettings.json` via the normal environment variable override pattern.
 
 Create a `.env` file in the project root for local development (do **not** commit it):
 
@@ -382,6 +385,22 @@ The overdue-reminder job iterates across **all** tenants, so it opts out of the 
 | `PATCH`  | `/Product`         | Update a product       |
 | `DELETE` | `/Product/{id}`    | Delete a product       |
 
+### Services
+
+Services represent billable offerings (e.g. "Paint House") with an estimated duration and an ordered list of activities. They can be added as line items on invoices — unlike products, services do not track stock.
+
+| Method   | Route                         | Description                                                                  |
+|----------|-------------------------------|------------------------------------------------------------------------------|
+| `GET`    | `/Service`                    | List all services (without activities)                                       |
+| `GET`    | `/Service/{id}`               | Get a service by ID, including activities ordered by `SortOrder`             |
+| `POST`   | `/Service`                    | Create a new service                                                         |
+| `PATCH`  | `/Service`                    | Update a service                                                             |
+| `DELETE` | `/Service/{id}`               | Delete a service and all its activities                                      |
+| `PUT`    | `/Service/Activity`           | Upsert a service activity (`ServiceActivityID = 0` to create, non-zero to update) |
+| `DELETE` | `/Service/Activity/{id}`      | Delete a service activity                                                    |
+
+**`DurationUnit` enum values:** `Hours`, `Days`, `Weeks`, `Months`
+
 ### Payment Terms
 
 | Method   | Route                         | Description                         |
@@ -397,12 +416,12 @@ The overdue-reminder job iterates across **all** tenants, so it opts out of the 
 | Method   | Route                         | Description                            |
 |----------|-------------------------------|----------------------------------------|
 | `GET`    | `/Invoice`                    | List all invoices                      |
-| `GET`    | `/Invoice/{id}`               | Get an invoice by ID                   |
+| `GET`    | `/Invoice/{id}`               | Get an invoice by ID (includes line items with product or service detail) |
 | `GET`    | `/Invoice/Client/{clientId}`  | Get all invoices for a specific client |
 | `GET`    | `/Invoice/{id}/pdf`           | Download invoice as PDF                |
 | `POST`   | `/Invoice`                    | Create a new invoice                   |
 | `PATCH`  | `/Invoice`                    | Update an invoice                      |
-| `PUT`    | `/Invoice/Item`               | Upsert an invoice line item            |
+| `PUT`    | `/Invoice/Item`               | Upsert an invoice line item (product or service — provide `productID` or `serviceID`, the other should be `null`) |
 | `DELETE` | `/Invoice/{id}`               | Delete an invoice                      |
 | `DELETE` | `/Invoice/Item/{id}`          | Delete an invoice line item            |
 
@@ -433,9 +452,12 @@ The API models a standard accounts-receivable workflow:
 |  Client |<----------------|  Invoice |
 +---------+                 +----+-----+
      |                           | contains
-     |                      +----v----------+
-     |                      | Invoice Items |  (product, qty, price)
-     |                      +---------------+
+     |                      +----v--------------+
+     |                      |  Invoice Items    |
+     |                      | (product OR       |
+     |                      |  service, qty,    |
+     |                      |  price)           |
+     |                      +-------------------+
      |
      |         pays          +----------+
      +---------------------->|  Receipt |
@@ -446,7 +468,7 @@ The API models a standard accounts-receivable workflow:
                              +---------------+
 ```
 
-1. An **Invoice** is created for a client with one or more line items (each referencing a product, quantity, and price).
+1. An **Invoice** is created for a client with one or more line items. Each line item references either a **product** (stock is decremented on add, restored on delete) or a **service** (no stock tracking). Pricing, tax, and totals are set by the caller.
 2. When the client pays, a **Receipt** is created. Each receipt line item specifies an amount and the invoice it is paying against.
 3. The system automatically tracks how much of each invoice remains outstanding.
 
@@ -456,7 +478,7 @@ The `AllocationService` handles the relationship between receipts and invoices. 
 
 ### PDF Generation
 
-Both invoices and receipts can be exported as professionally formatted PDF documents via QuestPDF (Community License). The `PdfService` handles document composition and layout, using the company settings (ABN, logo, address) to brand the output.
+Both invoices and receipts can be exported as professionally formatted PDF documents via QuestPDF (Community License). The `PdfService` handles document composition and layout, using the company settings (ABN, address) to brand the output. Invoice PDFs render all line items regardless of whether they are product-backed or service-backed.
 
 - `GET /Invoice/{id}/pdf`
 - `GET /Receipt/{id}/pdf`
@@ -494,6 +516,7 @@ MacsBusinessManagementAPI/
 |   +-- PaymentTermsController.cs    # PaymentTerm CRUD
 |   +-- ProductController.cs         # Product CRUD
 |   +-- ReceiptController.cs         # Receipt CRUD, line items, PDF
+|   +-- ServiceController.cs         # Service CRUD + ServiceActivity upsert/delete
 |
 +-- UseCases/                        # Business logic (one folder per use case)
 |   +-- Auth/                        # Login, Register
@@ -504,11 +527,15 @@ MacsBusinessManagementAPI/
 |   +-- PaymentTerms/                # Full CRUD
 |   +-- Products/                    # Full CRUD
 |   +-- Receipts/                    # Full CRUD + UpsertReceiptItem, GetReceiptPdf, GetClientReceipts
+|   +-- Services/                    # CreateService, GetService(s), UpdateService, DeleteService
+|                                    # UpsertServiceActivity, DeleteServiceActivity
 |
 +-- Entities/                        # EF Core entities
 |   +-- Account.cs, Company.cs, CompanySettings.cs
-|   +-- Client.cs, PaymentTerm.cs, Product.cs
-|   +-- Invoice.cs, InvoiceItem.cs
+|   +-- Client.cs, PaymentTerm.cs
+|   +-- Product.cs
+|   +-- Service.cs, ServiceActivity.cs, DurationUnit.cs
+|   +-- Invoice.cs, InvoiceItem.cs   # InvoiceItem.ProductID and ServiceID are both nullable
 |   +-- Receipt.cs, ReceiptItem.cs
 |   +-- ReminderLog.cs
 |
@@ -521,8 +548,10 @@ MacsBusinessManagementAPI/
 |   +-- Authentication/              # JwtConfig, ITenantProvider, TenantProvider
 |   +-- EntityValidator/             # EntityValidator, EntityValidationResult
 |   +-- Jobs/                        # OverdueInvoiceReminderJob (Hangfire)
-|   +-- Pipeline/                    # IUseCaseHandler<T>, IUseCaseEntityValidator<T>, UseCaseMediator<T>, IUseCaseRequest
-|   +-- ServiceCollection/           # DI extensions (services, JWT, rate limiting, Hangfire, handler registration)
+|   +-- Pipeline/                    # IUseCaseHandler<T>, IUseCaseEntityValidator<T>,
+|   |                                # UseCaseMediator<T>, IUseCaseRequest
+|   +-- ServiceCollection/           # DI extensions (services, JWT, rate limiting, Hangfire,
+|   |                                # handler/validator/mediator auto-registration)
 |   +-- Services/
 |       +-- Allocations/             # AllocationService — payment-to-invoice allocation
 |       +-- Auth/                    # AuthService — JWT + BCrypt
@@ -532,6 +561,7 @@ MacsBusinessManagementAPI/
 |
 +-- Profiles/                        # AutoMapper mapping profiles
 +-- Migrations/                      # EF Core code-first migrations
++-- docs/                            # Supplementary documentation
 +-- Program.cs                       # Entry point: .env loader, DI, middleware, Hangfire recurring jobs
 ```
 
@@ -580,6 +610,8 @@ Please keep PRs focused on a single concern, follow the existing code convention
 - [x] Company profile and company settings endpoints
 - [x] Payment terms management
 - [x] ABN validation
+- [x] Services with activities (billable offerings distinct from physical products)
+- [x] Mixed invoice line items — product-backed (stock-tracked) or service-backed
 - [ ] Role-based authorization (admin, accountant, viewer)
 - [ ] Refresh tokens
 - [ ] Pagination, filtering, and sorting on list endpoints
